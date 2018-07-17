@@ -1,0 +1,167 @@
+syntax = "proto3";
+package pub;
+
+service Publisher {
+    // Instructs the publisher to connect to its data source.
+    rpc Connect (ConnectRequest) returns (ConnectResponse) {
+    }
+    // Requests a listing of shapes this publisher can provide records for.
+    rpc DiscoverShapes (DiscoverShapesRequest) returns (DiscoverShapesResponse) {
+    }
+    // PublishString begins streaming records to the client from the plugin.
+    rpc PublishStream (PublishRequest) returns (stream Record) {
+    }
+    // Tells the publisher to disconnect from its data source, stop any running publishes,
+    // and gracefully prepare to be shut down.
+    rpc Disconnect (DisconnectRequest) returns (DisconnectResponse) {
+    }
+}
+
+message ConnectRequest {
+    // The settings the publisher should use to connect, as a JSON string.
+    // The JSON will be based on the JSONSchema defined in the publisher's package.json.
+    string settings_json = 2;
+}
+
+// ConnectResponse has no data; if the connect fails, the plugin should return an error.
+message ConnectResponse {
+}
+
+message PublishRequest {
+    // The shape of the records to publish.
+    Shape shape = 1;
+    // Limit of number of records to return.
+    uint32 limit = 2;
+    // Zero or more filters which should be applied to the returned records.
+    repeated PublishFilter filters = 3;
+}
+
+message PublishFilter {
+    enum Kind {
+        // The filter value must equal the value of the property on the record.
+        EQUALS = 0;
+        // The filter value must be less than the value of the property on the record.
+        LESS_THAN = 1;
+        // The filter value must be greater than the value of the property on the record.
+        GREATER_THAN = 2;
+    }
+    // Kind of the match.
+    Kind kind = 1;
+    // The name of the property on each record which should be matched against the value.
+    string name = 2;
+    // The value of the which should be matched against the named property for each record, as a string.
+    // The publisher is responsible for converting the value to the correct type.
+    string value = 3;
+}
+
+message DiscoverShapesRequest {
+    enum Mode {
+        // ALL means all shapes the publisher can publish should be returned.
+        ALL = 0;
+        // REFRESH means the publisher return (updated) shapes identified by the partial shapes included in to_refresh.
+        REFRESH = 1;
+    }
+    // Mode is the discovery mode.
+    Mode mode = 1;
+    // The shapes to refresh if mode == 1.
+    repeated Shape to_refresh = 2;
+    // Size of the sample of records to include in the returned shapes.
+    uint32 sample_size = 4;
+}
+
+message DiscoverShapesResponse {
+    // Shapes discovered by the publisher.
+    repeated Shape shapes = 1;
+}
+
+message Shape {
+    // ID that the plugin uses to uniquely identify this shape.
+    string id = 1;
+    // Name of this shape (must be a permanant identifier which is unique in this source).
+    string name = 2;
+    // Description of this shape, if available.
+    string description = 3;
+    // Properties of this shape.
+    repeated Property properties = 4;
+    // Count of records available in this shape.
+    Count count = 5;
+    // Sample containing zero or more records representative of the data in this shape.
+    repeated Record sample = 6;
+    // When returned from a publisher, the optional query which can be passed to the publisher to publish records from this shape.
+    // When passed to the publisher, the query which should be used to publish records from this shape.
+    string query = 7;
+}
+
+message Count {
+    enum Kind {
+        UNAVAILABLE = 0;
+        ESTIMATE = 1;
+        EXACT = 2;
+    }
+    Kind kind = 1;
+    int32 value = 2;
+}
+
+message Property {
+    // ID is the permanent, unique identifier for this property.
+    string id = 1;
+    // Name is an optional display name for the property.
+    string name = 2;
+    // Description of this property, if available.
+    string description = 3;
+    // Type of the property. Use STRING if no other type matches.
+    PropertyType type = 4;
+    // Set to true if this property is part of the primary key for this shape.
+    bool is_key = 5;
+    // Set to true if this property is an orderable value which can be used
+    // to determine if one record was created more recently than another record.
+    // For example, a CreatedAt datetime column or an auto-incrementing integer primary key.
+    bool is_create_counter = 6;
+    // Set to true if this property is an orderable value which can be used
+    // to determine if one record was updated more recently than another record.
+    // For example, an UpdatedAt datetime column.
+    bool is_update_counter = 7;
+}
+
+enum PropertyType {
+    // Unicode string, less than 1024 characters.
+    STRING = 0;
+    // true/false.
+    BOOL = 2;
+    // 64-bit floating point.
+    NUMBER = 3;
+    // Date (no time).
+    DATE = 4;
+    // Time (no date).
+    TIME = 5;
+    // Datetime (date and time).
+    DATETIME = 6;
+    // Unicode string, more than 1024 characters.
+    TEXT = 7;
+    // Binary data as a base-64 encoded string.
+    BLOB = 8;
+    // A JSON object as a string.
+    JSON = 9;
+}
+
+message DisconnectRequest {
+
+}
+
+message DisconnectResponse {
+
+}
+
+message Record {
+    enum Action {
+        UPSERT = 0;
+        INSERT = 1;
+        UPDATE = 2;
+        DELETE = 3;
+    }
+    // Action for this record. Default value is UPSERT if the plugin 
+    // cannot determine what the action should be relative to data alreay acquired.
+    Action action = 1;
+    // Data for this record, as a JSON string.
+    string data_json = 2;
+}
