@@ -90,6 +90,8 @@ message Shape {
     // When returned from a publisher, the optional query which can be passed to the publisher to publish records from this shape.
     // When passed to the publisher, the query which should be used to publish records from this shape.
     string query = 7;
+    // Arbitrary JSON blob containing information the publisher uses for things like change detection.
+    string publisher_meta_json = 8;
 }
 
 message Count {
@@ -121,6 +123,12 @@ message Property {
     // to determine if one record was updated more recently than another record.
     // For example, an UpdatedAt datetime column.
     bool is_update_counter = 7;
+    // Arbitrary JSON blob containing information the publisher uses for things like change detection.
+    string publisher_meta_json = 8;
+
+    // The type of the property as defined in the source system. Used to provide
+    // human-readable hints when building mappings.
+    string type_at_source = 9;
 }
 
 enum PropertyType {
