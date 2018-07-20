@@ -38,17 +38,17 @@ message PublishRequest {
 
 message PublishFilter {
     enum Kind {
-        // The filter value must equal the value of the property on the record.
+        // The property on the record must equal the filter value.
         EQUALS = 0;
-        // The filter value must be less than the value of the property on the record.
+        // The property on the record must be less than the filter value.
         LESS_THAN = 1;
-        // The filter value must be greater than the value of the property on the record.
+        // The property on the record must be greater than the filter value.
         GREATER_THAN = 2;
     }
     // Kind of the match.
     Kind kind = 1;
-    // The name of the property on each record which should be matched against the value.
-    string name = 2;
+    // The id of the property on each record which should be matched against the value.
+    string property_id = 2;
     // The value of the which should be matched against the named property for each record, as a string.
     // The publisher is responsible for converting the value to the correct type.
     string value = 3;
@@ -129,6 +129,8 @@ message Property {
     // The type of the property as defined in the source system. Used to provide
     // human-readable hints when building mappings.
     string type_at_source = 9;
+    // Indicates that this property is nullable.
+    bool is_nullable = 10;
 }
 
 enum PropertyType {
@@ -136,20 +138,24 @@ enum PropertyType {
     STRING = 0;
     // true/false.
     BOOL = 2;
-    // 64-bit floating point.
-    NUMBER = 3;
+    // 64-bit integer.
+    INTEGER = 3;
+    // 64-bit floating point number.
+    FLOAT = 4;
+    // Absolute precision number of any size.
+    DECIMAL = 5;
     // Date (no time).
-    DATE = 4;
+    DATE = 6;
     // Time (no date).
-    TIME = 5;
+    TIME = 7;
     // Datetime (date and time).
-    DATETIME = 6;
+    DATETIME = 8;
     // Unicode string, more than 1024 characters.
-    TEXT = 7;
+    TEXT = 9;
     // Binary data as a base-64 encoded string.
-    BLOB = 8;
+    BLOB = 10;
     // A JSON object as a string.
-    JSON = 9;
+    JSON = 11;
 }
 
 message DisconnectRequest {
