@@ -65,6 +65,11 @@
         { "$ref": "#/definitions/Heartbeat" }
       ]
     },
+    "enr": {
+      "type": "string",
+      "title": "Enriched Data",
+      "description": "The enriched payload of this data point"
+    },
     "trc": {
       "title": "Trace",
       "description":
@@ -75,7 +80,7 @@
       }
     }
   },
-  "required": ["id", "type"],
+  "required": ["id", "tid", "shp", "typ"],
   "definitions": {
     "Record": {
       "type": "object",
