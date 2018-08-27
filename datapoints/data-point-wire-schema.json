@@ -10,7 +10,7 @@
       "type": "string",
       "title": "ID",
       "description":
-      "A unique identifier that for the data point."
+      "A unique identifier that for the data point. (xid)"
     },
     "typ": {
       "title": "Type",
@@ -53,6 +53,12 @@
       "title": "Correlation ID",
       "description": "A value used to track the data point's movement through the system. (Should be an xid)"
     },
+    "m": {
+      "type": "object",
+      "title": "Metadata",
+      "description": "Metadata to be transferred with the data point",
+      "additionalProperties": true
+    },
     "d": {
       "title": "Data",
       "description":
@@ -66,9 +72,10 @@
       ]
     },
     "enr": {
-      "type": "string",
+      "type": "object",
       "title": "Enriched Data",
-      "description": "The enriched payload of this data point"
+      "description": "The enriched payload of this data point",
+      "additionalProperties": true
     },
     "trc": {
       "title": "Trace",
