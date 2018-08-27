@@ -16,38 +16,38 @@
       "description": "The type of the 'data' payload.",
       "enum": ["stt", "end", "ins", "upd", "ups", "del", "hbt", "bad"]
     },
-    "tid": {
+    "tenantID": {
       "type": "string",
       "title": "Tenant ID",
       "description": "The ID of the tenant this data point belongs to"
     },
-    "shape": {
+    "shapeID": {
       "type": "string",
-      "title": "Shape",
+      "title": "Shape ID",
       "description": "The shape that defines this data point"
     },
-    "sid": {
+    "sourceID": {
       "type": "string",
       "title": "Source ID",
       "description": "The ID of the source that generated this data point"
     },
-    "jid": {
+    "jobID": {
       "type": "string",
       "title": "Job ID",
       "description": "The ID of the job that generated this data point"
     },
-    "bid": {
+    "batchID": {
       "type": "string",
       "title": "Batch ID",
       "description": "The ID of the batch that generated this data point"
     },
-    "rid": {
+    "recordID": {
       "type": "string",
       "title": "Record ID",
       "format": "hash",
       "description": "A value that unique represents the record contained in the data point"
     },
-    "cid": {
+    "correlationID": {
       "type": "string",
       "title": "Correlation ID",
       "description": "A value used to track the data point's movement through the system. (Should be an xid)"

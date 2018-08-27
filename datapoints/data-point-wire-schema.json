@@ -10,14 +10,50 @@
       "type": "string",
       "title": "ID",
       "description":
-        "The ID of the data point, which can be decomposed into various IDs. The ID format is 'tenantID:sourceID:shapeID:jobID:recordID:correlationID'. The 'correlationID' component is an xid for this specific data point, which contains an encoded timestamp."
+      "A unique identifier that for the data point."
     },
-    "type": {
+    "typ": {
       "title": "Type",
       "description": "The type of the 'data' payload.",
       "enum": ["stt", "end", "ins", "upd", "ups", "del", "hbt", "bad"]
     },
-    "data": {
+    "tid": {
+      "type": "string",
+      "title": "Tenant ID",
+      "description": "The ID of the tenant this data point belongs to"
+    },
+    "shp": {
+      "type": "string",
+      "title": "Shape",
+      "description": "The shape that defines this data point"
+    },
+    "sid": {
+      "type": "string",
+      "title": "Source ID",
+      "description": "The ID of the source that generated this data point"
+    },
+    "jid": {
+      "type": "string",
+      "title": "Job ID",
+      "description": "The ID of the job that generated this data point"
+    },
+    "bid": {
+      "type": "string",
+      "title": "Batch ID",
+      "description": "The ID of the batch that generated this data point"
+    },
+    "rid": {
+      "type": "string",
+      "title": "Record ID",
+      "format": "hash",
+      "description": "A value that unique represents the record contained in the data point"
+    },
+    "cid": {
+      "type": "string",
+      "title": "Correlation ID",
+      "description": "A value used to track the data point's movement through the system. (Should be an xid)"
+    },
+    "d": {
       "title": "Data",
       "description":
         "The actual data payload of this data point. May be a record or one of the alternative types, based on the 'type' field.",
