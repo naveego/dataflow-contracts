@@ -21,6 +21,11 @@
       "title": "Tenant ID",
       "description": "The ID of the tenant this data point belongs to"
     },
+    "shape": {
+      "type": "string",
+      "title": "Shape",
+      "description": "The shape that defines this data point"
+    },
     "sid": {
       "type": "string",
       "title": "Source ID",
