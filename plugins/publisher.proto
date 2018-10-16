@@ -156,6 +156,8 @@ enum PropertyType {
     BLOB = 10;
     // A JSON object as a string.
     JSON = 11;
+    // An XML object as a string.
+    XML = 12;
 }
 
 message DisconnectRequest {

@@ -1,16 +1,14 @@
 {
   "$id": "https://naveego.com/data-point-wire-schema.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "DataPointWire",
   "type": "object",
-  "description":
-    "The wire format for data points. This format prioritizes small size.",
+  "description": "The wire format for data points. This format prioritizes small size.",
   "properties": {
     "id": {
       "type": "string",
       "title": "ID",
-      "description":
-      "A unique identifier that for the data point. (xid)"
+      "description": "A unique identifier that for the data point. (xid)"
     },
     "typ": {
       "title": "Type",
@@ -61,8 +59,8 @@
     },
     "d": {
       "title": "Data",
-      "description":
-        "The actual data payload of this data point. May be a record or one of the alternative types, based on the 'type' field.",
+      "type": "object",
+      "description": "The actual data payload of this data point. May be a record or one of the alternative types, based on the 'type' field.",
       "oneOf": [
         { "$ref": "#/definitions/Record" },
         { "$ref": "#/definitions/BadRecord" },
@@ -79,8 +77,7 @@
     },
     "trc": {
       "title": "Trace",
-      "description":
-        "Trace information used for monitoring latency. This will only be populated on a fraction of data points.",
+      "description": "Trace information used for monitoring latency. This will only be populated on a fraction of data points.",
       "type": "array",
       "items": {
         "$ref": "#/definitions/Trace"
@@ -91,14 +88,12 @@
   "definitions": {
     "Record": {
       "type": "object",
-      "description":
-        "Record is an object containing arbitrary data. It is used when the type is 'ins', 'ups', or 'del'",
+      "description": "Record is an object containing arbitrary data. It is used when the type is 'ins', 'ups', 'upd', or 'del'",
       "additionalProperties": true
     },
     "BadRecord": {
       "type": "object",
-      "description":
-        "BadRecord represents a record that had some problem at some step. The data point should be propegated but no step should attempt any further processing.",
+      "description": "BadRecord represents a record that had some problem at some step. The data point should be propegated but no step should attempt any further processing.",
       "properties": {
         "originalType": {
           "description": "The original type, before something went wrong.",
@@ -110,15 +105,13 @@
         },
         "errorStep": {
           "type": "string",
-          "description":
-            "Something that identifies the step where the problem happend."
+          "description": "Something that identifies the step where the problem happend."
         },
         "error": {
           "type": "string"
         },
         "problems": {
-          "description":
-            "Problems that individual properties in the record had.",
+          "description": "Problems that individual properties in the record had.",
           "$ref": "#/definitions/Record"
         }
       },
@@ -126,8 +119,7 @@
     },
     "Trace": {
       "type": "object",
-      "description":
-        "A trace records stats for a step that a data point has gone through.",
+      "description": "A trace records stats for a step that a data point has gone through.",
       "properties": {
         "n": {
           "title": "Step name",
@@ -143,48 +135,41 @@
         "d": {
           "type": "number",
           "title": "Duration",
-          "description":
-            "The time it took to complete the step, in nanoseconds."
+          "description": "The time it took to complete the step, in nanoseconds."
         }
       }
     },
     "Start": {
       "type": "object",
-      "description":
-        "Start indicates a job has started. It is associated with the type 'stt'.",
+      "description": "Start indicates a job has started. It is associated with the type 'stt'.",
       "additionalProperties": false,
       "properties": {
         "count": {
           "type": "number",
           "title": "Expected count",
-          "description":
-            "Optional; the number of records expected in this job, if it can be predicted."
+          "description": "Optional; the number of records expected in this job, if it can be predicted."
         },
         "rate": {
           "type": "number",
           "title": "Expected rate",
-          "description":
-            "Optional; the maximum number of milliseconds expected between data points or heartbeats. If the rate is provided the receiver will be able to detect timeouts more accurately."
+          "description": "Optional; the maximum number of milliseconds expected between data points or heartbeats. If the rate is provided the receiver will be able to detect timeouts more accurately."
         },
         "willNotEnd": {
           "type": "boolean",
           "title": "Will not end",
-          "description":
-            "If true, this job is expected to run until it is stopped. Timeout monitoring may still be applied if 'rate' is set."
+          "description": "If true, this job is expected to run until it is stopped. Timeout monitoring may still be applied if 'rate' is set."
         }
       }
     },
     "End": {
       "type": "object",
-      "description":
-        "End indicates a job has ended. It is associated with the type 'end'.",
+      "description": "End indicates a job has ended. It is associated with the type 'end'.",
       "additionalProperties": false,
       "properties": {
         "count": {
           "type": "number",
           "title": "Count",
-          "description":
-            "The number of records the job thinks it sent, so that receivers can detect data loss."
+          "description": "The number of records the job thinks it sent, so that receivers can detect data loss."
         },
         "reason": {
           "enum": ["completed", "failed", "stopped"],
@@ -194,16 +179,14 @@
         "message": {
           "type": "string",
           "title": "Message",
-          "description":
-            "A message about why the job ended. Usually only relevent if the job failed."
+          "description": "A message about why the job ended. Usually only relevent if the job failed."
         }
       }
     },
     "Heartbeat": {
       "type": "object",
       "additionalProperties": false,
-      "description":
-        "A tracer used for monitoring latency and providing a keep-alive heartbeat for long-running jobs.",
+      "description": "A tracer used for monitoring latency and providing a keep-alive heartbeat for long-running jobs.",
       "properties": {}
     }
   }
