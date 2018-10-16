@@ -1,61 +1,68 @@
 {
   "$id": "https://naveego.com/data-point-wire-schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "DataPoint",
+  "title": "DataPointWire",
   "type": "object",
-  "description": "Describes the format of data that is used by the by the data flow system.",
+  "description":
+    "The wire format for data points. This format prioritizes small size.",
   "properties": {
     "id": {
       "type": "string",
       "title": "ID",
       "description":
-      "A unique identifier that for the data point."
+      "A unique identifier that for the data point. (xid)"
     },
-    "type": {
+    "typ": {
       "title": "Type",
       "description": "The type of the 'data' payload.",
       "enum": ["stt", "end", "ins", "upd", "ups", "del", "hbt", "bad"]
     },
-    "tenantID": {
+    "tid": {
       "type": "string",
       "title": "Tenant ID",
       "description": "The ID of the tenant this data point belongs to"
     },
-    "shapeID": {
+    "shp": {
       "type": "string",
-      "title": "Shape ID",
+      "title": "Shape",
       "description": "The shape that defines this data point"
     },
-    "sourceID": {
+    "sid": {
       "type": "string",
       "title": "Source ID",
       "description": "The ID of the source that generated this data point"
     },
-    "jobID": {
+    "jid": {
       "type": "string",
       "title": "Job ID",
       "description": "The ID of the job that generated this data point"
     },
-    "batchID": {
+    "bid": {
       "type": "string",
       "title": "Batch ID",
       "description": "The ID of the batch that generated this data point"
     },
-    "recordID": {
+    "rid": {
       "type": "string",
       "title": "Record ID",
       "format": "hash",
       "description": "A value that unique represents the record contained in the data point"
     },
-    "correlationID": {
+    "cid": {
       "type": "string",
       "title": "Correlation ID",
       "description": "A value used to track the data point's movement through the system. (Should be an xid)"
     },
-    "data": {
+    "m": {
+      "type": "object",
+      "title": "Metadata",
+      "description": "Metadata to be transferred with the data point",
+      "additionalProperties": true
+    },
+    "d": {
       "title": "Data",
       "description":
-      "The actual data payload of this data point. May be a record or one of the alternative types, based on the 'type' field.",
+        "The actual data payload of this data point. May be a record or one of the alternative types, based on the 'type' field.",
       "oneOf": [
         { "$ref": "#/definitions/Record" },
         { "$ref": "#/definitions/BadRecord" },
@@ -64,28 +71,34 @@
         { "$ref": "#/definitions/Heartbeat" }
       ]
     },
+    "enr": {
+      "type": "object",
+      "title": "Enriched Data",
+      "description": "The enriched payload of this data point",
+      "additionalProperties": true
+    },
     "trc": {
       "title": "Trace",
       "description":
-      "Trace information used for monitoring latency. This will only be populated on a fraction of data points.",
+        "Trace information used for monitoring latency. This will only be populated on a fraction of data points.",
       "type": "array",
       "items": {
         "$ref": "#/definitions/Trace"
       }
     }
   },
-  "required": ["id", "tid", "sid", "type"],
+  "required": ["id", "tid", "shp", "typ"],
   "definitions": {
     "Record": {
       "type": "object",
       "description":
-      "Record is an object containing arbitrary data. It is used when the type is 'ins', 'ups', or 'del'",
+        "Record is an object containing arbitrary data. It is used when the type is 'ins', 'ups', or 'del'",
       "additionalProperties": true
     },
     "BadRecord": {
       "type": "object",
       "description":
-      "BadRecord represents a record that had some problem at some step. The data point should be propegated but no step should attempt any further processing.",
+        "BadRecord represents a record that had some problem at some step. The data point should be propegated but no step should attempt any further processing.",
       "properties": {
         "originalType": {
           "description": "The original type, before something went wrong.",
@@ -98,14 +111,14 @@
         "errorStep": {
           "type": "string",
           "description":
-          "Something that identifies the step where the problem happend."
+            "Something that identifies the step where the problem happend."
         },
         "error": {
           "type": "string"
         },
         "problems": {
           "description":
-          "Problems that individual properties in the record had.",
+            "Problems that individual properties in the record had.",
           "$ref": "#/definitions/Record"
         }
       },
@@ -114,7 +127,7 @@
     "Trace": {
       "type": "object",
       "description":
-      "A trace records stats for a step that a data point has gone through.",
+        "A trace records stats for a step that a data point has gone through.",
       "properties": {
         "n": {
           "title": "Step name",
@@ -131,47 +144,47 @@
           "type": "number",
           "title": "Duration",
           "description":
-          "The time it took to complete the step, in nanoseconds."
+            "The time it took to complete the step, in nanoseconds."
         }
       }
     },
     "Start": {
       "type": "object",
       "description":
-      "Start indicates a job has started. It is associated with the type 'stt'.",
+        "Start indicates a job has started. It is associated with the type 'stt'.",
       "additionalProperties": false,
       "properties": {
         "count": {
           "type": "number",
           "title": "Expected count",
           "description":
-          "Optional; the number of records expected in this job, if it can be predicted."
+            "Optional; the number of records expected in this job, if it can be predicted."
         },
         "rate": {
           "type": "number",
           "title": "Expected rate",
           "description":
-          "Optional; the maximum number of milliseconds expected between data points or heartbeats. If the rate is provided the receiver will be able to detect timeouts more accurately."
+            "Optional; the maximum number of milliseconds expected between data points or heartbeats. If the rate is provided the receiver will be able to detect timeouts more accurately."
         },
         "willNotEnd": {
           "type": "boolean",
           "title": "Will not end",
           "description":
-          "If true, this job is expected to run until it is stopped. Timeout monitoring may still be applied if 'rate' is set."
+            "If true, this job is expected to run until it is stopped. Timeout monitoring may still be applied if 'rate' is set."
         }
       }
     },
     "End": {
       "type": "object",
       "description":
-      "End indicates a job has ended. It is associated with the type 'end'.",
+        "End indicates a job has ended. It is associated with the type 'end'.",
       "additionalProperties": false,
       "properties": {
         "count": {
           "type": "number",
           "title": "Count",
           "description":
-          "The number of records the job thinks it sent, so that receivers can detect data loss."
+            "The number of records the job thinks it sent, so that receivers can detect data loss."
         },
         "reason": {
           "enum": ["completed", "failed", "stopped"],
@@ -182,7 +195,7 @@
           "type": "string",
           "title": "Message",
           "description":
-          "A message about why the job ended. Usually only relevent if the job failed."
+            "A message about why the job ended. Usually only relevent if the job failed."
         }
       }
     },
@@ -190,7 +203,7 @@
       "type": "object",
       "additionalProperties": false,
       "description":
-      "A tracer used for monitoring latency and providing a keep-alive heartbeat for long-running jobs.",
+        "A tracer used for monitoring latency and providing a keep-alive heartbeat for long-running jobs.",
       "properties": {}
     }
   }
