@@ -92,6 +92,9 @@ message Shape {
     string query = 7;
     // Arbitrary JSON blob containing information the publisher uses for things like change detection.
     string publisher_meta_json = 8;
+
+    // Errors that occurred while discovering this shape.
+    repeated string errors = 9;
 }
 
 message Count {
