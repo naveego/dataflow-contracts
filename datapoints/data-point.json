@@ -1,0 +1,39 @@
+{
+  "definitions": {
+    "DataPoint": {
+      "$id": "https://naveego.com/data-point.json",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "DataPoint",
+      "type": "object",
+      "description": "DataPoint is an object containing arbitrary data.",
+      "allOf": [
+        { "$ref": "./payload.json" },
+        {
+          "properties": {
+            "a": {
+              "title": "Action",
+              "type": "string",
+              "enum": ["ins", "ups", "del"]
+            },
+            "d": {
+              "title": "Data",
+              "description": "The data for this data point.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            },
+            "enr": {
+              "type": "object",
+              "title": "EnrichedData",
+              "description": "Enriched data for this data point.",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

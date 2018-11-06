@@ -1,0 +1,238 @@
+{
+  "$id": "https://naveego.com/schemas/dataflow-event.json",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "DataflowEvent",
+  "type": "object",
+  "description": "The envelope for events on in the dataflow streams.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "ID",
+      "description": "A unique identifier that for the event."
+    },
+    "tid": {
+      "type": "string",
+      "title": "Tenant ID",
+      "description": "The ID of the tenant this event belongs to."
+    },
+    "sid": {
+      "type": "string",
+      "title": "Source ID",
+      "description": "The ID of the source that generated this event."
+    },
+    "jid": {
+      "type": "string",
+      "title": "Job ID",
+      "description": "The ID of the job that generated this event."
+    },
+    "bid": {
+      "type": "string",
+      "title": "Batch ID",
+      "description": "The ID of the batch (run of a job) that generated this event."
+    },
+    "rid": {
+      "type": "string",
+      "title": "Record ID",
+      "description": "A value that uniquely represents the record most relevent to the event."
+    },
+    "rids": {
+      "type": "array",
+      "title": "Record IDs",
+      "description": "The RID value for each record involved in this event.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cid": {
+      "type": "string",
+      "title": "Correlation ID",
+      "description": "A value used to track the event's movement through the system and to assign causality."
+    },
+    "m": {
+      "type": "object",
+      "title": "Metadata",
+      "description": "Metadata to be transferred with the event.",
+      "additionalProperties": true
+    },
+    "d": {
+      "title": "Payload",
+      "$ref": "#/definitions/Payload"
+    },
+    "enr": {
+      "type": "object",
+      "title": "Enriched Data",
+      "description": "The enriched payload of this data point",
+      "additionalProperties": true
+    },
+    "trc": {
+      "title": "Trace",
+      "description": "Trace information used for monitoring latency. This will only be populated on a fraction of events.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Trace"
+      }
+    }
+  },
+  "required": ["id", "cid", "tid", "rid", "typ"],
+  "definitions": {
+    "Payload": {
+      "$id": "https://githnaveego.com/schemas/payload.json",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Payload",
+      "type": "object",
+      "description": "The envelope for events on in the dataflow streams.",
+      "discriminator": "typ",
+      "required": ["typ"],
+      "properties": {
+        "typ": {
+          "type": "string",
+          "title": "The type, used to discriminate between payloads."
+        },
+        "m": {
+          "type": "object",
+          "title": "Metadata",
+          "description": "Metadata defined as part of the payload, used when components need to add custom info to standard payloads.",
+          "additionalProperties": true
+        }
+      }
+    },
+    "Trace": {
+      "allOf": [{ "$ref": "#/definitions/Payload" }],
+      "type": "object",
+      "description": "A trace records stats for a step that an event has gone through.",
+      "properties": {
+        "n": {
+          "title": "Step name",
+          "type": "string",
+          "description": "The name of the step."
+        },
+        "ts": {
+          "title": "Timestamp",
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp indicating when the step started."
+        },
+        "d": {
+          "type": "number",
+          "title": "Duration",
+          "description": "The time it took to complete the step, in nanoseconds."
+        }
+      }
+    },
+    "Heartbeat": {
+      "type": "object",
+      "allOf": [{ "$ref": "#/definitions/Payload" }],
+      "additionalProperties": false,
+      "description": "A tracer used for monitoring latency and providing a keep-alive heartbeat for long-running jobs.",
+      "properties": {}
+    },
+    "DataPoint": {
+      "$id": "https://naveego.com/data-point.json",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "DataPoint",
+      "type": "object",
+      "description": "DataPoint is an object containing arbitrary data.",
+      "allOf": [
+        { "$ref": "#/definitions/Payload" },
+        {
+          "properties": {
+            "a": {
+              "title": "Action",
+              "type": "string",
+              "enum": ["ins", "ups", "del"]
+            },
+            "d": {
+              "title": "Data",
+              "description": "The data for this data point.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            },
+            "enr": {
+              "type": "object",
+              "title": "EnrichedData",
+              "description": "Enriched data for this data point.",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "BatchStart": {
+      "$id": "https://naveego.com/batch-start.json",
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "BatchStart",
+      "type": "object",
+      "description": "Start indicates a batch has started.",
+      "additionalProperties": false,
+      "allOf": [{ "$ref": "#/definitions/Payload" }],
+      "properties": {
+        "count": {
+          "type": "number",
+          "title": "Expected count",
+          "description": "Optional; the number of records expected in this job, if it can be predicted."
+        },
+        "rate": {
+          "type": "number",
+          "title": "Expected rate",
+          "description": "Optional; the maximum number of milliseconds expected between data points or heartbeats. If the rate is provided the receiver will be able to detect timeouts more accurately."
+        }
+      }
+    },
+    "BatchEnd": {
+      "$id": "https://naveego.com/batch-end.json",
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "BatchEnd",
+      "type": "object",
+      "description": "End indicates a batch has ended.",
+      "additionalProperties": false,
+      "allOf": [{ "$ref": "#/definitions/Payload" }],
+      "properties": {
+        "count": {
+          "type": "number",
+          "title": "Count",
+          "description": "The number of records the batch thinks it sent, so that receivers can detect data loss."
+        },
+        "reason": {
+          "enum": ["completed", "failed", "stopped"],
+          "title": "Reason",
+          "description": "Specifies the reason the job ended."
+        },
+        "message": {
+          "type": "string",
+          "title": "Message",
+          "description": "A message about why the job ended. Usually only relevent if the job failed."
+        }
+      }
+    },
+    "BadRecord": {
+      "$id": "https://naveego.com/bad-record.json",
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "BadRecord",
+      "type": "object",
+      "description": "BadRecord represents a record that had some problem at some step. The data point should be propegated but no step should attempt any further processing.",
+      "allOf": [{ "$ref": "#/definitions/Payload" }],
+      "properties": {
+        "dataPoint": {
+          "description": "The original data point, before something went wrong.",
+          "$ref": "#/definitions/DataPoint"
+        },
+        "errorStep": {
+          "type": "string",
+          "description": "Something that identifies the step where the problem happend."
+        },
+        "error": {
+          "type": "string"
+        },
+        "problems": {
+          "type": "object",
+          "description": "Problems that individual properties in the record had.",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}
