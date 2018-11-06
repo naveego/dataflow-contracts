@@ -1,0 +1,10 @@
+{
+  "$id": "https://example.com/schemas/child-derived-a.json",
+  "title": "ChildDerivedA",
+  "type": "object",
+  "properties": {
+    "childDerivedAValue": {
+      "type": "string"
+    }
+  }
+}

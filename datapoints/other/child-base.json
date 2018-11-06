@@ -1,0 +1,10 @@
+{
+  "$id": "https://example.com/schemas/child-base.json",
+  "title": "ChildBase",
+  "type": "object",
+  "properties": {
+    "childBaseValue": {
+      "type": "string"
+    }
+  }
+}

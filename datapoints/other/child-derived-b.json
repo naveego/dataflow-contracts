@@ -1,0 +1,11 @@
+{
+  "$id": "https://example.com/schemas/child-derived-b.json",
+  "title": "ChildDerivedB",
+  "type": "object",
+  "allOf": [{ "$ref": "./child-base.json" }],
+  "properties": {
+    "childDerivedBValue": {
+      "type": "string"
+    }
+  }
+}
