@@ -56,7 +56,7 @@
     },
     "d": {
       "title": "Payload",
-      "$ref": "#/definitions/Payload"
+      "$ref": "./payload.json"
     },
     "enr": {
       "type": "object",
@@ -97,7 +97,7 @@
       }
     },
     "Trace": {
-      "allOf": [{ "$ref": "#/definitions/Payload" }],
+      "allOf": [{ "$ref": "./payload.json" }],
       "type": "object",
       "description": "A trace records stats for a step that an event has gone through.",
       "properties": {
@@ -120,11 +120,7 @@
       }
     },
     "Heartbeat": {
-      "type": "object",
-      "allOf": [{ "$ref": "#/definitions/Payload" }],
-      "additionalProperties": false,
-      "description": "A tracer used for monitoring latency and providing a keep-alive heartbeat for long-running jobs.",
-      "properties": {}
+      "$ref": "./heartbeat.json"
     },
     "DataPoint": {
       "$id": "https://naveego.com/data-point.json",
@@ -133,7 +129,7 @@
       "type": "object",
       "description": "DataPoint is an object containing arbitrary data.",
       "allOf": [
-        { "$ref": "#/definitions/Payload" },
+        { "$ref": "./payload.json" },
         {
           "properties": {
             "a": {
@@ -168,7 +164,7 @@
       "type": "object",
       "description": "Start indicates a batch has started.",
       "additionalProperties": false,
-      "allOf": [{ "$ref": "#/definitions/Payload" }],
+      "allOf": [{ "$ref": "./payload.json" }],
       "properties": {
         "count": {
           "type": "number",
@@ -189,7 +185,7 @@
       "type": "object",
       "description": "End indicates a batch has ended.",
       "additionalProperties": false,
-      "allOf": [{ "$ref": "#/definitions/Payload" }],
+      "allOf": [{ "$ref": "./payload.json" }],
       "properties": {
         "count": {
           "type": "number",
@@ -214,7 +210,7 @@
       "title": "BadRecord",
       "type": "object",
       "description": "BadRecord represents a record that had some problem at some step. The data point should be propegated but no step should attempt any further processing.",
-      "allOf": [{ "$ref": "#/definitions/Payload" }],
+      "allOf": [{ "$ref": "./payload.json" }],
       "properties": {
         "dataPoint": {
           "description": "The original data point, before something went wrong.",
