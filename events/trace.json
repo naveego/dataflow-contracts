@@ -1,5 +1,4 @@
 {
-  "allOf": [{ "$ref": "payload.json" }],
   "additionalProperties": false,
   "type": "object",
   "description": "A trace records stats for a step that an event has gone through.",

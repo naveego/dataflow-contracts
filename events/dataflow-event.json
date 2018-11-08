@@ -61,6 +61,13 @@
     "d": {
       "title": "Payload",
       "$ref": "#/definitions/Payload"
+    },
+    "trc": {
+      "title": "Traces",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Trace"
+      }
     }
   },
   "required": ["id", "cid", "tid", "sid", "rid"],
@@ -99,7 +106,7 @@
       "$ref": "resource-updated.json"
     },
     "ResourceDefinitions": {
-      "$ref": "resource-payload.json"
+      "$ref": "resource-definitions.json"
     }
   }
 }
