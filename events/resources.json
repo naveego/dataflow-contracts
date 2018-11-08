@@ -1,0 +1,7 @@
+{
+  "definitions": {
+    "MetabaseShapeResource": {
+      "$ref": "metabase-shape-resource.json"
+    }
+  }
+}

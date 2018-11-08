@@ -1,0 +1,26 @@
+{
+  "$id": "https://naveego.com/bad-record.json",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "BadRecord",
+  "type": "object",
+  "description": "BadRecord represents a record that had some problem at some step. The data point should be propegated but no step should attempt any further processing.",
+  "allOf": [{ "$ref": "payload.json" }],
+  "properties": {
+    "dataPoint": {
+      "description": "The original data point, before something went wrong.",
+      "$ref": "data-point.json"
+    },
+    "errorStep": {
+      "type": "string",
+      "description": "Something that identifies the step where the problem happend."
+    },
+    "error": {
+      "type": "string"
+    },
+    "problems": {
+      "type": "object",
+      "description": "Problems that individual properties in the record had.",
+      "additionalProperties": true
+    }
+  }
+}

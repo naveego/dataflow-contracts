@@ -1,0 +1,15 @@
+{
+  "$id": "https://naveego.com/shape-change-schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ResourceDeleted",
+  "allOf": [{ "$ref": "resource-payload.json" }],
+  "type": "object",
+  "description": "Emitted when a resource is deleted.",
+  "properties": {
+    "r": {
+      "title": "Resource",
+      "description": "The resource which was deleted.",
+      "$ref": "resource.json"
+    }
+  }
+}

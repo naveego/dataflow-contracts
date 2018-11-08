@@ -1,0 +1,56 @@
+{
+  "$id": "https://naveego.com/resource.json",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Resource",
+  "type": "object",
+  "description": "A representation of a resource provided by some microservice.",
+  "discriminator": "typ",
+  "required": ["typ", "id", "version", "name"],
+  "properties": {
+    "typ": {
+      "type": "string",
+      "title": "Type",
+      "description": "The type, used to discriminate between payloads."
+    },
+    "id": {
+      "type": "string",
+      "title": "Id"
+    },
+    "nrn": {
+      "type": "string",
+      "title": "Nrn",
+      "description": "The Naveego Resource Name of the resource. Format is \"nrn:{domain}:[tenant]:{microservice}:{type}:{id}[@version]\"."
+    },
+    "name": {
+      "type": "string",
+      "title": "Name",
+      "description": "The display name of the resource."
+    },
+    "version": {
+      "type": "number",
+      "title": "Version",
+      "description": "The version of the resource."
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "createdBy": {
+      "type": "string"
+    },
+    "updatedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "updatedBy": {
+      "type": "string"
+    },
+    "deletedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "deletedBy": {
+      "type": "string"
+    }
+  }
+}

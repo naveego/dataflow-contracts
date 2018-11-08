@@ -1,5 +1,7 @@
 {
-  "allOf": [{ "$ref": "./payload.json" }],
+  "$id": "https://naveego.com/heartbeat.json",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "allOf": [{ "$ref": "payload.json" }],
   "additionalProperties": false,
   "description": "A tracer used for monitoring latency and providing a keep-alive heartbeat for long-running jobs."
 }

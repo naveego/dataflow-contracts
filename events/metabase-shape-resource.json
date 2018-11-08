@@ -1,0 +1,272 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "MetabaseShapeResource",
+  "definitions": {
+    "ShapePropertyModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "description": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "type": {
+          "$ref": "#/definitions/PropertyType"
+        },
+        "isUnique": {
+          "type": "boolean"
+        },
+        "security": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/ShapePropertySecurityModel"
+            }
+          ]
+        },
+        "isNullable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PropertyType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "String",
+        "Bool",
+        "Integer",
+        "Float",
+        "Decimal",
+        "Date",
+        "Time",
+        "Datetime",
+        "Text",
+        "Blob",
+        "Json"
+      ],
+      "enum": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    "ShapePropertySecurityModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "$ref": "#/definitions/SecurityAlgorithm"
+        },
+        "keyStorage": {
+          "$ref": "#/definitions/SecurityKeyStorage"
+        },
+        "key": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "SecurityAlgorithm": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "None",
+        "Aesgcm",
+        "Sha256Hmac"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "SecurityKeyStorage": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Vault",
+        "File"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "MatchRuleModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shapeId",
+        "mcl",
+        "grouping"
+      ],
+      "properties": {
+        "shapeId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mcl": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "grouping": {
+          "$ref": "#/definitions/TypeAndSettingsModel"
+        }
+      }
+    },
+    "TypeAndSettingsModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/MatchRuleType"
+        },
+        "settings": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MatchRuleType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Unknown",
+        "Exact"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "MergeRuleModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "properties": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/PropertyMergeRule"
+          }
+        }
+      }
+    },
+    "PropertyMergeRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "connections": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "resource.json"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "properties": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ShapePropertyModel"
+          }
+        },
+        "labels": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "isMdmShape": {
+          "type": "boolean"
+        },
+        "matchRule": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/MatchRuleModel"
+            }
+          ]
+        },
+        "mergeRule": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/MergeRuleModel"
+            }
+          ]
+        },
+        "copiedFromSchemaId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  ]
+}
