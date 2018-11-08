@@ -5,15 +5,5 @@
   "allOf": [{ "$ref": "payload.json" }],
   "type": "object",
   "description": "Payload for resource-specific events.",
-  "definitions": {
-    "ResourceCreated": {
-      "$ref": "resource-created.json"
-    },
-    "ResourceDeleted": {
-      "$ref": "resource-deleted.json"
-    },
-    "ResourceUpdated": {
-      "$ref": "resource-updated.json"
-    }
-  }
+  "definitions": {}
 }
