@@ -46,7 +46,7 @@
       }
     },
     "PropertyType": {
-      "type": "integer",
+      "type": "string",
       "description": "",
       "x-enumNames": [
         "String",
@@ -62,17 +62,17 @@
         "Json"
       ],
       "enum": [
-        0,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11
+        "string",
+        "bool",
+        "integer",
+        "float",
+        "decimal",
+        "date",
+        "time",
+        "datetime",
+        "text",
+        "blob",
+        "json"
       ]
     },
     "ShapePropertySecurityModel": {
@@ -94,7 +94,7 @@
       }
     },
     "SecurityAlgorithm": {
-      "type": "integer",
+      "type": "string",
       "description": "",
       "x-enumNames": [
         "None",
@@ -102,21 +102,21 @@
         "Sha256Hmac"
       ],
       "enum": [
-        0,
-        1,
-        2
+        "none",
+        "aesgcm",
+        "sha256Hmac"
       ]
     },
     "SecurityKeyStorage": {
-      "type": "integer",
+      "type": "string",
       "description": "",
       "x-enumNames": [
         "Vault",
         "File"
       ],
       "enum": [
-        0,
-        1
+        "vault",
+        "file"
       ]
     },
     "MatchRuleModel": {
@@ -149,7 +149,12 @@
       ],
       "properties": {
         "type": {
-          "$ref": "#/definitions/MatchRuleType"
+          "minLength": 1,
+          "oneOf": [
+            {
+              "$ref": "#/definitions/MatchRuleType"
+            }
+          ]
         },
         "settings": {
           "type": [
@@ -163,15 +168,15 @@
       }
     },
     "MatchRuleType": {
-      "type": "integer",
+      "type": "string",
       "description": "",
       "x-enumNames": [
         "Unknown",
         "Exact"
       ],
       "enum": [
-        0,
-        1
+        "unknown",
+        "exact"
       ]
     },
     "MergeRuleModel": {
