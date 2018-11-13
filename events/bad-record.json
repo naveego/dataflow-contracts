@@ -1,6 +1,6 @@
 {
   "$id": "https://naveego.com/bad-record.json",
-  "$schema": "http://json-schema.org/draft-04/schema#",
+
   "title": "BadRecord",
   "type": "object",
   "description": "BadRecord represents a record that had some problem at some step. The data point should be propegated but no step should attempt any further processing.",

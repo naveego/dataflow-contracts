@@ -1,6 +1,6 @@
 {
   "$id": "https://naveego.com/shape-change-schema.json",
-  "$schema": "http://json-schema.org/draft-04/schema#",
+
   "title": "ResourcePayload",
   "allOf": [{ "$ref": "payload.json" }],
   "type": "object",

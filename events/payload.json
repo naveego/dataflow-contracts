@@ -1,6 +1,6 @@
 {
   "$id": "https://naveego.com/payload.json",
-  "$schema": "http://json-schema.org/draft-04/schema#",
+
   "title": "Payload",
   "type": "object",
   "description": "The envelope for events on in the dataflow streams.",

@@ -1,6 +1,6 @@
 {
   "$id": "https://naveego.com/batch-end.json",
-  "$schema": "http://json-schema.org/draft-04/schema#",
+
   "title": "BatchEnd",
   "type": "object",
   "description": "End indicates a batch has ended.",

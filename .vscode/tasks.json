@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/Metabase.Api/Metabase.Api.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "generate",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["script", "${workspaceFolder}/generate-swagger.csx"],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "$id": "https://naveego.com/data-point.json",
-  "$schema": "http://json-schema.org/draft-04/schema#",
+
   "title": "DataPoint",
   "type": "object",
   "allOf": [{ "$ref": "payload.json" }],
@@ -9,7 +9,7 @@
     "a": {
       "title": "Action",
       "type": "string",
-      "enum": ["ins", "ups", "del"]
+      "enum": ["ins", "ups", "upd", "del"]
     },
     "s": {
       "title": "ShapeID",

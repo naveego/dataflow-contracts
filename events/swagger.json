@@ -1,0 +1,152 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Swagger for Dataflow Events",
+    "version": "1.0.0",
+    "description": "This is a swagger for dataflow events. There's no actual API for this, it's just to help with client generation and documentation."
+  },
+  "host": "kafka:9092",
+  "schemes": ["https"],
+  "paths": {
+    "/{tenant}/go-between/ingestion": {
+      "post": {
+        "operationId": "sync",
+        "consumes": ["application/json"],
+        "description": "Expects events with payloads including DataPoint, BatchStart, BatchEnd, Heartbeat, and BadRecord.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenant",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        }
+      }
+    },
+    "/{tenant}/matching/groups": {
+      "post": {
+        "operationId": "matchingGroups",
+        "consumes": ["application/json"],
+        "description": "Expects events with a Group payload.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenant",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        }
+      }
+    },
+    "/{tenant}/mdm/compositerecords": {
+      "post": {
+        "operationId": "mdmCompositeRecords",
+        "consumes": ["application/json"],
+        "description": "Expects events with a CompositeRecord payload.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenant",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        }
+      }
+    },
+    "/{tenant}/metabase/{resource}/changes": {
+      "post": {
+        "operationId": "metabaseResourceChanges",
+        "consumes": ["application/json"],
+        "description": "Expects events with a ResourcePayload payload: ResourceUpdated, ResourceCreated, or ResourceDeleted.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenant",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "resource",
+            "required": true,
+            "description": "The type of the resource.",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "DataflowEvent": {
+      "$ref": "dataflow-event.json"
+    }
+  }
+}
