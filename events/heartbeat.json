@@ -1,0 +1,7 @@
+{
+  "$id": "https://naveego.com/heartbeat.json",
+
+  "allOf": [{ "$ref": "payload.json" }],
+  "additionalProperties": false,
+  "description": "A tracer used for monitoring latency and providing a keep-alive heartbeat for long-running jobs."
+}

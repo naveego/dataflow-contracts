@@ -1,0 +1,26 @@
+{
+  "$id": "https://naveego.com/batch-end.json",
+
+  "title": "BatchEnd",
+  "type": "object",
+  "description": "End indicates a batch has ended.",
+  "additionalProperties": false,
+  "allOf": [{ "$ref": "payload.json" }],
+  "properties": {
+    "count": {
+      "type": "number",
+      "title": "Count",
+      "description": "The number of records the batch thinks it sent, so that receivers can detect data loss."
+    },
+    "reason": {
+      "enum": ["completed", "failed", "stopped"],
+      "title": "Reason",
+      "description": "Specifies the reason the job ended."
+    },
+    "message": {
+      "type": "string",
+      "title": "Message",
+      "description": "A message about why the job ended. Usually only relevent if the job failed."
+    }
+  }
+}

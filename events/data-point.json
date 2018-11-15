@@ -1,0 +1,41 @@
+{
+  "$id": "https://naveego.com/data-point.json",
+
+  "title": "DataPoint",
+  "type": "object",
+  "allOf": [{ "$ref": "payload.json" }],
+  "description": "DataPoint is an object containing arbitrary data.",
+  "properties": {
+    "a": {
+      "title": "Action",
+      "type": "string",
+      "enum": ["ins", "ups", "upd", "del"]
+    },
+    "s": {
+      "title": "ShapeID",
+      "type": "string",
+      "description": "The ShapeID@Version of the shape used to produce this data point."
+    },
+    "c": {
+      "title": "ConnectionID",
+      "type": "string",
+      "description": "The ConnectionID@Version of the connection used to produce this data point."
+    },
+    "d": {
+      "title": "Data",
+      "description": "The data for this data point.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "enr": {
+      "type": "object",
+      "title": "EnrichedData",
+      "description": "Enriched data for this data point.",
+      "additionalProperties": {
+        "type": "object"
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$id": "https://naveego.com/shape-change-schema.json",
+
+  "title": "ResourceUpdated",
+  "allOf": [{ "$ref": "resource-payload.json" }],
+  "type": "object",
+  "description": "Emitted when a resource is updated.",
+  "properties": {
+    "b": {
+      "title": "Before",
+      "description": "The state of the resource before the change.",
+      "$ref": "resource.json"
+    },
+    "a": {
+      "title": "After",
+      "description": "The state of the resource after the change.",
+      "$ref": "resource.json"
+    }
+  }
+}

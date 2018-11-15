@@ -1,0 +1,21 @@
+{
+  "$id": "https://naveego.com/payload.json",
+
+  "title": "Payload",
+  "type": "object",
+  "description": "The envelope for events on in the dataflow streams.",
+  "discriminator": "typ",
+  "required": ["typ"],
+  "properties": {
+    "typ": {
+      "type": "string",
+      "title": "The type, used to discriminate between payloads."
+    },
+    "m": {
+      "type": "object",
+      "title": "Metadata",
+      "description": "Metadata defined as part of the payload, used when components need to add custom info to standard payloads.",
+      "additionalProperties": true
+    }
+  }
+}

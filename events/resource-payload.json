@@ -1,0 +1,9 @@
+{
+  "$id": "https://naveego.com/shape-change-schema.json",
+
+  "title": "ResourcePayload",
+  "allOf": [{ "$ref": "payload.json" }],
+  "type": "object",
+  "description": "Payload for resource-specific events.",
+  "definitions": {}
+}
