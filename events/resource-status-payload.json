@@ -1,0 +1,19 @@
+{
+  "$id": "https://naveego.com/resource-status-payload.json",
+
+  "title": "ResourceStatusPayload",
+  "allOf": [{ "$ref": "payload.json" }],
+  "type": "object",
+  "description": "Payload for resource-specific status events.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "ID",
+      "description": "The ID of the resource this status belongs to."
+    },
+    "status": {
+      "$ref": "resource-status.json"
+    }
+  },
+  "definitions": {}
+}

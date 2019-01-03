@@ -1,0 +1,23 @@
+{
+  "$id": "https://naveego.com/status.json",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "ResourceStatus",
+  "type": "object",
+  "description": "A representation of the status of a resource provided by some microservice.",
+  "discriminator": "typ",
+  "required": ["typ"],
+  "properties": {
+    "typ": {
+      "type": "string",
+      "title": "Type",
+      "description": "The type, used to discriminate between payloads."
+    },
+    "updatedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "updatedBy": {
+      "type": "string"
+    }
+  }
+}
