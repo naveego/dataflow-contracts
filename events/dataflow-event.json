@@ -105,6 +105,12 @@
     },
     "ResourceDefinitions": {
       "$ref": "resource-definitions.json"
+    },
+    "ResourceStatusPayload": {
+      "$ref": "resource-status-payload.json"
+    },
+    "ResourceStatusDefinitions": {
+      "$ref": "resource-status-definitions.json"
     }
   }
 }
