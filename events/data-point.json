@@ -30,7 +30,7 @@
       }
     },
     "enr": {
-      "type": "object",
+      "type": ["null", "object"],
       "title": "EnrichedData",
       "description": "Enriched data for this data point.",
       "additionalProperties": {
