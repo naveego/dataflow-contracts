@@ -3,6 +3,8 @@ package plugins
 import (
 	"os"
 	"os/exec"
+	"path/filepath"
+	"runtime"
 )
 
 // PublisherProtocolVersion is the version of the Publisher protocol.
@@ -17,10 +19,11 @@ const PublisherMagicCookieValue = "naveego"
 // GeneratePublisher generates a golang publisher implementation from the publisher.proto file.
 // This file and method is mostly provided to allow this package to be pulled in using go get.
 func GeneratePublisher(toDir string) error {
-	srcDir := os.ExpandEnv("$GOPATH/src/github.com/naveego/dataflow-contracts/plugins")
+	_, path, _, _ := runtime.Caller(0)
+	pluginsDir := filepath.Dir(path)
 	cmd := exec.Command("protoc",
 		"-I",
-		srcDir,
+		pluginsDir,
 		"--go_out=plugins=grpc:"+toDir,
 		"publisher.proto")
 	cmd.Stdout = os.Stdout

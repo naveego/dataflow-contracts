@@ -11,3 +11,7 @@ The go-plugin handshake contract that plugins must validate is
 	MagicCookieKey:   "PUBLISHER_PLUGIN"
 	MagicCookieValue: "naveego"
 ```
+
+## Docs:
+
+- [OAuth flow](./oath.md)
