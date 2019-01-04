@@ -1,0 +1,50 @@
+{
+  "$id": "https://naveego.com/match-group.json",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "MatchGroup",
+  "type": "object",
+  "description": "A representation of a match group provided by some microservice.",
+  "allOf": [{ "$ref": "payload.json" }],
+  "discriminator": "typ",
+  "required": ["typ", "id", "ruleId", "matchData", "dataPoints"],
+  "properties": {
+    "typ": {
+      "type": "string",
+      "title": "Type",
+      "description": "The type, used to discriminate between payloads."
+    },
+    "id": {
+      "type": "string",
+      "title": "Id"
+    },
+    "ruleId": {
+      "type": "string",
+      "title": "RuleId"
+    },
+    "matchData": {
+      "type": "string",
+      "title": "MatchData"
+    },
+    "dataPoints": {
+      "type": ["array"],
+      "title": "DataPoints",
+      "items": {
+        "$ref": "#/definitions/DataflowEventWithDataPoint"
+      }
+    }
+  },
+  "definitions": {
+    "DataflowEventWithDataPoint": {
+      "title": "DataflowEventWithDataPoint",
+      "type": "object",
+      "description": "The envelope for events on in the dataflow streams.",
+      "allOf": [{ "$ref": "dataflow-event-empty.json" }],
+      "properties": {
+        "d": {
+          "title": "Payload",
+          "$ref": "data-point.json"
+        }
+      }
+    }
+  }
+}
