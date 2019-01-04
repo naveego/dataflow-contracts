@@ -5,6 +5,14 @@ service Publisher {
     // Instructs the publisher to connect to its data source.
     rpc Connect (ConnectRequest) returns (ConnectResponse) {
     }
+
+    // Instructs the plugin to connect to its data source
+    // and maintain a session where any change in the connection state
+    // or updates to OAuth information are streamed back to the host.
+    // The plugin should maintain this connection until Disconnect is called.
+    rpc ConnectSession (ConnectRequest) returns (stream ConnectResponse) {
+    }
+
     // Requests a listing of shapes this publisher can provide records for.
     rpc DiscoverShapes (DiscoverShapesRequest) returns (DiscoverShapesResponse) {
     }
@@ -16,16 +24,30 @@ service Publisher {
     rpc Disconnect (DisconnectRequest) returns (DisconnectResponse) {
     }
 
-    // Configures a query which can be used to publish a shape.
+    // Configures a connection which can be used to connect to a data source.
+    // This must be implemented if the plugin manifest has `canConfigureConnection` set to true.
+    // This is an alternative to having a `configSchema` element in the manifest.
     rpc ConfigureConnection (ConfigureConnectionRequest) returns (ConfigureConnectionResponse) {
     }
 
     // Configures a query which can be used to publish a shape.
+    // This must be implemented if the plugin manifest has `canConfigureQuery` set to true.
     rpc ConfigureQuery (ConfigureQueryRequest) returns (ConfigureQueryResponse) {
     }
 
     // Configures settings for real time publishing (change detection).
+    // This must be implemented if the plugin manifest has `canPublishRealTime` set to true.
     rpc ConfigureRealTime (ConfigureRealTimeRequest) returns (ConfigureRealTimeResponse) {        
+    }
+
+    // Invoked to begin an OAuth flow. This must be implemented if the plugin 
+    // manifest has `canUseOAuth` set to true.
+    rpc BeginOAuthFlow (BeginOAuthFlowRequest) returns (BeginOAuthFlowResponse){        
+    }
+
+    // Invoked to complete an OAuth flow. This must be implemented if the plugin 
+    // manifest has `canUseOAuth` set to true.
+    rpc CompleteOAuthFlow (CompleteOAuthFlowRequest) returns (CompleteOAuthFlowResponse){        
     }
 }
 
@@ -33,10 +55,34 @@ message ConnectRequest {
     // The settings the publisher should use to connect, as a JSON string.
     // The JSON will be based on the JSONSchema defined in the publisher's package.json.
     string settings_json = 2;
+
+    // OAuth configuration information which the plugin may need to
+    // obtain an access token using the OAuth state.
+    OAuthConfiguration oauth_configuration = 3;
+
+    // The OAuth state returned from the last Connect, ConnectSession, or CompleteOAuthFlow.
+    string oauth_state_json = 4;
 }
 
-// ConnectResponse has no data; if the connect fails, the plugin should return an error.
+// Connection result information.
 message ConnectResponse {
+
+    // If connection settings are invalid, this should contain the problem.
+    string settings_error = 1;
+
+    // If the connection settings appear valid, connecting to the target system failed,
+    // this should contain the error from the target system.
+    string connection_error = 2;
+
+    // If the OAuth state is invalid or expired, this should contain a description
+    // of the problem.
+    string oauth_error = 3; 
+
+    // The OAuth data which should be stored securely and passed next time
+    // a connection is requested. This is returned by Connect because
+    // forming the connection may have used up a refresh token and 
+    // the new refresh token must now be stored.
+    string oauth_state_json = 4;    
 }
 
 message PublishRequest {
@@ -90,9 +136,6 @@ message DiscoverShapesRequest {
     repeated Shape to_refresh = 2;
     // Size of the sample of records to include in the returned shapes.
     uint32 sample_size = 4;
-
-    // Settings for connecting, if not already connected.
-    string connection_settings_json = 5;
 }
 
 message DiscoverShapesResponse {
@@ -218,34 +261,37 @@ message Record {
 message ConfigureQueryRequest {
     // The form state for the request.
     ConfigurationFormRequest form = 1;
-
-    // Settings for connecting, if not already connected.
-    string connection_settings_json = 2;
-
 }
 
 message ConfigureQueryResponse {
     ConfigurationFormResponse form = 1;
 
+    // The schema that this query will produce.
     Shape shape = 2;
 }
 
 message ConfigureConnectionRequest {
     // The form state for the request.
     ConfigurationFormRequest form = 1;
+
+    // An embedded ConnectRequest to support passing
+    // OAuth secrets into the connection configuration operation.
+    ConnectRequest connect_request = 2;
 }
 
 message ConfigureConnectionResponse {
     ConfigurationFormResponse form = 1;
+
+    // An embedded ConnectResponse to support returning
+    // updated OAuth secrets from the connection configuration operation
+    // if the secrets have been updated.
+    ConnectResponse connect_response = 2;
 }
 
 
 message ConfigureRealTimeRequest {
     // The form state for the request.
     ConfigurationFormRequest form = 1;
-
-    // Settings for connecting, if not already connected.
-    string connection_settings_json = 2;
 }
 
 message ConfigureRealTimeResponse {
@@ -283,4 +329,47 @@ message ConfigurationFormResponse {
     // Generic errors which should be displayed at the bottom of the form,
     // not associated with any specific fields.
     repeated string errors = 6;
+}
+
+message BeginOAuthFlowRequest {
+    // Client ID to use for resolving codes.
+    string client_id = 1;
+    // Client secret to use for resolving codes.
+    string client_secret = 2;
+    // The configuration blob stored for this plugin type,
+    // which can contain any data that should not be hard coded into the plugin.
+    string configuration_json = 3;
+    // The URL that the auth server should send the authorization token to.
+    string redirect_url = 4;    
+}
+
+message BeginOAuthFlowResponse {
+    // The URL the user should use to start the authorization process.
+    string authorization_url = 1;
+}
+
+message CompleteOAuthFlowRequest {
+    OAuthConfiguration configuration = 1;
+    // The URL that the OAuth flow redirected the user to after authentication.
+    // If the response_mode was 'query' this will contain the token.
+    string redirect_url = 2;
+    // The body that the OAuth flow caused to be posted if the response_mode
+    // for the redirect was 'form_post'.
+    string redirect_body = 3;
+}
+
+message OAuthConfiguration {
+      // Client ID to use for resolving codes.
+    string client_id = 1;
+    // Client secret to use for resolving codes.
+    string client_secret = 2;
+    // The configuration blob stored for this plugin type,
+    // which can contain any data that should not be hard coded into the plugin.
+    string configuration_json = 3;  
+}
+
+message CompleteOAuthFlowResponse {
+    // JSON data containing the OAuth information the plugin wants
+    // to be passed to any connect request.
+    string oauth_state_json = 1; 
 }
