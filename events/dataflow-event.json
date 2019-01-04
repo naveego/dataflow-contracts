@@ -2,70 +2,11 @@
   "title": "DataflowEvent",
   "type": "object",
   "description": "The envelope for events on in the dataflow streams.",
+  "allOf": [{ "$ref": "dataflow-event-empty.json" }],
   "properties": {
-    "id": {
-      "type": "string",
-      "title": "ID",
-      "description": "A unique identifier for the event.",
-      "minLength": 20
-    },
-    "tid": {
-      "type": "string",
-      "title": "TenantID",
-      "description": "The ID of the tenant this event belongs to.",
-      "minLength": 1
-    },
-    "sid": {
-      "type": "string",
-      "title": "SourceID",
-      "description": "The NRN of the source that generated this event."
-    },
-    "jid": {
-      "type": "string",
-      "title": "JobID",
-      "description": "The NRN of the job that generated this event."
-    },
-    "bid": {
-      "type": "string",
-      "title": "BatchID",
-      "description": "The NRN of the batch (run of a job) that generated this event."
-    },
-    "rid": {
-      "type": "string",
-      "title": "RecordID",
-      "description": "A value that uniquely represents the record or resource most relevent to the event."
-    },
-    "rids": {
-      "type": "array",
-      "title": "RecordIDs",
-      "description": "The RID value for each event bundled into this event.",
-      "items": {
-        "type": "string"
-      }
-    },
-    "cid": {
-      "type": "string",
-      "title": "CorrelationID",
-      "description": "A value used to track the event's movement through the system and to assign causality."
-    },
-    "m": {
-      "type": "object",
-      "title": "Metadata",
-      "description": "Metadata to be transferred with the event.",
-      "additionalProperties": {
-        "type": "object"
-      }
-    },
     "d": {
       "title": "Payload",
       "$ref": "#/definitions/Payload"
-    },
-    "trc": {
-      "title": "Traces",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Trace"
-      }
     }
   },
   "required": ["id", "cid", "tid", "sid", "rid"],

@@ -4,6 +4,7 @@
   "title": "MatchGroup",
   "type": "object",
   "description": "A representation of a match group provided by some microservice.",
+  "allOf": [{ "$ref": "payload.json" }],
   "discriminator": "typ",
   "required": ["typ", "id", "ruleId", "matchData", "dataPoints"],
   "properties": {
@@ -28,7 +29,21 @@
       "type": ["array"],
       "title": "DataPoints",
       "items": {
-        "$ref": "dataflow-event.json"
+        "$ref": "#/definitions/DataflowEventWithDataPoint"
+      }
+    }
+  },
+  "definitions": {
+    "DataflowEventWithDataPoint": {
+      "title": "DataflowEventWithDataPoint",
+      "type": "object",
+      "description": "The envelope for events on in the dataflow streams.",
+      "allOf": [{ "$ref": "dataflow-event-empty.json" }],
+      "properties": {
+        "d": {
+          "title": "Payload",
+          "$ref": "data-point.json"
+        }
       }
     }
   }
