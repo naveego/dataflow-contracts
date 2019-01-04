@@ -2,6 +2,7 @@
   "title": "DataflowEventEmpty",
   "type": "object",
   "description": "The metadata for events on in the dataflow streams, with no payload.",
+  "required": ["id", "cid", "tid", "sid", "rid"],
   "properties": {
     "id": {
       "type": "string",
@@ -21,12 +22,12 @@
       "description": "The NRN of the source that generated this event."
     },
     "jid": {
-      "type": "string",
+      "type": ["string", "null"],
       "title": "JobID",
       "description": "The NRN of the job that generated this event."
     },
     "bid": {
-      "type": "string",
+      "type": ["string", "null"],
       "title": "BatchID",
       "description": "The NRN of the batch (run of a job) that generated this event."
     },
@@ -36,7 +37,7 @@
       "description": "A value that uniquely represents the record or resource most relevent to the event."
     },
     "rids": {
-      "type": "array",
+      "type": ["array", "null"],
       "title": "RecordIDs",
       "description": "The RID value for each event bundled into this event.",
       "items": {
@@ -49,7 +50,7 @@
       "description": "A value used to track the event's movement through the system and to assign causality."
     },
     "m": {
-      "type": "object",
+      "type": ["object", "null"],
       "title": "Metadata",
       "description": "Metadata to be transferred with the event.",
       "additionalProperties": {
@@ -58,7 +59,7 @@
     },
     "trc": {
       "title": "Traces",
-      "type": "array",
+      "type": ["array", "null"],
       "items": {
         "$ref": "#/definitions/Trace"
       }
