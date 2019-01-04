@@ -28,7 +28,7 @@
       "type": ["array"],
       "title": "DataPoints",
       "items": {
-        "$ref": "data-point.json"
+        "$ref": "dataflow-event.json"
       }
     }
   }
