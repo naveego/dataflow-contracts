@@ -111,6 +111,9 @@
     },
     "ResourceStatusDefinitions": {
       "$ref": "resource-status-definitions.json"
+    },
+    "MatchGroup": {
+      "$ref": "match-group.json"
     }
   }
 }
