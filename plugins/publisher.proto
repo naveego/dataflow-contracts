@@ -15,6 +15,18 @@ service Publisher {
     // and gracefully prepare to be shut down.
     rpc Disconnect (DisconnectRequest) returns (DisconnectResponse) {
     }
+
+    // Configures a query which can be used to publish a shape.
+    rpc ConfigureConnection (ConfigureConnectionRequest) returns (ConfigureConnectionResponse) {
+    }
+
+    // Configures a query which can be used to publish a shape.
+    rpc ConfigureQuery (ConfigureQueryRequest) returns (ConfigureQueryResponse) {
+    }
+
+    // Configures settings for real time publishing (change detection).
+    rpc ConfigureRealTime (ConfigureRealTimeRequest) returns (ConfigureRealTimeResponse) {        
+    }
 }
 
 message ConnectRequest {
@@ -34,6 +46,16 @@ message PublishRequest {
     uint32 limit = 2;
     // Zero or more filters which should be applied to the returned records.
     repeated PublishFilter filters = 3;
+
+    // Settings for connecting, if not already connected.
+    string connection_settings_json = 5;
+
+    // Settings for real time publishing, if any.
+    string real_time_settings_json = 6;
+
+    // State object from the last published record from the
+    // connection used for this publish request.
+    string real_time_state_json = 7;
 }
 
 message PublishFilter {
@@ -52,6 +74,7 @@ message PublishFilter {
     // The value of the which should be matched against the named property for each record, as a string.
     // The publisher is responsible for converting the value to the correct type.
     string value = 3;
+
 }
 
 message DiscoverShapesRequest {
@@ -67,6 +90,9 @@ message DiscoverShapesRequest {
     repeated Shape to_refresh = 2;
     // Size of the sample of records to include in the returned shapes.
     uint32 sample_size = 4;
+
+    // Settings for connecting, if not already connected.
+    string connection_settings_json = 5;
 }
 
 message DiscoverShapesResponse {
@@ -183,4 +209,78 @@ message Record {
     Action action = 1;
     // Data for this record, as a JSON string.
     string data_json = 2;
+
+    // State which should be preserved and passed back to the next
+    // call of PublishStream.
+    string real_time_state_json = 3;
+}
+
+message ConfigureQueryRequest {
+    // The form state for the request.
+    ConfigurationFormRequest form = 1;
+
+    // Settings for connecting, if not already connected.
+    string connection_settings_json = 2;
+
+}
+
+message ConfigureQueryResponse {
+    ConfigurationFormResponse form = 1;
+
+    Shape shape = 2;
+}
+
+message ConfigureConnectionRequest {
+    // The form state for the request.
+    ConfigurationFormRequest form = 1;
+}
+
+message ConfigureConnectionResponse {
+    ConfigurationFormResponse form = 1;
+}
+
+
+message ConfigureRealTimeRequest {
+    // The form state for the request.
+    ConfigurationFormRequest form = 1;
+
+    // Settings for connecting, if not already connected.
+    string connection_settings_json = 2;
+}
+
+message ConfigureRealTimeResponse {
+    ConfigurationFormResponse form = 1;
+}
+
+message ConfigurationFormRequest {
+    // JSON object containing the current values of the settings
+    // as entered into the UI.
+    string data_json = 1;
+
+    // Opaque state object from the most recent Configure*Response.
+    string state_json = 2;
+}
+
+message ConfigurationFormResponse {
+
+    // The JSONSchema which should be used to build the form.
+    string schema_json = 1;
+
+    // The UI hints which should be provided to the form.
+    string ui_json = 2;
+
+    // The state object which should be passed in any future Configure*Request as part of this configuration session.
+    string state_json = 3;
+
+    // Current values from the form.    
+    string data_json = 4;
+
+    // Errors which should be displayed attached to fields in the form,
+    // in the form of a JSON object with the same shape as the data object,
+    // but the values are arrays of strings containing the error messages.
+    string data_errors_json = 5;
+
+    // Generic errors which should be displayed at the bottom of the form,
+    // not associated with any specific fields.
+    repeated string errors = 6;
 }
