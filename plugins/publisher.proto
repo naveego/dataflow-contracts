@@ -10,6 +10,7 @@ service Publisher {
     // and maintain a session where any change in the connection state
     // or updates to OAuth information are streamed back to the host.
     // The plugin should maintain this connection until Disconnect is called.
+    // This must be implemented if the plugin manifest has `canUseOAuth` set to true.
     rpc ConnectSession (ConnectRequest) returns (stream ConnectResponse) {
     }
 

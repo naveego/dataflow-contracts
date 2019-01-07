@@ -1,0 +1,111 @@
+{
+  "definitions": {
+    "FormSchema": {
+      "properties": {
+        "schema": {
+          "type": "object"
+        },
+        "ui": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "properties": {
+    "apiVersion": {
+      "description": "Go-between API version supported. Should be set to 2 for new plugins.",
+      "type": "string"
+    },
+    "arch": {
+      "description": "The architecture a specific package can support. This is derived from the package file name and does not need to be set in the manifest.",
+      "type": "string"
+    },
+    "canAcceptQueryBasedSchemas": {
+      "description": "Set to true if this plugin can accept queries authored by a user.",
+      "format": "bool",
+      "type": "boolean"
+    },
+    "canConfigureConnection": {
+      "description": "Set to true if this plugin can configure connections interactively. This is an alternative to setting the configSchema property. Only checked if apiVersion \u003e= 2.",
+      "format": "bool",
+      "type": "boolean"
+    },
+    "canConfigureQuery": {
+      "description": "Set to true if this plugin supports interactively authoring queries. This is an alternative to setting the querySchema property. Only checked if apiVersion \u003e= 2.",
+      "format": "bool",
+      "type": "boolean"
+    },
+    "canConfigureRealTime": {
+      "description": "Set to true if this plugin can support real time publish and configure them interactively. Only checked if apiVersion \u003e= 2",
+      "format": "bool",
+      "type": "boolean"
+    },
+    "canDiscoverShapes": {
+      "description": "Set to true if this plugin can discover shapes/schemas automatically. Only checked if apiVersion \u003e= 2.",
+      "format": "bool",
+      "type": "boolean"
+    },
+    "canProduceMultipleSchemas": {
+      "description": "Set to true if this plugin can produce multiple schemas, rather than only one.",
+      "format": "bool",
+      "type": "boolean"
+    },
+    "canPublish": {
+      "description": "Set to true if this plugin can publish datapoints. Only checked if apiVersion \u003e= 2.",
+      "format": "bool",
+      "type": "boolean"
+    },
+    "canUseOAuth": {
+      "description": "Set to true if this plugin uses OAuth for authentication.",
+      "format": "bool",
+      "type": "boolean"
+    },
+    "configSchema": {
+      "$ref": "#/definitions/FormSchema"
+    },
+    "description": {
+      "description": "The description to display to the user.",
+      "type": "string"
+    },
+    "displayName": {
+      "description": "The display name of this plugin.",
+      "type": "string"
+    },
+    "executable": {
+      "description": "The path (relative to the manifest) to execute when starting the plugin.",
+      "type": "string"
+    },
+    "icon": {
+      "description": "The data-uri for the icon, alternative to setting the icon property.",
+      "type": "string"
+    },
+    "iconFile": {
+      "description": "The path (relative to the manifest) to the icon to display for this plugin.",
+      "type": "string"
+    },
+    "id": {
+      "description": "The dns-compatible name of the plugin, should be the same as the repo.",
+      "type": "string"
+    },
+    "kind": {
+      "description": "Obsolete.",
+      "type": "string"
+    },
+    "os": {
+      "description": "The OS a specific package can support. This is derived from the package file name and does not need to be set in the manifest.",
+      "type": "string"
+    },
+    "querySchema": {
+      "$ref": "#/definitions/FormSchema"
+    },
+    "version": {
+      "description": "The version of the plugin. This is derived from the package file name and does not need to be set in the manifest.",
+      "type": "string"
+    },
+    "versionDescription": {
+      "description": "Description specific to this version. Obsolete.",
+      "type": "string"
+    }
+  },
+  "title": "Manifest"
+}
