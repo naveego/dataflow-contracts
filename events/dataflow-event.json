@@ -9,7 +9,7 @@
       "$ref": "#/definitions/Payload"
     }
   },
-  "required": ["id", "cid", "tid", "sid", "rid"],
+  "required": ["id", "cid", "tid", "rid"],
   "definitions": {
     "Payload": {
       "$ref": "payload.json"

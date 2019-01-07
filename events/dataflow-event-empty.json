@@ -2,7 +2,7 @@
   "title": "DataflowEventEmpty",
   "type": "object",
   "description": "The metadata for events on in the dataflow streams, with no payload.",
-  "required": ["id", "cid", "tid", "sid", "rid"],
+  "required": ["id", "cid", "tid", "rid"],
   "properties": {
     "id": {
       "type": "string",
@@ -17,7 +17,7 @@
       "minLength": 1
     },
     "sid": {
-      "type": "string",
+      "type": ["string", "null"],
       "title": "SourceID",
       "description": "The NRN of the source that generated this event."
     },
