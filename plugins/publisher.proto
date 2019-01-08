@@ -333,15 +333,10 @@ message ConfigurationFormResponse {
 }
 
 message BeginOAuthFlowRequest {
-    // Client ID to use for resolving codes.
-    string client_id = 1;
-    // Client secret to use for resolving codes.
-    string client_secret = 2;
-    // The configuration blob stored for this plugin type,
-    // which can contain any data that should not be hard coded into the plugin.
-    string configuration_json = 3;
+    OAuthConfiguration configuration = 1;
+
     // The URL that the auth server should send the authorization token to.
-    string redirect_url = 4;    
+    string redirect_url = 2;    
 }
 
 message BeginOAuthFlowResponse {
