@@ -1,0 +1,14 @@
+{
+  "$id": "https://naveego.com/dataflow-event-with-datapoint.json",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "DataflowEventWithDataPoint",
+  "type": "object",
+  "description": "The envelope for a dataflow-event which always will only have datapoint as the payload.",
+  "allOf": [{ "$ref": "dataflow-event-empty.json" }],
+  "properties": {
+    "d": {
+      "title": "Payload",
+      "$ref": "data-point.json"
+    }
+  }
+}

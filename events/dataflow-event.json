@@ -55,6 +55,9 @@
     },
     "MatchGroup": {
       "$ref": "match-group.json"
+    },
+    "CompositeRecord": {
+      "$ref": "composite-record.json"
     }
   }
 }
