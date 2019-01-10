@@ -247,6 +247,9 @@ message Record {
         INSERT = 1;
         UPDATE = 2;
         DELETE = 3;
+        // This action indicates that there is no data in this record;
+        // instead the real time state field on this record should be persisted.
+        REAL_TIME_STATE_COMMIT = 4;
     }
     // Action for this record. Default value is UPSERT if the plugin 
     // cannot determine what the action should be relative to data alreay acquired.
@@ -255,7 +258,7 @@ message Record {
     string data_json = 2;
 
     // State which should be preserved and passed back to the next
-    // call of PublishStream.
+    // call of PublishStream. Only considered if action indicates this is a state commit.
     string real_time_state_json = 3;
 }
 
