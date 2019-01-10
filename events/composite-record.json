@@ -45,11 +45,11 @@
     },
     "data": {
       "type": "object",
-      "title": "Versions"
+      "title": "Data"
     },
     "owners": {
       "type": "object",
-      "title": "Versions",
+      "title": "Owners",
       "additionalProperties": { "type": "string" }
     },
     "versions": {
