@@ -56,21 +56,7 @@
       "type": "array",
       "title": "Versions",
       "items": {
-        "$ref": "#/definitions/DataflowEventWithDataPoint"
-      }
-    }
-  },
-  "definitions": {
-    "DataflowEventWithDataPoint": {
-      "title": "DataflowEventWithDataPoint",
-      "type": "object",
-      "description": "The envelope for events on in the dataflow streams.",
-      "allOf": [{ "$ref": "dataflow-event-empty.json" }],
-      "properties": {
-        "d": {
-          "title": "Payload",
-          "$ref": "data-point.json"
-        }
+        "$ref": "dataflow-event-with-datapoint.json"
       }
     }
   }
