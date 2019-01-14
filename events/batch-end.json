@@ -8,7 +8,7 @@
   "allOf": [{ "$ref": "payload.json" }],
   "properties": {
     "count": {
-      "type": "number",
+      "type": ["number", "null"],
       "title": "Count",
       "description": "The number of records the batch thinks it sent, so that receivers can detect data loss."
     },
@@ -18,7 +18,7 @@
       "description": "Specifies the reason the job ended."
     },
     "message": {
-      "type": "string",
+      "type": ["string", "null"],
       "title": "Message",
       "description": "A message about why the job ended. Usually only relevent if the job failed."
     }

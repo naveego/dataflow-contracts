@@ -10,15 +10,15 @@
     "maxDurationSeconds": {
       "title": "MaxDurationSeconds",
       "description": "The maximum time this batch should take to complete, in seconds.",
-      "type": "number"
+      "type": ["number", "null"]
     },
     "count": {
-      "type": "number",
+      "type": ["number", "null"],
       "title": "Expected count",
       "description": "Optional; the number of records expected in this job, if it can be predicted."
     },
     "rate": {
-      "type": "number",
+      "type": ["number", "null"],
       "title": "Expected rate",
       "description": "Optional; the maximum number of milliseconds expected between data points or heartbeats. If the rate is provided the receiver will be able to detect timeouts more accurately."
     }

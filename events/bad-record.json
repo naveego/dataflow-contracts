@@ -11,14 +11,14 @@
       "$ref": "data-point.json"
     },
     "errorStep": {
-      "type": "string",
+      "type": ["string", "null"],
       "description": "Something that identifies the step where the problem happend."
     },
     "error": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "problems": {
-      "type": "object",
+      "type": ["object", "null"],
       "description": "Problems that individual properties in the record had.",
       "additionalProperties": true
     }
