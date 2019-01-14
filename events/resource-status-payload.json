@@ -7,7 +7,7 @@
   "description": "Payload for resource-specific status events.",
   "properties": {
     "id": {
-      "type": "string",
+     "type": ["string", "null"],
       "title": "ID",
       "description": "The ID of the resource this status belongs to."
     },

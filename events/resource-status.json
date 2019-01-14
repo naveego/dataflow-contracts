@@ -14,10 +14,10 @@
     },
     "updatedAt": {
       "format": "date-time",
-      "type": "string"
+     "type": ["string", "null"]
     },
     "updatedBy": {
-      "type": "string"
+     "type": ["string", "null"]
     }
   }
 }

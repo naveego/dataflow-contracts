@@ -17,7 +17,7 @@
       "title": "Id"
     },
     "nrn": {
-      "type": "string",
+      "type": ["string", "null"],
       "title": "Nrn",
       "description": "The Naveego Resource Name of the resource. Format is \"nrn:{domain}:[tenant]:{microservice}:{type}:{id}[@version]\"."
     },
@@ -33,24 +33,24 @@
     },
     "createdAt": {
       "format": "date-time",
-      "type": "string"
+      "type": ["string", "null"]
     },
     "createdBy": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "updatedAt": {
       "format": "date-time",
-      "type": "string"
+      "type": ["string", "null"]
     },
     "updatedBy": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "deletedAt": {
       "format": "date-time",
-      "type": "string"
+      "type": ["string", "null"]
     },
     "deletedBy": {
-      "type": "string"
+      "type": ["string", "null"]
     }
   }
 }

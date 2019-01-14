@@ -13,18 +13,18 @@
     },
     "s": {
       "title": "ShapeID",
-      "type": "string",
+     "type": ["string", "null"],
       "description": "The ShapeID@Version of the shape used to produce this data point."
     },
     "c": {
       "title": "ConnectionID",
-      "type": "string",
+     "type": ["string", "null"],
       "description": "The ConnectionID@Version of the connection used to produce this data point."
     },
     "d": {
       "title": "Data",
       "description": "The data for this data point.",
-      "type": "object",
+     "type": ["object", "null"],
       "additionalProperties": {
         "type": "object"
       }
