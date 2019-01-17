@@ -6,7 +6,7 @@
   "description": "A representation of a match group provided by some microservice.",
   "allOf": [{ "$ref": "payload.json" }],
   "discriminator": "typ",
-  "required": ["typ", "id", "ruleId", "matchData", "dataPoints"],
+  "required": ["typ", "id", "ruleId", "dataPoints"],
   "properties": {
     "typ": {
       "type": "string",
@@ -20,10 +20,6 @@
     "ruleId": {
       "type": "string",
       "title": "RuleId"
-    },
-    "matchData": {
-      "type": "string",
-      "title": "MatchData"
     },
     "dataPoints": {
       "type": ["array"],
