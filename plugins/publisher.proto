@@ -296,6 +296,9 @@ message ConfigureConnectionResponse {
 message ConfigureRealTimeRequest {
     // The form state for the request.
     ConfigurationFormRequest form = 1;
+
+    // The ID of the schema which is being targeted for real time publishing.
+    string schemaID = 2;
 }
 
 message ConfigureRealTimeResponse {
