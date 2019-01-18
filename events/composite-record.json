@@ -9,7 +9,7 @@
   "required": [
     "typ",
     "recordId",
-    "mergeRuleId",
+    "ShapeId",
     "tenantId",
     "data",
     "owners",
@@ -25,16 +25,16 @@
       "type": "string",
       "title": "RecordId"
     },
-    "mergeRuleId": {
+    "shapeId": {
       "type": "string",
-      "title": "MergeRuleId"
+      "title": "ShapeId"
     },
     "tenantId": {
       "type": "string",
       "title": "TenantId"
     },
     "createdAt": {
-     "type": ["string", "null"],
+      "type": ["string", "null"],
       "format": "date-time",
       "title": "CreatedAt"
     },
