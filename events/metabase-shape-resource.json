@@ -124,65 +124,44 @@
       "additionalProperties": false,
       "required": [
         "shapeId",
+        "version",
         "mcl",
-        "grouping"
+        "type"
       ],
       "properties": {
         "shapeId": {
           "type": "string",
           "minLength": 1
         },
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
         "mcl": {
           "type": "number",
           "format": "decimal"
         },
-        "grouping": {
-          "$ref": "#/definitions/TypeAndSettingsModel"
-        }
-      }
-    },
-    "TypeAndSettingsModel": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "type"
-      ],
-      "properties": {
         "type": {
-          "minLength": 1,
-          "oneOf": [
-            {
-              "$ref": "#/definitions/MatchRuleType"
-            }
-          ]
+          "type": "string",
+          "minLength": 1
         },
         "settings": {
           "type": [
             "null",
             "object"
           ],
-          "additionalProperties": {
-            "type": "string"
-          }
+          "additionalProperties": {}
         }
       }
-    },
-    "MatchRuleType": {
-      "type": "string",
-      "description": "",
-      "x-enumNames": [
-        "Unknown",
-        "Exact"
-      ],
-      "enum": [
-        "unknown",
-        "exact"
-      ]
     },
     "MergeRuleModel": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
         "properties": {
           "type": [
             "null",
