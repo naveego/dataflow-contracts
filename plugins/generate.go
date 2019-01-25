@@ -32,3 +32,20 @@ func GeneratePublisher(toDir string) error {
 	err := cmd.Run()
 	return err
 }
+
+// GenerateManagement generates the implementation from the management.proto file.
+// This file and method is mostly provided to allow this package to be pulled in using go get.
+func GenerateManagement(toDir string) error {
+	_, path, _, _ := runtime.Caller(0)
+	pluginsDir := filepath.Dir(path)
+	cmd := exec.Command("protoc",
+		"-I",
+		pluginsDir,
+		"--go_out=plugins=grpc:"+toDir,
+		"management.proto")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err := cmd.Run()
+	return err
+}
