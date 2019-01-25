@@ -2,6 +2,11 @@ syntax = "proto3";
 package pub;
 
 service Publisher {
+    // Configures the plugin.
+    rpc Configure (ConfigureRequest) returns (ConfigureResponse) {
+    }
+
+
     // Instructs the publisher to connect to its data source.
     rpc Connect (ConnectRequest) returns (ConnectResponse) {
     }
@@ -52,6 +57,27 @@ service Publisher {
     }
 }
 
+enum LogLevel {
+    Error = 0;
+    Warn = 1;
+    Info = 2;
+    Debug = 3;
+    Trace = 4;
+}
+
+message ConfigureRequest {
+    // The level of logging information the plugin should emit.
+    LogLevel log_level = 1;
+    // Directory where log files should be stored.
+    string log_directory = 2;
+    // Directory where the plugin can store data permanently.
+    string permanent_directory = 3;
+    // Directory where the plugin can store temporary information which may be deleted.
+    string temporary_directory = 4;
+}
+
+message ConfigureResponse{}
+
 message ConnectRequest {
     // The settings the publisher should use to connect, as a JSON string.
     // The JSON will be based on the JSONSchema defined in the publisher's package.json.
@@ -94,15 +120,21 @@ message PublishRequest {
     // Zero or more filters which should be applied to the returned records.
     repeated PublishFilter filters = 3;
 
-    // Settings for connecting, if not already connected.
-    string connection_settings_json = 5;
-
     // Settings for real time publishing, if any.
     string real_time_settings_json = 6;
 
     // State object from the last published record from the
     // connection used for this publish request.
     string real_time_state_json = 7;
+
+    // ID for the job which contains the shape, the connection used
+    // to connect before starting this job, the real time settings and state,
+    // and so on. Can be used to persist local state between publishes.
+    string job_id = 8;
+
+    // The data_version is a counter that will be incremented whenever
+    // all data produced for a particular job_id should be discarded.    
+    uint32 data_version = 9;
 }
 
 message PublishFilter {
@@ -260,6 +292,11 @@ message Record {
     // State which should be preserved and passed back to the next
     // call of PublishStream. Only considered if action indicates this is a state commit.
     string real_time_state_json = 3;
+
+    // Cause for the publish of the record.
+    // If provided, this should be an end-user readable string describing what triggered the publish.
+    // This should only be set for real time published records, where the cause may be interesting.
+    string cause = 4;
 }
 
 message ConfigureQueryRequest {
