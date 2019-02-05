@@ -55,9 +55,13 @@ service Publisher {
     rpc CompleteOAuthFlow (CompleteOAuthFlowRequest) returns (CompleteOAuthFlowResponse){        
     }
 
-    rpc ConfigureWrite (ConfigureWriteRequest) returns (ConfigureWriteResponse){
+    // Invoked to begin a write back request
+    // This must be implemented if the manifest has `canWriteBack` set to true.
+    rpc PrepareWrite (PrepareWriteRequest) returns (PrepareWriteResponse){
     }
 
+    // Creates a stream of records to write back and opens a stream to receive acks for write backs
+    // This must be implemented if the manifest has `canWriteBack` set to true.
     rpc WriteStream (stream Record) returns (stream RecordAck){
     }
 }
@@ -303,6 +307,8 @@ message Record {
     // This should only be set for real time published records, where the cause may be interesting.
     string cause = 4;
 
+    // Correlation ID for a record
+    // Only expected to be used within the WriteStream method
     string correlation_id = 5;
 }
 
@@ -420,16 +426,22 @@ message CompleteOAuthFlowResponse {
     string oauth_state_json = 1; 
 }
 
-message ConfigureWriteRequest {
+message PrepareWriteRequest {
+    // Time in seconds that a record write back must be acknowledged by the plugin in
     int32 commit_sla_seconds = 1;
+
+    // Schema to write back to source system
     Schema schema = 2;
 }
 
-message ConfigureWriteResponse {
+message PrepareWriteResponse {
 
 }
 
 message RecordAck {
+    // Correlation ID for record that has been written back
     string correlation_id = 1;
+
+    // Contains information about any error in writing back the record
     string error = 2;
 }
