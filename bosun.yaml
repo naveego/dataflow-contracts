@@ -1,0 +1,7 @@
+apps:
+  - name: dataflow-contracts
+    repo: naveego/dataflow-contracts
+    description: |
+      The dataflow-contracts app does not have any deployed components.
+      It is defined as an app to make it easy for bosun to reference it.
+    version: "0.1.1"
