@@ -6,8 +6,7 @@ service Publisher {
     rpc Configure (ConfigureRequest) returns (ConfigureResponse) {
     }
 
-
-    // Instructs the publisher to connect to its data source.
+    // Instructs the plugin to connect to its data source.
     rpc Connect (ConnectRequest) returns (ConnectResponse) {
     }
 
@@ -19,13 +18,25 @@ service Publisher {
     rpc ConnectSession (ConnectRequest) returns (stream ConnectResponse) {
     }
 
-    // Requests a listing of shapes this publisher can provide records for.
-    rpc DiscoverShapes (DiscoverShapesRequest) returns (DiscoverShapesResponse) {
+    // (DEPRECATED) Requests a listing of schemas this publisher can provide records for.
+    rpc DiscoverShapes (DiscoverSchemasRequest) returns (DiscoverSchemasResponse) {
+        option deprecated = true;
     }
-    // PublishString begins streaming records to the client from the plugin.
-    rpc PublishStream (PublishRequest) returns (stream Record) {
+
+    // Requests a listing of schemas this publisher can provide records for.
+    rpc DiscoverSchemas (DiscoverSchemasRequest) returns (DiscoverSchemasResponse) {
     }
-    // Tells the publisher to disconnect from its data source, stop any running publishes,
+
+    // (DEPRECATED) PublishStream begins streaming records to the client from the plugin.
+    rpc PublishStream (ReadRequest) returns (stream Record) {
+        option deprecated = true;
+    }
+
+    // ReadStream begins streaming records to the client from the plugin.
+    rpc ReadStream (ReadRequest) returns (stream Record) {
+    }
+
+    // Tells the plugin to disconnect from its data source, stop any running publishes,
     // and gracefully prepare to be shut down.
     rpc Disconnect (DisconnectRequest) returns (DisconnectResponse) {
     }
@@ -36,7 +47,7 @@ service Publisher {
     rpc ConfigureConnection (ConfigureConnectionRequest) returns (ConfigureConnectionResponse) {
     }
 
-    // Configures a query which can be used to publish a shape.
+    // Configures a query which can be used to publish a schema.
     // This must be implemented if the plugin manifest has `canConfigureQuery` set to true.
     rpc ConfigureQuery (ConfigureQueryRequest) returns (ConfigureQueryResponse) {
     }
@@ -54,6 +65,21 @@ service Publisher {
     // Invoked to complete an OAuth flow. This must be implemented if the plugin 
     // manifest has `canUseOAuth` set to true.
     rpc CompleteOAuthFlow (CompleteOAuthFlowRequest) returns (CompleteOAuthFlowResponse){        
+    }
+
+    // Configures a write back which can be used to write back a schema to the source.
+    // This must be implemented if the plugin manifest has `canConfigureWrite` set to true.
+    rpc ConfigureWrite (ConfigureWriteRequest) returns (ConfigureWriteResponse){
+    }
+
+    // Invoked to begin a write back request
+    // This must be implemented if the manifest has `canWrite` set to true.
+    rpc PrepareWrite (PrepareWriteRequest) returns (PrepareWriteResponse){
+    }
+
+    // Creates a stream of records to write back and opens a stream to receive acks for write backs
+    // This must be implemented if the manifest has `canWrite` set to true.
+    rpc WriteStream (stream Record) returns (stream RecordAck){
     }
 }
 
@@ -112,9 +138,9 @@ message ConnectResponse {
     string oauth_state_json = 4;    
 }
 
-message PublishRequest {
-    // The shape of the records to publish.
-    Shape shape = 1;
+message ReadRequest {
+    // The schema of the records to publish.
+    Schema schema = 1;
     // Limit of number of records to return.
     uint32 limit = 2;
     // Zero or more filters which should be applied to the returned records.
@@ -127,7 +153,7 @@ message PublishRequest {
     // connection used for this publish request.
     string real_time_state_json = 7;
 
-    // ID for the job which contains the shape, the connection used
+    // ID for the job which contains the schema, the connection used
     // to connect before starting this job, the real time settings and state,
     // and so on. Can be used to persist local state between publishes.
     string job_id = 8;
@@ -156,47 +182,53 @@ message PublishFilter {
 
 }
 
-message DiscoverShapesRequest {
+message DiscoverSchemasRequest {
     enum Mode {
-        // ALL means all shapes the publisher can publish should be returned.
+        // ALL means all schemas the publisher can publish should be returned.
         ALL = 0;
-        // REFRESH means the publisher return (updated) shapes identified by the partial shapes included in to_refresh.
+        // REFRESH means the publisher return (updated) schemas identified by the partial schemas included in to_refresh.
         REFRESH = 1;
     }
     // Mode is the discovery mode.
     Mode mode = 1;
-    // The shapes to refresh if mode == 1.
-    repeated Shape to_refresh = 2;
-    // Size of the sample of records to include in the returned shapes.
+    // The schemas to refresh if mode == 1.
+    repeated Schema to_refresh = 2;
+    // Size of the sample of records to include in the returned schemas.
     uint32 sample_size = 4;
 }
 
-message DiscoverShapesResponse {
-    // Shapes discovered by the publisher.
-    repeated Shape shapes = 1;
+message DiscoverSchemasResponse {
+    // Schemas discovered by the publisher.
+    repeated Schema schemas = 1;
 }
 
-message Shape {
-    // ID that the plugin uses to uniquely identify this shape.
+message Schema {
+    enum DataFlowDirection {
+        READ = 0;
+        WRITE =1;
+    }
+    // ID that the plugin uses to uniquely identify this schema.
     string id = 1;
-    // Name of this shape (must be a permanant identifier which is unique in this source).
+    // Name of this schema (must be a permanant identifier which is unique in this source).
     string name = 2;
-    // Description of this shape, if available.
+    // Description of this schema, if available.
     string description = 3;
-    // Properties of this shape.
+    // Properties of this schema.
     repeated Property properties = 4;
-    // Count of records available in this shape.
+    // Count of records available in this schema.
     Count count = 5;
-    // Sample containing zero or more records representative of the data in this shape.
+    // Sample containing zero or more records representative of the data in this schema.
     repeated Record sample = 6;
-    // When returned from a publisher, the optional query which can be passed to the publisher to publish records from this shape.
-    // When passed to the publisher, the query which should be used to publish records from this shape.
+    // When returned from a publisher, the optional query which can be passed to the publisher to publish records from this schema.
+    // When passed to the publisher, the query which should be used to publish records from this schema.
     string query = 7;
     // Arbitrary JSON blob containing information the publisher uses for things like change detection.
     string publisher_meta_json = 8;
 
-    // Errors that occurred while discovering this shape.
+    // Errors that occurred while discovering this schema.
     repeated string errors = 9;
+
+    DataFlowDirection data_flow_direction = 10;
 }
 
 message Count {
@@ -218,7 +250,7 @@ message Property {
     string description = 3;
     // Type of the property. Use STRING if no other type matches.
     PropertyType type = 4;
-    // Set to true if this property is part of the primary key for this shape.
+    // Set to true if this property is part of the primary key for this schema.
     bool is_key = 5;
     // Set to true if this property is an orderable value which can be used
     // to determine if one record was created more recently than another record.
@@ -297,6 +329,10 @@ message Record {
     // If provided, this should be an end-user readable string describing what triggered the publish.
     // This should only be set for real time published records, where the cause may be interesting.
     string cause = 4;
+
+    // Correlation ID for a record
+    // Only expected to be used within the WriteStream method
+    string correlation_id = 5;
 }
 
 message ConfigureQueryRequest {
@@ -308,7 +344,7 @@ message ConfigureQueryResponse {
     ConfigurationFormResponse form = 1;
 
     // The schema that this query will produce.
-    Shape shape = 2;
+    Schema schema = 2;
 }
 
 message ConfigureConnectionRequest {
@@ -334,8 +370,8 @@ message ConfigureRealTimeRequest {
     // The form state for the request.
     ConfigurationFormRequest form = 1;
 
-    // The shape (schema) which is being targeted for real time publishing.
-    Shape shape = 2;
+    // The schema (schema) which is being targeted for real time publishing.
+    Schema schema = 2;
 }
 
 message ConfigureRealTimeResponse {
@@ -366,7 +402,7 @@ message ConfigurationFormResponse {
     string data_json = 4;
 
     // Errors which should be displayed attached to fields in the form,
-    // in the form of a JSON object with the same shape as the data object,
+    // in the form of a JSON object with the same schema as the data object,
     // but the values are arrays of strings containing the error messages.
     string data_errors_json = 5;
 
@@ -411,4 +447,37 @@ message CompleteOAuthFlowResponse {
     // JSON data containing the OAuth information the plugin wants
     // to be passed to any connect request.
     string oauth_state_json = 1; 
+}
+
+message ConfigureWriteRequest {
+    // The form state for the request.
+    ConfigurationFormRequest form = 1;
+}
+
+message ConfigureWriteResponse {
+    // Configuration object to build the ui
+    ConfigurationFormResponse form = 1;
+
+    // The schema (schema) which is being targeted for write backs.
+    Schema schema = 2;
+}
+
+message PrepareWriteRequest {
+    // Time in seconds that a record write back must be acknowledged by the plugin in
+    int32 commit_sla_seconds = 1;
+
+    // Schema to write back to source system
+    Schema schema = 2;
+}
+
+message PrepareWriteResponse {
+
+}
+
+message RecordAck {
+    // Correlation ID for record that has been written back
+    string correlation_id = 1;
+
+    // Contains information about any error in writing back the record
+    string error = 2;
 }
