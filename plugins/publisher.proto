@@ -61,12 +61,12 @@ service Publisher {
     }
 
     // Invoked to begin a write back request
-    // This must be implemented if the manifest has `canWriteBack` set to true.
+    // This must be implemented if the manifest has `canWrite` set to true.
     rpc PrepareWrite (PrepareWriteRequest) returns (PrepareWriteResponse){
     }
 
     // Creates a stream of records to write back and opens a stream to receive acks for write backs
-    // This must be implemented if the manifest has `canWriteBack` set to true.
+    // This must be implemented if the manifest has `canWrite` set to true.
     rpc WriteStream (stream Record) returns (stream RecordAck){
     }
 }
@@ -191,6 +191,10 @@ message DiscoverSchemasResponse {
 }
 
 message Schema {
+    enum DataFlowDirection {
+        READ = 0;
+        WRITE =1;
+    }
     // ID that the plugin uses to uniquely identify this schema.
     string id = 1;
     // Name of this schema (must be a permanant identifier which is unique in this source).
@@ -211,6 +215,8 @@ message Schema {
 
     // Errors that occurred while discovering this schema.
     repeated string errors = 9;
+
+    DataFlowDirection data_flow_direction = 10;
 }
 
 message Count {
