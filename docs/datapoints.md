@@ -10,7 +10,7 @@ This document defines everything you need to know about data points.
 
 Is it one word or two?
 ------------------------
-Many hours of time have been lost over this discussion.  Finally we tried to document how we see it in [Things That Should Be Obvious, But Are Not](https://github.com/naveegoinc/developers/blob/master/docs/obvious_but_not.md).  Bottom line is that it is probably two words, but we find it very hard to put a capital 'P' in our variable names `dataPoint`. 
+Many hours of time have been lost over this discussion.  Finally we tried to document how we see it in [Things That Should Be Obvious, But Are Not](https://github.com/naveegoinc/developers/blob/master/docs/obvious_but_not.md).  Bottom line is that it is probably two words, but we find it very hard to put a capital `P` in our variable names `dataPoint`. 
 
 Identity
 -------------------------
