@@ -18,12 +18,24 @@ service Publisher {
     rpc ConnectSession (ConnectRequest) returns (stream ConnectResponse) {
     }
 
+    // (DEPRECATED) Requests a listing of schemas this publisher can provide records for.
+    rpc DiscoverShapes (DiscoverSchemasRequest) returns (DiscoverSchemasResponse) {
+        option deprecated = true;
+    }
+
     // Requests a listing of schemas this publisher can provide records for.
     rpc DiscoverSchemas (DiscoverSchemasRequest) returns (DiscoverSchemasResponse) {
     }
+
+    // (DEPRECATED) PublishStream begins streaming records to the client from the plugin.
+    rpc PublishStream (ReadRequest) returns (stream Record) {
+        option deprecated = true;
+    }
+
     // ReadStream begins streaming records to the client from the plugin.
     rpc ReadStream (ReadRequest) returns (stream Record) {
     }
+
     // Tells the plugin to disconnect from its data source, stop any running publishes,
     // and gracefully prepare to be shut down.
     rpc Disconnect (DisconnectRequest) returns (DisconnectResponse) {
@@ -95,14 +107,14 @@ message ConfigureResponse{}
 message ConnectRequest {
     // The settings the publisher should use to connect, as a JSON string.
     // The JSON will be based on the JSONSchema defined in the publisher's package.json.
-    string settings_json = 1;
+    string settings_json = 2;
 
     // OAuth configuration information which the plugin may need to
     // obtain an access token using the OAuth state.
-    OAuthConfiguration oauth_configuration = 2;
+    OAuthConfiguration oauth_configuration = 3;
 
     // The OAuth state returned from the last Connect, ConnectSession, or CompleteOAuthFlow.
-    string oauth_state_json = 3;
+    string oauth_state_json = 4;
 }
 
 // Connection result information.
@@ -135,20 +147,20 @@ message ReadRequest {
     repeated PublishFilter filters = 3;
 
     // Settings for real time publishing, if any.
-    string real_time_settings_json = 4;
+    string real_time_settings_json = 6;
 
     // State object from the last published record from the
     // connection used for this publish request.
-    string real_time_state_json = 5;
+    string real_time_state_json = 7;
 
     // ID for the job which contains the schema, the connection used
     // to connect before starting this job, the real time settings and state,
     // and so on. Can be used to persist local state between publishes.
-    string job_id = 6;
+    string job_id = 8;
 
     // The data_version is a counter that will be incremented whenever
     // all data produced for a particular job_id should be discarded.    
-    uint32 data_version = 7;
+    uint32 data_version = 9;
 }
 
 message PublishFilter {
