@@ -440,13 +440,14 @@ message CompleteOAuthFlowResponse {
 message ConfigureWriteRequest {
     // The form state for the request.
     ConfigurationFormRequest form = 1;
-
-    // The schema (schema) which is being targeted for write backs.
-    Schema schema = 2;
 }
 
 message ConfigureWriteResponse {
+    // Configuration object to build the ui
     ConfigurationFormResponse form = 1;
+
+    // The schema (schema) which is being targeted for write backs.
+    Schema schema = 2;
 }
 
 message PrepareWriteRequest {
