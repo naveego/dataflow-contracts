@@ -55,6 +55,11 @@ service Publisher {
     rpc CompleteOAuthFlow (CompleteOAuthFlowRequest) returns (CompleteOAuthFlowResponse){        
     }
 
+    // Configures a write back which can be used to write back a schema to the source.
+    // This must be implemented if the plugin manifest has `canConfigureWrite` set to true.
+    rpc ConfigureWrite (ConfigureWriteRequest) returns (ConfigureWriteResponse){
+    }
+
     // Invoked to begin a write back request
     // This must be implemented if the manifest has `canWriteBack` set to true.
     rpc PrepareWrite (PrepareWriteRequest) returns (PrepareWriteResponse){
@@ -424,6 +429,18 @@ message CompleteOAuthFlowResponse {
     // JSON data containing the OAuth information the plugin wants
     // to be passed to any connect request.
     string oauth_state_json = 1; 
+}
+
+message ConfigureWriteRequest {
+    // The form state for the request.
+    ConfigurationFormRequest form = 1;
+
+    // The schema (schema) which is being targeted for write backs.
+    Schema schema = 2;
+}
+
+message ConfigureWriteResponse {
+    ConfigurationFormResponse form = 1;
 }
 
 message PrepareWriteRequest {
