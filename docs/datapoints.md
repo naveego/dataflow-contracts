@@ -1,5 +1,12 @@
-# Datapoints
+# Datapoints <!-- omit in toc --> 
 This document defines everything you need to know about data points.  
+
+- [Is it one word or two?](#is-it-one-word-or-two)
+- [Identity](#identity)
+  - [`id`](#id)
+  - [`rid`](#rid)
+    - [Generating the `rid`](#generating-the-rid)
+    - [How/Where are id's generated?](#howwhere-are-ids-generated)
 
 Is it one word or two?
 ------------------------
@@ -41,5 +48,47 @@ The payload is a string represntation of the key values as strings encoded as `U
 |123|456
 ```
 
-### How/Where are id's generated?
+**Golang Example**
+```go
+func NewRidComputer(tenant string, keys []string) RidComputer {
+	localKeys := make([]string,len(keys), len(keys))
+	copy(localKeys, keys)
+	sort.Strings(localKeys)
+
+	return RidComputer{
+		signingKey: []byte(fmt.Sprintf("%s:%v",tenant, localKeys)),
+		keyIDs:localKeys,
+	}
+
+
+}
+
+func (r RidComputer) ComputeRid(record Record) string {
+	h := hmac.New(sha256.New, r.signingKey)
+	for _, key := range r.keyIDs {
+		v := record[key]
+		fmt.Fprintf(h, "|%v", v)
+	}
+	b := h.Sum(nil)
+	k := base64.RawURLEncoding.EncodeToString(b)
+	return k
+}
+```
+
+**C# Example**
+```csharp
+var rid = "";
+var keyValue = (string) record.SOURCE_REFERENCE_NUM;
+var signingKey = $"{_tenantId}:{job.SchemaId}[{keyValue}]";
+var signingKeyBytes = System.Text.Encoding.UTF8.GetBytes(signingKey);
+
+using (var hmac = new HMACSHA256(signingKeyBytes))
+{
+    var ridBytes = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes($"|{keyValue}"));
+    rid = Base64UrlTextEncoder.Encode(ridBytes);
+}
+
+```
+
+#### How/Where are id's generated?
 We use [Xid]'s as our globally unique identifiers.  Identifiers are expected to be genreated on the client, and not the server.  
