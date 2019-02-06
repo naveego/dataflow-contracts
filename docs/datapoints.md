@@ -91,4 +91,4 @@ using (var hmac = new HMACSHA256(signingKeyBytes))
 ```
 
 #### How/Where are id's generated?
-We use [Xid]'s as our globally unique identifiers.  Identifiers are expected to be genreated on the client, and not the server.  
+We use [Xid](https://github.com/rs/xid)'s as our globally unique identifiers.  Identifiers are expected to be genreated on the client, and not the server.  
