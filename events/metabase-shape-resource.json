@@ -31,14 +31,7 @@
           "type": "boolean"
         },
         "security": {
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "$ref": "#/definitions/ShapePropertySecurityModel"
-            }
-          ]
+          "$ref": "#/definitions/ShapePropertySecurityModel"
         },
         "isNullable": {
           "type": "boolean"
@@ -225,24 +218,10 @@
           "type": "boolean"
         },
         "matchRule": {
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "$ref": "#/definitions/MatchRuleModel"
-            }
-          ]
+          "$ref": "#/definitions/MatchRuleModel"
         },
         "mergeRule": {
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "$ref": "#/definitions/MergeRuleModel"
-            }
-          ]
+          "$ref": "#/definitions/MergeRuleModel"
         },
         "copiedFromSchemaId": {
           "type": [
