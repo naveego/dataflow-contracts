@@ -5,17 +5,26 @@
   "properties": {
     "n": {
       "title": "Step name",
-     "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "description": "The name of the step."
     },
     "ts": {
       "title": "Timestamp",
-     "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "format": "date-time",
       "description": "Timestamp indicating when the step started."
     },
     "d": {
-     "type": ["number", "null"],
+      "type": [
+        "integer",
+        "null"
+      ],
       "title": "Duration",
       "description": "The time it took to complete the step, in nanoseconds."
     }

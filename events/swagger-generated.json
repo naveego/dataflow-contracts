@@ -1,0 +1,1176 @@
+{
+  "definitions": {
+    "DataflowEvent": {
+      "title": "DataflowEvent",
+      "x-ms-client-name": "DataflowEvent",
+      "type": "object",
+      "description": "The envelope for events on in the dataflow streams.",
+      "required": [
+        "id",
+        "cid",
+        "tid",
+        "rid"
+      ],
+      "properties": {
+        "d": {
+          "title": "Payload",
+          "x-ms-client-name": "Payload",
+          "$ref": "#/definitions/Payload"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataflowEventEmpty"
+        }
+      ]
+    },
+    "Resource": {
+      "title": "Resource",
+      "x-ms-client-name": "Resource",
+      "type": "object",
+      "discriminator": "typ",
+      "description": "A representation of a resource provided by some microservice.",
+      "required": [
+        "typ",
+        "id",
+        "version",
+        "name"
+      ],
+      "properties": {
+        "typ": {
+          "title": "Type",
+          "x-ms-client-name": "Type",
+          "type": "string",
+          "description": "The type, used to discriminate between payloads."
+        },
+        "id": {
+          "title": "Id",
+          "x-ms-client-name": "Id",
+          "type": "string"
+        },
+        "nrn": {
+          "title": "Nrn",
+          "x-ms-client-name": "Nrn",
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The Naveego Resource Name of the resource. Format is \"nrn:{domain}:[tenant]:{microservice}:{type}:{id}[@version]\"."
+        },
+        "name": {
+          "title": "Name",
+          "x-ms-client-name": "Name",
+          "type": "string",
+          "description": "The display name of the resource."
+        },
+        "version": {
+          "title": "Version",
+          "x-ms-client-name": "Version",
+          "type": "number",
+          "description": "The version of the resource."
+        },
+        "createdAt": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "date-time"
+        },
+        "createdBy": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "updatedAt": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "date-time"
+        },
+        "updatedBy": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "deletedAt": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "date-time"
+        },
+        "deletedBy": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "ResourceStatus": {
+      "title": "ResourceStatus",
+      "x-ms-client-name": "ResourceStatus",
+      "type": "object",
+      "discriminator": "typ",
+      "description": "A representation of the status of a resource provided by some microservice.",
+      "required": [
+        "typ"
+      ],
+      "properties": {
+        "typ": {
+          "title": "Type",
+          "x-ms-client-name": "Type",
+          "type": "string",
+          "description": "The type, used to discriminate between payloads."
+        },
+        "updatedAt": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "date-time"
+        },
+        "updatedBy": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "DataflowEventEmpty": {
+      "title": "DataflowEventEmpty",
+      "x-ms-client-name": "DataflowEventEmpty",
+      "type": "object",
+      "description": "The metadata for events on in the dataflow streams, with no payload.",
+      "required": [
+        "id",
+        "cid",
+        "tid",
+        "rid"
+      ],
+      "properties": {
+        "id": {
+          "title": "ID",
+          "x-ms-client-name": "ID",
+          "type": "string",
+          "description": "A unique identifier for the event.",
+          "minLength": 20
+        },
+        "tid": {
+          "title": "TenantID",
+          "x-ms-client-name": "TenantID",
+          "type": "string",
+          "description": "The ID of the tenant this event belongs to.",
+          "minLength": 1
+        },
+        "sid": {
+          "title": "SourceID",
+          "x-ms-client-name": "SourceID",
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The NRN of the source that generated this event."
+        },
+        "jid": {
+          "title": "JobID",
+          "x-ms-client-name": "JobID",
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The NRN of the job that generated this event."
+        },
+        "bid": {
+          "title": "BatchID",
+          "x-ms-client-name": "BatchID",
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The NRN of the batch (run of a job) that generated this event."
+        },
+        "rid": {
+          "title": "RecordID",
+          "x-ms-client-name": "RecordID",
+          "type": "string",
+          "description": "A value that uniquely represents the record or resource most relevent to the event."
+        },
+        "rids": {
+          "title": "RecordIDs",
+          "x-ms-client-name": "RecordIDs",
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The RID value for each event bundled into this event.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cid": {
+          "title": "CorrelationID",
+          "x-ms-client-name": "CorrelationID",
+          "type": "string",
+          "description": "A value used to track the event's movement through the system and to assign causality."
+        },
+        "m": {
+          "title": "Metadata",
+          "x-ms-client-name": "Metadata",
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "Metadata to be transferred with the event.",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "trc": {
+          "title": "Traces",
+          "x-ms-client-name": "Traces",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Trace"
+          }
+        }
+      }
+    },
+    "DataflowEventWithDatapoint": {
+      "title": "DataflowEventWithDataPoint",
+      "x-ms-client-name": "DataflowEventWithDataPoint",
+      "type": "object",
+      "description": "The envelope for a dataflow-event which always will only have datapoint as the payload.",
+      "properties": {
+        "d": {
+          "title": "Payload",
+          "x-ms-client-name": "Payload",
+          "$ref": "#/definitions/DataPoint"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataflowEventEmpty"
+        }
+      ]
+    },
+    "Payload": {
+      "title": "Payload",
+      "x-ms-client-name": "Payload",
+      "type": "object",
+      "discriminator": "typ",
+      "description": "The envelope for events on in the dataflow streams.",
+      "required": [
+        "typ"
+      ],
+      "properties": {
+        "typ": {
+          "title": "The type, used to discriminate between payloads.",
+          "x-ms-client-name": "The type, used to discriminate between payloads.",
+          "type": "string"
+        },
+        "m": {
+          "title": "Metadata",
+          "x-ms-client-name": "Metadata",
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "Metadata defined as part of the payload, used when components need to add custom info to standard payloads."
+        }
+      }
+    },
+    "Trace": {
+      "type": "object",
+      "description": "A trace records stats for a step that an event has gone through.",
+      "properties": {
+        "n": {
+          "title": "Step name",
+          "x-ms-client-name": "Step name",
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The name of the step."
+        },
+        "ts": {
+          "title": "Timestamp",
+          "x-ms-client-name": "Timestamp",
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Timestamp indicating when the step started.",
+          "format": "date-time"
+        },
+        "d": {
+          "title": "Duration",
+          "x-ms-client-name": "Duration",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The time it took to complete the step, in nanoseconds."
+        }
+      }
+    },
+    "Heartbeat": {
+      "description": "A tracer used for monitoring latency and providing a keep-alive heartbeat for long-running jobs.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
+    "DataPoint": {
+      "title": "DataPoint",
+      "x-ms-client-name": "DataPoint",
+      "type": "object",
+      "description": "DataPoint is an object containing arbitrary data.",
+      "properties": {
+        "a": {
+          "title": "Action",
+          "x-ms-client-name": "Action",
+          "type": "string",
+          "enum": [
+            "ins",
+            "ups",
+            "upd",
+            "del"
+          ],
+          "x-ms-enum": {
+            "name": "DataPointAction",
+            "modelAsString": true
+          }
+        },
+        "s": {
+          "title": "ShapeID",
+          "x-ms-client-name": "ShapeID",
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The ShapeID@Version of the shape to which this datapoint belongs."
+        },
+        "z": {
+          "title": "SchemaID",
+          "x-ms-client-name": "SchemaID",
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The SchemaID@Version of the schema which produced the original record this datapoint was mapped from."
+        },
+        "c": {
+          "title": "ConnectionID",
+          "x-ms-client-name": "ConnectionID",
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The ConnectionID@Version of the connection used to produce this data point."
+        },
+        "d": {
+          "title": "Data",
+          "x-ms-client-name": "Data",
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The data for this data point.",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "zd": {
+          "title": "SchemaData",
+          "x-ms-client-name": "SchemaData",
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "Data from the original record which has been captured in this datapoint to facilitate writebacks or lineage analysis.",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "enr": {
+          "title": "EnrichedData",
+          "x-ms-client-name": "EnrichedData",
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "Enriched data for this data point.",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
+    "BatchStart": {
+      "title": "BatchStart",
+      "x-ms-client-name": "BatchStart",
+      "type": "object",
+      "description": "Start indicates a batch has started.",
+      "properties": {
+        "maxDurationSeconds": {
+          "title": "MaxDurationSeconds",
+          "x-ms-client-name": "MaxDurationSeconds",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The maximum time this batch should take to complete, in seconds."
+        },
+        "count": {
+          "title": "Expected count",
+          "x-ms-client-name": "Expected count",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Optional; the number of records expected in this job, if it can be predicted."
+        },
+        "rate": {
+          "title": "Expected rate",
+          "x-ms-client-name": "Expected rate",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Optional; the maximum number of milliseconds expected between data points or heartbeats. If the rate is provided the receiver will be able to detect timeouts more accurately."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
+    "BatchEnd": {
+      "title": "BatchEnd",
+      "x-ms-client-name": "BatchEnd",
+      "type": "object",
+      "description": "End indicates a batch has ended.",
+      "properties": {
+        "count": {
+          "title": "Count",
+          "x-ms-client-name": "Count",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The number of records the batch thinks it sent, so that receivers can detect data loss."
+        },
+        "reason": {
+          "title": "Reason",
+          "x-ms-client-name": "Reason",
+          "description": "Specifies the reason the job ended.",
+          "enum": [
+            "completed",
+            "failed",
+            "stopped"
+          ],
+          "x-ms-enum": {
+            "name": "BatchEndReason",
+            "modelAsString": true
+          },
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "x-ms-client-name": "Message",
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "A message about why the job ended. Usually only relevent if the job failed."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
+    "BadRecord": {
+      "title": "BadRecord",
+      "x-ms-client-name": "BadRecord",
+      "type": "object",
+      "description": "BadRecord represents a record that had some problem at some step. The data point should be propegated but no step should attempt any further processing.",
+      "properties": {
+        "dataPoint": {
+          "description": "The original data point, before something went wrong.",
+          "$ref": "#/definitions/DataPoint"
+        },
+        "errorStep": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Something that identifies the step where the problem happend."
+        },
+        "error": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "problems": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "Problems that individual properties in the record had.",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
+    "ResourcePayload": {
+      "title": "ResourcePayload",
+      "x-ms-client-name": "ResourcePayload",
+      "type": "object",
+      "description": "Payload for resource-specific events.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
+    "ResourceCreated": {
+      "title": "ResourceCreated",
+      "x-ms-client-name": "ResourceCreated",
+      "type": "object",
+      "description": "Emitted when a resource is created.",
+      "properties": {
+        "r": {
+          "title": "Resource",
+          "x-ms-client-name": "Resource",
+          "description": "The resource which was created.",
+          "$ref": "#/definitions/Resource"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourcePayload"
+        }
+      ]
+    },
+    "ResourceDeleted": {
+      "title": "ResourceDeleted",
+      "x-ms-client-name": "ResourceDeleted",
+      "type": "object",
+      "description": "Emitted when a resource is deleted.",
+      "properties": {
+        "r": {
+          "title": "Resource",
+          "x-ms-client-name": "Resource",
+          "description": "The resource which was deleted.",
+          "$ref": "#/definitions/Resource"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourcePayload"
+        }
+      ]
+    },
+    "ResourceUpdated": {
+      "title": "ResourceUpdated",
+      "x-ms-client-name": "ResourceUpdated",
+      "type": "object",
+      "description": "Emitted when a resource is updated.",
+      "properties": {
+        "b": {
+          "title": "Before",
+          "x-ms-client-name": "Before",
+          "description": "The state of the resource before the change.",
+          "$ref": "#/definitions/Resource"
+        },
+        "a": {
+          "title": "After",
+          "x-ms-client-name": "After",
+          "description": "The state of the resource after the change.",
+          "$ref": "#/definitions/Resource"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourcePayload"
+        }
+      ]
+    },
+    "ResourceDefinitions": {},
+    "ResourceStatusPayload": {
+      "title": "ResourceStatusPayload",
+      "x-ms-client-name": "ResourceStatusPayload",
+      "type": "object",
+      "description": "Payload for resource-specific status events.",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "x-ms-client-name": "ID",
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The ID of the resource this status belongs to."
+        },
+        "status": {
+          "$ref": "#/definitions/ResourceStatus"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
+    "ResourceStatusDefinitions": {},
+    "MatchGroup": {
+      "title": "MatchGroup",
+      "x-ms-client-name": "MatchGroup",
+      "type": "object",
+      "discriminator": "typ",
+      "description": "A representation of a match group provided by some microservice.",
+      "required": [
+        "typ",
+        "id",
+        "ruleId",
+        "dataPoints"
+      ],
+      "properties": {
+        "typ": {
+          "title": "Type",
+          "x-ms-client-name": "Type",
+          "type": "string",
+          "description": "The type, used to discriminate between payloads."
+        },
+        "id": {
+          "title": "Id",
+          "x-ms-client-name": "Id",
+          "type": "string"
+        },
+        "ruleId": {
+          "title": "RuleId",
+          "x-ms-client-name": "RuleId",
+          "type": "string"
+        },
+        "dataPoints": {
+          "title": "DataPoints",
+          "x-ms-client-name": "DataPoints",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataflowEventWithDatapoint"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
+    "CompositeRecord": {
+      "title": "CompositeRecord",
+      "x-ms-client-name": "CompositeRecord",
+      "type": "object",
+      "discriminator": "typ",
+      "description": "A representation of a composite record provided by some microservice.",
+      "required": [
+        "typ",
+        "recordId",
+        "ShapeId",
+        "tenantId",
+        "data",
+        "owners",
+        "versions"
+      ],
+      "properties": {
+        "typ": {
+          "title": "Type",
+          "x-ms-client-name": "Type",
+          "type": "string",
+          "description": "The type, used to discriminate between payloads."
+        },
+        "recordId": {
+          "title": "RecordId",
+          "x-ms-client-name": "RecordId",
+          "type": "string"
+        },
+        "shapeId": {
+          "title": "ShapeId",
+          "x-ms-client-name": "ShapeId",
+          "type": "string"
+        },
+        "tenantId": {
+          "title": "TenantId",
+          "x-ms-client-name": "TenantId",
+          "type": "string"
+        },
+        "createdAt": {
+          "title": "CreatedAt",
+          "x-ms-client-name": "CreatedAt",
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "date-time"
+        },
+        "modifiedAt": {
+          "title": "ModifiedAt",
+          "x-ms-client-name": "ModifiedAt",
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "date-time"
+        },
+        "data": {
+          "title": "Data",
+          "x-ms-client-name": "Data",
+          "type": "object"
+        },
+        "owners": {
+          "title": "Owners",
+          "x-ms-client-name": "Owners",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "versions": {
+          "title": "Versions",
+          "x-ms-client-name": "Versions",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataflowEventWithDatapoint"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
+    "MetabaseShapeResource": {
+      "title": "MetabaseShapeResource",
+      "x-ms-client-name": "MetabaseShapeResource",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "properties": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/definitions/ShapePropertyModel"
+              }
+            },
+            "labels": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "isMdmShape": {
+              "type": "boolean"
+            },
+            "matchRule": {
+              "$ref": "#/definitions/MatchRuleModel"
+            },
+            "mergeRule": {
+              "$ref": "#/definitions/MergeRuleModel"
+            },
+            "copiedFromSchemaId": {
+              "type": [
+                "null",
+                "string"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "ShapePropertyModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "description": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "type": {
+          "title": "PropertyType",
+          "x-ms-client-name": "PropertyType",
+          "$ref": "#/definitions/PropertyType"
+        },
+        "isUnique": {
+          "type": "boolean"
+        },
+        "security": {
+          "$ref": "#/definitions/ShapePropertySecurityModel"
+        },
+        "isNullable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PropertyType": {
+      "title": "PropertyType",
+      "x-ms-client-name": "PropertyType",
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "String",
+        "Bool",
+        "Integer",
+        "Float",
+        "Decimal",
+        "Date",
+        "Time",
+        "Datetime",
+        "Text",
+        "Blob",
+        "Json"
+      ],
+      "enum": [
+        "string",
+        "bool",
+        "integer",
+        "float",
+        "decimal",
+        "date",
+        "time",
+        "datetime",
+        "text",
+        "blob",
+        "json"
+      ],
+      "x-ms-enum": {
+        "name": "PropertyType",
+        "modelAsString": true
+      }
+    },
+    "ShapePropertySecurityModel": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "$ref": "#/definitions/SecurityAlgorithm"
+        },
+        "keyStorage": {
+          "$ref": "#/definitions/SecurityKeyStorage"
+        },
+        "key": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "SecurityAlgorithm": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "None",
+        "Aesgcm",
+        "Sha256Hmac"
+      ],
+      "enum": [
+        "none",
+        "aesgcm",
+        "sha256Hmac"
+      ]
+    },
+    "SecurityKeyStorage": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Vault",
+        "File"
+      ],
+      "enum": [
+        "vault",
+        "file"
+      ]
+    },
+    "MatchRuleModel": {
+      "type": "object",
+      "required": [
+        "shapeId",
+        "version",
+        "mcl",
+        "type"
+      ],
+      "properties": {
+        "shapeId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "mcl": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "settings": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "additionalProperties": {}
+        }
+      }
+    },
+    "MergeRuleModel": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "properties": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/PropertyMergeRule"
+          }
+        }
+      }
+    },
+    "PropertyMergeRule": {
+      "type": "object",
+      "properties": {
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "connections": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "swagger": "2.0",
+  "info": {
+    "title": "Swagger for Dataflow Events",
+    "version": "1.0.0",
+    "description": "This is a swagger for dataflow events. There's no actual API for this, it's just to help with client generation and documentation."
+  },
+  "host": "kafka:9092",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/{tenant}/go-between/ingestion": {
+      "post": {
+        "operationId": "sync",
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Expects events with payloads including DataPoint, BatchStart, BatchEnd, Heartbeat, and BadRecord.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenant",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        }
+      }
+    },
+    "/{tenant}/matching/groups": {
+      "post": {
+        "operationId": "matchingGroups",
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Expects events with a Group payload.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenant",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        }
+      }
+    },
+    "/{tenant}/mdm/compositerecords": {
+      "post": {
+        "operationId": "mdmCompositeRecords",
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Expects events with a CompositeRecord payload.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenant",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        }
+      }
+    },
+    "/{tenant}/metabase/{resource}/changes": {
+      "post": {
+        "operationId": "metabaseResourceChanges",
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Expects events with a ResourcePayload payload: ResourceUpdated, ResourceCreated, or ResourceDeleted.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenant",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "resource",
+            "required": true,
+            "description": "The type of the resource.",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/DataflowEvent"
+            }
+          }
+        }
+      }
+    }
+  }
+}
