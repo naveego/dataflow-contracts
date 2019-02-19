@@ -9,7 +9,7 @@
   "required": [
     "typ",
     "recordId",
-    "ShapeId",
+    "shapeId",
     "tenantId",
     "data",
     "owners",
@@ -45,7 +45,8 @@
     },
     "data": {
       "type": "object",
-      "title": "Data"
+      "title": "Data",
+      "additionalProperties": {}
     },
     "owners": {
       "type": "object",
