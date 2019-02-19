@@ -13,26 +13,22 @@
     "maxDurationSeconds": {
       "title": "MaxDurationSeconds",
       "description": "The maximum time this batch should take to complete, in seconds.",
-      "type": [
-        "integer",
-        "null"
-      ]
+      "type": ["integer", "null"]
     },
     "count": {
-      "type": [
-        "integer",
-        "null"
-      ],
+      "type": ["integer", "null"],
       "title": "Expected count",
       "description": "Optional; the number of records expected in this job, if it can be predicted."
     },
     "rate": {
-      "type": [
-        "integer",
-        "null"
-      ],
+      "type": ["integer", "null"],
       "title": "Expected rate",
       "description": "Optional; the maximum number of milliseconds expected between data points or heartbeats. If the rate is provided the receiver will be able to detect timeouts more accurately."
+    },
+    "v": {
+      "type": "integer",
+      "title": "DataVersion",
+      "description": "A monotonically increasing number which is incremented when data from previous batches of this job should be discarded."
     }
   }
 }
