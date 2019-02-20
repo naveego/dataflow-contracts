@@ -205,7 +205,8 @@ message DiscoverSchemasResponse {
 message Schema {
     enum DataFlowDirection {
         READ = 0;
-        WRITE =1;
+        WRITE = 1;
+        READ_WRITE = 2;
     }
     // ID that the plugin uses to uniquely identify this schema.
     string id = 1;
