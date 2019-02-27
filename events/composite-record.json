@@ -58,6 +58,13 @@
       "items": {
         "$ref": "dataflow-event-with-datapoint.json"
       }
+    },
+    "cpids": {
+      "type": ["array", "null"],
+      "title": "ChangedPropertyIds",
+      "items": {
+        "type": "string"
+      }
     }
   }
 }
