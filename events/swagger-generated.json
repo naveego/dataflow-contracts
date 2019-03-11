@@ -911,7 +911,10 @@
       ]
     },
     "ShapePropertySecurityModel": {
-      "type": "object",
+      "type": [
+        "null",
+        "object"
+      ],
       "properties": {
         "algorithm": {
           "$ref": "#/definitions/SecurityAlgorithm"
