@@ -779,6 +779,17 @@
           "items": {
             "$ref": "#/definitions/DataflowEventWithDatapoint"
           }
+        },
+        "cpids": {
+          "title": "ChangedPropertyIds",
+          "x-ms-client-name": "ChangedPropertyIds",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
         }
       },
       "allOf": [
