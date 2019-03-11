@@ -22,7 +22,10 @@
           "type": "boolean"
         },
         "security": {
-          "$ref": "#/definitions/ShapePropertySecurityModel"
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/definitions/ShapePropertySecurityModel" }
+          ]
         },
         "isNullable": {
           "type": "boolean"
