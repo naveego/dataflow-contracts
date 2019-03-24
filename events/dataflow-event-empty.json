@@ -2,7 +2,7 @@
   "title": "DataflowEventEmpty",
   "type": "object",
   "description": "The metadata for events on in the dataflow streams, with no payload.",
-  "required": ["id", "cid", "tid", "rid"],
+  "required": ["id", "cid", "tid"],
   "properties": {
     "id": {
       "type": "string",
