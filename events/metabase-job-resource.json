@@ -1,0 +1,423 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "MetabaseJobResource",
+  "definitions": {
+    "ScheduleModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ScheduleType"
+        },
+        "cron": {
+          "type": ["null", "string"]
+        },
+        "pointInTime": {
+          "type": ["null", "string"],
+          "format": "date-time"
+        },
+        "description": {
+          "type": ["null", "string"]
+        },
+        "realTimeSettings": {
+          "$ref": "#/definitions/RealTimeSettings"
+        }
+      }
+    },
+    "ScheduleType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Never",
+        "Immediate",
+        "OnDemand",
+        "Once",
+        "Interval",
+        "Cron",
+        "RealTime",
+        "Always"
+      ],
+      "enum": [
+        "never",
+        "immediate",
+        "onDemand",
+        "once",
+        "interval",
+        "cron",
+        "realTime",
+        "always"
+      ]
+    },
+    "RealTimeSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stateCheckpointInterval": {
+          "type": ["null", "string"]
+        },
+        "settings": {
+          "$ref": null
+        },
+        "schema": {
+          "$ref": null
+        },
+        "uiSchema": {
+          "$ref": null
+        }
+      }
+    },
+    "PropertyMappingModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fromPropertyId", "toPropertyId"],
+      "properties": {
+        "fromPropertyId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "toPropertyId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fromPropertyMeaning": {
+          "$ref": "#/definitions/PropertyIdMeaning"
+        },
+        "toPropertyMeaning": {
+          "$ref": "#/definitions/PropertyIdMeaning"
+        },
+        "transform": {
+          "$ref": "#/definitions/TransformModel"
+        },
+        "transforms": {
+          "type": ["array", "null"],
+          "items": {
+            "$ref": "#/definitions/TransformModel"
+          }
+        }
+      }
+    },
+    "PropertyIdMeaning": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "PrimaryDataPropertyId",
+        "SchemaDataPropertyId",
+        "EnrichedDataPropertyId"
+      ],
+      "enum": [
+        "primaryDataPropertyId",
+        "schemaDataPropertyId",
+        "enrichedDataPropertyId"
+      ]
+    },
+    "TransformModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "transformId": {
+          "type": ["null", "string"]
+        },
+        "format": {
+          "type": ["null", "string"]
+        }
+      }
+    },
+    "JobType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": ["Read", "Write", "Profiling", "QualityCheck"],
+      "enum": ["read", "write", "profiling", "qualityCheck"]
+    },
+    "WritebackModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["writebackId"],
+      "properties": {
+        "writebackId": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "JobStatus": {
+      "allOf": [
+        {
+          "$ref": "resource-status.json"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "goBetween": {
+              "$ref": "#/definitions/JobStatusGoBetweenScope"
+            },
+            "realTime": {
+              "$ref": "#/definitions/RealTimeStateScope"
+            }
+          }
+        }
+      ]
+    },
+    "JobStatusGoBetweenScope": {
+      "allOf": [
+        {
+          "$ref": "resource-status.json"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "error": {
+              "type": ["null", "string"]
+            },
+            "message": {
+              "type": ["null", "string"]
+            },
+            "startCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "successCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "consecutiveFailureCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "state": {
+              "type": ["null", "string"]
+            },
+            "nextRunAt": {
+              "type": ["null", "string"],
+              "format": "date-time"
+            },
+            "previousRunAt": {
+              "type": ["null", "string"],
+              "format": "date-time"
+            },
+            "scheduledOn": {
+              "type": ["null", "string"]
+            },
+            "scheduledAt": {
+              "type": ["null", "string"],
+              "format": "date-time"
+            }
+          }
+        }
+      ]
+    },
+    "ResourceStatus": {
+      "discriminator": {
+        "propertyName": "discriminator",
+        "mapping": {
+          "JobStatusGoBetweenScope": {
+            "$ref": "#/definitions/JobStatusGoBetweenScope"
+          },
+          "RealTimeStateScope": {
+            "$ref": "#/definitions/RealTimeStateScope"
+          },
+          "JobStatus": {
+            "$ref": "#/definitions/JobStatus"
+          },
+          "BatchStatusGoBetweenScope": {
+            "$ref": "#/definitions/BatchStatusGoBetweenScope"
+          },
+          "BatchStatus": {
+            "$ref": "#/definitions/BatchStatus"
+          }
+        }
+      },
+      "required": ["discriminator"],
+      "properties": {
+        "discriminator": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/StatusBase"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false
+        }
+      ]
+    },
+    "StatusBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resourceId": {
+          "type": ["null", "string"]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedBy": {
+          "type": ["null", "string"]
+        }
+      }
+    },
+    "RealTimeStateScope": {
+      "allOf": [
+        {
+          "$ref": "resource-status.json"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "realTimeState": {
+              "type": ["null", "string"]
+            }
+          }
+        }
+      ]
+    },
+    "BatchModel": {
+      "allOf": [
+        {
+          "$ref": "resource.json"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["jobId"],
+          "properties": {
+            "jobId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "$ref": "#/definitions/BatchStatus"
+            }
+          }
+        }
+      ]
+    },
+    "BatchStatus": {
+      "allOf": [
+        {
+          "$ref": "resource-status.json"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "goBetweenAgent": {
+              "$ref": "#/definitions/BatchStatusGoBetweenScope"
+            }
+          }
+        }
+      ]
+    },
+    "BatchStatusGoBetweenScope": {
+      "allOf": [
+        {
+          "$ref": "resource-status.json"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "startedOnAgent": {
+              "type": ["null", "string"]
+            },
+            "startedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "expectedToEndBefore": {
+              "type": ["null", "string"],
+              "format": "date-time"
+            },
+            "endedAt": {
+              "type": ["null", "string"],
+              "format": "date-time"
+            },
+            "expectedCount": {
+              "type": ["integer", "null"],
+              "format": "int32"
+            },
+            "dataPointsPerMinute": {
+              "type": "number",
+              "format": "double"
+            },
+            "count": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "badRecordCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "endedReason": {
+              "type": ["null", "string"]
+            },
+            "endedMessage": {
+              "type": ["null", "string"]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "resource.json"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["propertyMappings", "type"],
+      "properties": {
+        "schedule": {
+          "$ref": "#/definitions/ScheduleModel"
+        },
+        "connectionId": {
+          "type": ["null", "string"]
+        },
+        "schemaId": {
+          "type": ["null", "string"]
+        },
+        "shapeId": {
+          "type": ["null", "string"]
+        },
+        "agentId": {
+          "type": ["null", "string"]
+        },
+        "canRunInCloud": {
+          "type": "boolean"
+        },
+        "dataVersion": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "propertyMappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PropertyMappingModel"
+          }
+        },
+        "type": {
+          "minLength": 1,
+          "$ref": "#/definitions/JobType"
+        },
+        "isPaused": {
+          "type": "boolean"
+        },
+        "writeback": {
+          "$ref": "#/definitions/WritebackModel"
+        },
+        "status": {
+          "$ref": "#/definitions/JobStatus"
+        },
+        "latestBatch": {
+          "$ref": "#/definitions/BatchModel"
+        }
+      }
+    }
+  ]
+}
