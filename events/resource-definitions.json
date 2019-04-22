@@ -2,6 +2,9 @@
   "definitions": {
     "MetabaseShapeResource": {
       "$ref": "metabase-shape-resource.json"
+    },
+    "MetabaseJobResource": {
+      "$ref": "metabase-job-resource.json"
     }
   }
 }
