@@ -1,0 +1,29 @@
+{
+  "$id": "https://naveego.com/mass-sync-job.json",
+  "title": "MassSyncJob",
+  "type": "object",
+  "description": "Mass sync job indicates that a mass sync job has been requested.",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "$ref": "payload.json"
+    }
+  ],
+  "properties": {
+    "schemaID": {
+      "type": "string",
+      "title": "SchemaID",
+      "description": "The target schema id."
+    },
+    "shapeID": {
+      "type": "string",
+      "title": "ShapeID",
+      "description": "The target shape id."
+    },
+    "jobID": {
+      "type": "string",
+      "title": "JobID",
+      "description": "The id of the target writeback job."
+    }
+  }
+}

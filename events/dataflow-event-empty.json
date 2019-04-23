@@ -54,7 +54,7 @@
       "title": "Metadata",
       "description": "Metadata to be transferred with the event.",
       "additionalProperties": {
-        "type": "object"
+        "type": "string"
       }
     },
     "trc": {

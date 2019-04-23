@@ -12,10 +12,12 @@
       "title": "The type, used to discriminate between payloads."
     },
     "m": {
-     "type": ["object", "null"],
+      "type": ["object", "null"],
       "title": "Metadata",
       "description": "Metadata defined as part of the payload, used when components need to add custom info to standard payloads.",
-      "additionalProperties": true
+      "additionalProperties": {
+        "type": "string"
+      }
     }
   }
 }
