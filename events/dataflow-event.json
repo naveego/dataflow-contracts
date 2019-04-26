@@ -58,6 +58,9 @@
     },
     "CompositeRecord": {
       "$ref": "composite-record.json"
+    },
+    "MassSyncJob": {
+      "$ref": "mass-sync-job.json"
     }
   }
 }
