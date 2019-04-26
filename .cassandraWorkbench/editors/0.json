@@ -1,1 +1,0 @@
-{"body":"  SELECT *\n  FROM vandelay.mdm_composites\n  where tenant_id = 'vandelay'\n  and shape_id = 'bjw7nc5jvh500003pva0@4'\n  LIMIT 500;","clusterName":null,"filename":"script_2.cql","id":"vBTxbjzWSnYh4aZc","keyspace":null,"modified":true,"source":"action"}
