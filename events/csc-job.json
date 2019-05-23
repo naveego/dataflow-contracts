@@ -1,0 +1,24 @@
+{
+  "$id": "https://naveego.com/mass-sync-job.json",
+  "title": "CSCJob",
+  "type": "object",
+  "description": "CSC job indicates that a csc job has been requested.",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "$ref": "payload.json"
+    }
+  ],
+  "properties": {
+    "shapeID": {
+      "type": "string",
+      "title": "ShapeID",
+      "description": "The target shape id."
+    },
+    "qualityCheckID": {
+      "type": "string",
+      "title": "qualityCheckID",
+      "description": "The target quality check id."
+    }
+  }
+}
