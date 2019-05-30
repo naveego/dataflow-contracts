@@ -1,5 +1,5 @@
 {
-  "$id": "https://naveego.com/mass-sync-job.json",
+  "$id": "https://naveego.com/csc-job.json",
   "title": "CSCJob",
   "type": "object",
   "description": "CSC job indicates that a csc job has been requested.",
