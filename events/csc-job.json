@@ -14,11 +14,6 @@
       "type": "string",
       "title": "ShapeID",
       "description": "The target shape id."
-    },
-    "qualityCheckID": {
-      "type": "string",
-      "title": "qualityCheckID",
-      "description": "The target quality check id."
     }
   }
 }
