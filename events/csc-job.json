@@ -1,0 +1,19 @@
+{
+  "$id": "https://naveego.com/csc-job.json",
+  "title": "CSCJob",
+  "type": "object",
+  "description": "CSC job indicates that a csc job has been requested.",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "$ref": "payload.json"
+    }
+  ],
+  "properties": {
+    "shapeID": {
+      "type": "string",
+      "title": "ShapeID",
+      "description": "The target shape id."
+    }
+  }
+}
