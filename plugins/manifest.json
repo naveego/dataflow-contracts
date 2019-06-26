@@ -1,111 +1,139 @@
 {
-  "definitions": {
-    "FormSchema": {
-      "properties": {
-        "schema": {
-          "type": "object"
-        },
-        "ui": {
-          "type": "object"
-        }
-      }
-    }
-  },
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
   "properties": {
+    "accessGroups": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Access groups that have access to this plugin. If empty all have access."
+    },
     "apiVersion": {
-      "description": "Go-between API version supported. Should be set to 2 for new plugins.",
-      "type": "string"
+      "type": "string",
+      "description": "Go-between API version supported. Should be set to \"3\" for new plugins."
     },
     "arch": {
-      "description": "The architecture a specific package can support. This is derived from the package file name and does not need to be set in the manifest.",
-      "type": "string"
+      "type": "string",
+      "description": "The architecture a specific package can support. This is derived from the package file name and does not need to be set in the manifest."
     },
     "canAcceptQueryBasedSchemas": {
-      "description": "Set to true if this plugin can accept queries authored by a user.",
-      "format": "bool",
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Set to true if this plugin can accept queries authored by a user."
+    },
+    "canConfigure": {
+      "type": "boolean",
+      "description": "Set to true if this plugin implements the Configure method for setting logging levels and storage locations."
     },
     "canConfigureConnection": {
-      "description": "Set to true if this plugin can configure connections interactively. This is an alternative to setting the configSchema property. Only checked if apiVersion \u003e= 2.",
-      "format": "bool",
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Set to true if this plugin can configure connections interactively. This is an alternative to setting the configSchema property. Only checked if apiVersion \u003e= 2."
     },
     "canConfigureQuery": {
-      "description": "Set to true if this plugin supports interactively authoring queries. This is an alternative to setting the querySchema property. Only checked if apiVersion \u003e= 2.",
-      "format": "bool",
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Set to true if this plugin supports interactively authoring queries. This is an alternative to setting the querySchema property. Only checked if apiVersion \u003e= 2."
     },
     "canConfigureRealTime": {
-      "description": "Set to true if this plugin can support real time publish and configure them interactively. Only checked if apiVersion \u003e= 2",
-      "format": "bool",
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Set to true if this plugin can support real time publish and configure them interactively. Only checked if apiVersion \u003e= 2"
+    },
+    "canConfigureWrite": {
+      "type": "boolean",
+      "description": "Set to true if this plugin supports interactively authoring writeback schemas."
     },
     "canDiscoverShapes": {
-      "description": "Set to true if this plugin can discover shapes/schemas automatically. Only checked if apiVersion \u003e= 2.",
-      "format": "bool",
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Set to true if this plugin can discover shapes/schemas automatically. Only checked if apiVersion \u003e= 2."
     },
     "canProduceMultipleSchemas": {
-      "description": "Set to true if this plugin can produce multiple schemas, rather than only one.",
-      "format": "bool",
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Set to true if this plugin can produce multiple schemas, rather than only one."
     },
     "canPublish": {
-      "description": "Set to true if this plugin can publish datapoints. Only checked if apiVersion \u003e= 2.",
-      "format": "bool",
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Set to true if this plugin can publish datapoints. Only checked if apiVersion \u003e= 2."
     },
     "canUseOAuth": {
-      "description": "Set to true if this plugin uses OAuth for authentication.",
-      "format": "bool",
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Set to true if this plugin uses OAuth for authentication."
+    },
+    "canWrite": {
+      "type": "boolean",
+      "description": "Set to true if this plugin supports writing back to the data source in real time."
+    },
+    "canWriteBatch": {
+      "type": "boolean",
+      "description": "Set to true if this plugin supports writing back to the data source as a batched action (rather than in real time)."
+    },
+    "canWriteReplication": {
+      "type": "boolean",
+      "description": "Set to true if this plugin can write golden record replication data to a connection."
     },
     "configSchema": {
-      "$ref": "#/definitions/FormSchema"
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "ui": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
     },
     "description": {
-      "description": "The description to display to the user.",
-      "type": "string"
+      "type": "string",
+      "description": "The description to display to the user."
     },
     "displayName": {
-      "description": "The display name of this plugin.",
-      "type": "string"
+      "type": "string",
+      "description": "The display name of this plugin."
     },
     "executable": {
-      "description": "The path (relative to the manifest) to execute when starting the plugin.",
-      "type": "string"
+      "type": "string",
+      "description": "The path (relative to the manifest) to execute when starting the plugin."
     },
     "icon": {
-      "description": "The data-uri for the icon, alternative to setting the icon property.",
-      "type": "string"
+      "type": "string",
+      "description": "The data-uri for the icon, alternative to setting the icon property."
     },
     "iconFile": {
-      "description": "The path (relative to the manifest) to the icon to display for this plugin.",
-      "type": "string"
+      "type": "string",
+      "description": "The path (relative to the manifest) to the icon to display for this plugin."
     },
     "id": {
-      "description": "The dns-compatible name of the plugin, should be the same as the repo.",
-      "type": "string"
+      "type": "string",
+      "description": "The dns-compatible name of the plugin, should be the same as the repo."
     },
     "kind": {
-      "description": "Obsolete.",
-      "type": "string"
+      "type": "string",
+      "description": "Obsolete."
     },
     "os": {
-      "description": "The OS a specific package can support. This is derived from the package file name and does not need to be set in the manifest.",
-      "type": "string"
+      "type": "string",
+      "description": "The OS a specific package can support. This is derived from the package file name and does not need to be set in the manifest."
     },
     "querySchema": {
-      "$ref": "#/definitions/FormSchema"
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "ui": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
     },
     "version": {
-      "description": "The version of the plugin. This is derived from the package file name and does not need to be set in the manifest.",
-      "type": "string"
+      "type": "string",
+      "description": "The version of the plugin. This is derived from the package file name and does not need to be set in the manifest."
     },
     "versionDescription": {
-      "description": "Description specific to this version. Obsolete.",
-      "type": "string"
+      "type": "string",
+      "description": "Description specific to this version. Obsolete."
     }
-  },
-  "title": "Manifest"
+  }
 }

@@ -10,14 +10,23 @@
           "$ref": "#/definitions/ScheduleType"
         },
         "cron": {
-          "type": ["null", "string"]
+          "type": [
+            "null",
+            "string"
+          ]
         },
         "pointInTime": {
-          "type": ["null", "string"],
+          "type": [
+            "null",
+            "string"
+          ],
           "format": "date-time"
         },
         "description": {
-          "type": ["null", "string"]
+          "type": [
+            "null",
+            "string"
+          ]
         },
         "realTimeSettings": {
           "$ref": "#/definitions/RealTimeSettings"
@@ -53,7 +62,10 @@
       "additionalProperties": false,
       "properties": {
         "stateCheckpointInterval": {
-          "type": ["null", "string"]
+          "type": [
+            "null",
+            "string"
+          ]
         },
         "settings": {
           "$ref": null
@@ -69,7 +81,10 @@
     "PropertyMappingModel": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["fromPropertyId", "toPropertyId"],
+      "required": [
+        "fromPropertyId",
+        "toPropertyId"
+      ],
       "properties": {
         "fromPropertyId": {
           "type": "string",
@@ -89,7 +104,10 @@
           "$ref": "#/definitions/TransformModel"
         },
         "transforms": {
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "$ref": "#/definitions/TransformModel"
           }
@@ -115,23 +133,43 @@
       "additionalProperties": false,
       "properties": {
         "transformId": {
-          "type": ["null", "string"]
+          "type": [
+            "null",
+            "string"
+          ]
         },
         "format": {
-          "type": ["null", "string"]
+          "type": [
+            "null",
+            "string"
+          ]
         }
       }
     },
     "JobType": {
       "type": "string",
       "description": "",
-      "x-enumNames": ["Read", "Write", "Profiling", "QualityCheck"],
-      "enum": ["read", "write", "profiling", "qualityCheck"]
+      "x-enumNames": [
+        "Read",
+        "Write",
+        "Profiling",
+        "QualityCheck",
+        "Replication"
+      ],
+      "enum": [
+        "read",
+        "write",
+        "profiling",
+        "qualityCheck",
+        "replication"
+      ]
     },
     "WritebackModel": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["writebackId"],
+      "required": [
+        "writebackId"
+      ],
       "properties": {
         "writebackId": {
           "type": "string",
@@ -139,10 +177,79 @@
         }
       }
     },
+    "FilterModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rules": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/FilterRule"
+          }
+        }
+      }
+    },
+    "FilterRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "effect": {
+          "$ref": "#/definitions/FilterRuleEffect"
+        },
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "operatorId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "parameter": {
+          "$ref": null
+        }
+      }
+    },
+    "FilterRuleEffect": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Include",
+        "Exclude"
+      ],
+      "enum": [
+        "include",
+        "exclude"
+      ]
+    },
+    "ReplicationModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "includeVersions": {
+          "type": "boolean"
+        },
+        "settings": {
+          "$ref": null
+        },
+        "schema": {
+          "$ref": null
+        },
+        "uiSchema": {
+          "$ref": null
+        }
+      }
+    },
     "JobStatus": {
       "allOf": [
         {
-          "$ref": "resource-status.json"
+          "$ref": "#/definitions/ResourceStatus"
         },
         {
           "type": "object",
@@ -161,17 +268,23 @@
     "JobStatusGoBetweenScope": {
       "allOf": [
         {
-          "$ref": "resource-status.json"
+          "$ref": "#/definitions/ResourceStatus"
         },
         {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "error": {
-              "type": ["null", "string"]
+              "type": [
+                "null",
+                "string"
+              ]
             },
             "message": {
-              "type": ["null", "string"]
+              "type": [
+                "null",
+                "string"
+              ]
             },
             "startCount": {
               "type": "integer",
@@ -186,21 +299,36 @@
               "format": "int32"
             },
             "state": {
-              "type": ["null", "string"]
+              "type": [
+                "null",
+                "string"
+              ]
             },
             "nextRunAt": {
-              "type": ["null", "string"],
+              "type": [
+                "null",
+                "string"
+              ],
               "format": "date-time"
             },
             "previousRunAt": {
-              "type": ["null", "string"],
+              "type": [
+                "null",
+                "string"
+              ],
               "format": "date-time"
             },
             "scheduledOn": {
-              "type": ["null", "string"]
+              "type": [
+                "null",
+                "string"
+              ]
             },
             "scheduledAt": {
-              "type": ["null", "string"],
+              "type": [
+                "null",
+                "string"
+              ],
               "format": "date-time"
             }
           }
@@ -228,7 +356,9 @@
           }
         }
       },
-      "required": ["discriminator"],
+      "required": [
+        "discriminator"
+      ],
       "properties": {
         "discriminator": {
           "type": "string"
@@ -249,28 +379,37 @@
       "additionalProperties": false,
       "properties": {
         "resourceId": {
-          "type": ["null", "string"]
+          "type": [
+            "null",
+            "string"
+          ]
         },
         "updatedAt": {
           "type": "string",
           "format": "date-time"
         },
         "updatedBy": {
-          "type": ["null", "string"]
+          "type": [
+            "null",
+            "string"
+          ]
         }
       }
     },
     "RealTimeStateScope": {
       "allOf": [
         {
-          "$ref": "resource-status.json"
+          "$ref": "#/definitions/ResourceStatus"
         },
         {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "realTimeState": {
-              "type": ["null", "string"]
+              "type": [
+                "null",
+                "string"
+              ]
             }
           }
         }
@@ -284,7 +423,9 @@
         {
           "type": "object",
           "additionalProperties": false,
-          "required": ["jobId"],
+          "required": [
+            "jobId"
+          ],
           "properties": {
             "jobId": {
               "type": "string",
@@ -300,7 +441,7 @@
     "BatchStatus": {
       "allOf": [
         {
-          "$ref": "resource-status.json"
+          "$ref": "#/definitions/ResourceStatus"
         },
         {
           "type": "object",
@@ -316,29 +457,41 @@
     "BatchStatusGoBetweenScope": {
       "allOf": [
         {
-          "$ref": "resource-status.json"
+          "$ref": "#/definitions/ResourceStatus"
         },
         {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "startedOnAgent": {
-              "type": ["null", "string"]
+              "type": [
+                "null",
+                "string"
+              ]
             },
             "startedAt": {
               "type": "string",
               "format": "date-time"
             },
             "expectedToEndBefore": {
-              "type": ["null", "string"],
+              "type": [
+                "null",
+                "string"
+              ],
               "format": "date-time"
             },
             "endedAt": {
-              "type": ["null", "string"],
+              "type": [
+                "null",
+                "string"
+              ],
               "format": "date-time"
             },
             "expectedCount": {
-              "type": ["integer", "null"],
+              "type": [
+                "integer",
+                "null"
+              ],
               "format": "int32"
             },
             "dataPointsPerMinute": {
@@ -349,15 +502,36 @@
               "type": "integer",
               "format": "int32"
             },
+            "filteredCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "deflectedCount": {
+              "type": "integer",
+              "format": "int32"
+            },
             "badRecordCount": {
               "type": "integer",
               "format": "int32"
             },
             "endedReason": {
-              "type": ["null", "string"]
+              "type": [
+                "null",
+                "string"
+              ]
             },
             "endedMessage": {
-              "type": ["null", "string"]
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "badRecordSample": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {}
             }
           }
         }
@@ -371,22 +545,36 @@
     {
       "type": "object",
       "additionalProperties": false,
-      "required": ["propertyMappings", "type"],
+      "required": [
+        "type"
+      ],
       "properties": {
         "schedule": {
           "$ref": "#/definitions/ScheduleModel"
         },
         "connectionId": {
-          "type": ["null", "string"]
+          "type": [
+            "null",
+            "string"
+          ]
         },
         "schemaId": {
-          "type": ["null", "string"]
+          "type": [
+            "null",
+            "string"
+          ]
         },
         "shapeId": {
-          "type": ["null", "string"]
+          "type": [
+            "null",
+            "string"
+          ]
         },
         "agentId": {
-          "type": ["null", "string"]
+          "type": [
+            "null",
+            "string"
+          ]
         },
         "canRunInCloud": {
           "type": "boolean"
@@ -396,7 +584,10 @@
           "format": "int32"
         },
         "propertyMappings": {
-          "type": "array",
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "$ref": "#/definitions/PropertyMappingModel"
           }
@@ -410,6 +601,12 @@
         },
         "writeback": {
           "$ref": "#/definitions/WritebackModel"
+        },
+        "filter": {
+          "$ref": "#/definitions/FilterModel"
+        },
+        "replication": {
+          "$ref": "#/definitions/ReplicationModel"
         },
         "status": {
           "$ref": "#/definitions/JobStatus"
