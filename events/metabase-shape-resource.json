@@ -35,6 +35,9 @@
         },
         "isNullable": {
           "type": "boolean"
+        },
+        "isHidden": {
+          "type": "boolean"
         }
       }
     },
@@ -155,6 +158,9 @@
           "type": "integer",
           "format": "int32"
         },
+        "mergingPrerequisites": {
+          "$ref": "#/definitions/MergingPrerequisites"
+        },
         "properties": {
           "type": [
             "null",
@@ -166,7 +172,77 @@
         }
       }
     },
+    "MergingPrerequisites": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "allRequiredConnectionIdsPresent": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "oneConnectionIdMustBePresent": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "PropertyMergeRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "connections": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CompareRuleModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "properties": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/PropertyCompareRule"
+          }
+        }
+      }
+    },
+    "PropertyCompareRule": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -222,6 +298,9 @@
         },
         "mergeRule": {
           "$ref": "#/definitions/MergeRuleModel"
+        },
+        "compareRule": {
+          "$ref": "#/definitions/CompareRuleModel"
         },
         "copiedFromSchemaId": {
           "type": [
