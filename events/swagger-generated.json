@@ -8,8 +8,7 @@
       "required": [
         "id",
         "cid",
-        "tid",
-        "rid"
+        "tid"
       ],
       "properties": {
         "d": {
@@ -111,35 +110,21 @@
       }
     },
     "ResourceStatus": {
-      "title": "ResourceStatus",
-      "x-ms-client-name": "ResourceStatus",
-      "type": "object",
       "discriminator": "typ",
-      "description": "A representation of the status of a resource provided by some microservice.",
       "required": [
-        "typ"
+        "discriminator"
       ],
       "properties": {
-        "typ": {
-          "title": "Type",
-          "x-ms-client-name": "Type",
-          "type": "string",
-          "description": "The type, used to discriminate between payloads."
+        "discriminator": "typ"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/StatusBase"
         },
-        "updatedAt": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "format": "date-time"
-        },
-        "updatedBy": {
-          "type": [
-            "null",
-            "string"
-          ]
+        {
+          "type": "object"
         }
-      }
+      ]
     },
     "DataflowEventEmpty": {
       "title": "DataflowEventEmpty",
@@ -149,8 +134,7 @@
       "required": [
         "id",
         "cid",
-        "tid",
-        "rid"
+        "tid"
       ],
       "properties": {
         "id": {
@@ -227,7 +211,7 @@
           ],
           "description": "Metadata to be transferred with the event.",
           "additionalProperties": {
-            "type": "object"
+            "type": "string"
           }
         },
         "trc": {
@@ -283,7 +267,10 @@
             "null",
             "object"
           ],
-          "description": "Metadata defined as part of the payload, used when components need to add custom info to standard payloads."
+          "description": "Metadata defined as part of the payload, used when components need to add custom info to standard payloads.",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     },
@@ -790,6 +777,68 @@
           "items": {
             "type": "string"
           }
+        },
+        "values": {
+          "title": "Values",
+          "x-ms-client-name": "Values",
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The values of the properties as determined by the merge rules.",
+          "items": {
+            "$ref": "#/definitions/PropertyVersion"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
+    "MassSyncJob": {
+      "title": "MassSyncJob",
+      "x-ms-client-name": "MassSyncJob",
+      "type": "object",
+      "description": "Mass sync job indicates that a mass sync job has been requested.",
+      "properties": {
+        "schemaID": {
+          "title": "SchemaID",
+          "x-ms-client-name": "SchemaID",
+          "type": "string",
+          "description": "The target schema id."
+        },
+        "shapeID": {
+          "title": "ShapeID",
+          "x-ms-client-name": "ShapeID",
+          "type": "string",
+          "description": "The target shape id."
+        },
+        "jobID": {
+          "title": "JobID",
+          "x-ms-client-name": "JobID",
+          "type": "string",
+          "description": "The id of the target writeback job."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
+    "CSCJob": {
+      "title": "CSCJob",
+      "x-ms-client-name": "CSCJob",
+      "type": "object",
+      "description": "CSC job indicates that a csc job has been requested.",
+      "properties": {
+        "shapeID": {
+          "title": "ShapeID",
+          "x-ms-client-name": "ShapeID",
+          "type": "string",
+          "description": "The target shape id."
         }
       },
       "allOf": [
@@ -835,11 +884,96 @@
             "mergeRule": {
               "$ref": "#/definitions/MergeRuleModel"
             },
+            "compareRule": {
+              "$ref": "#/definitions/CompareRuleModel"
+            },
             "copiedFromSchemaId": {
               "type": [
                 "null",
                 "string"
               ]
+            }
+          }
+        }
+      ]
+    },
+    "MetabaseJobResource": {
+      "title": "MetabaseJobResource",
+      "x-ms-client-name": "MetabaseJobResource",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        },
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "schedule": {
+              "$ref": "#/definitions/ScheduleModel"
+            },
+            "connectionId": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "schemaId": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "shapeId": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "agentId": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "canRunInCloud": {
+              "type": "boolean"
+            },
+            "dataVersion": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "propertyMappings": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/definitions/PropertyMappingModel"
+              }
+            },
+            "type": {
+              "minLength": 1,
+              "$ref": "#/definitions/JobType"
+            },
+            "isPaused": {
+              "type": "boolean"
+            },
+            "writeback": {
+              "$ref": "#/definitions/WritebackModel"
+            },
+            "filter": {
+              "$ref": "#/definitions/FilterModel"
+            },
+            "replication": {
+              "$ref": "#/definitions/ReplicationModel"
+            },
+            "status": {
+              "$ref": "#/definitions/JobStatus"
+            },
+            "latestBatch": {
+              "$ref": "#/definitions/BatchModel"
             }
           }
         }
@@ -877,6 +1011,9 @@
         },
         "isNullable": {
           "type": "boolean"
+        },
+        "isHidden": {
+          "type": "boolean"
         }
       }
     },
@@ -911,10 +1048,7 @@
       ]
     },
     "ShapePropertySecurityModel": {
-      "type": [
-        "null",
-        "object"
-      ],
+      "type": "object",
       "properties": {
         "algorithm": {
           "$ref": "#/definitions/SecurityAlgorithm"
@@ -997,6 +1131,9 @@
           "type": "integer",
           "format": "int32"
         },
+        "mergingPrerequisites": {
+          "$ref": "#/definitions/MergingPrerequisites"
+        },
         "properties": {
           "type": [
             "null",
@@ -1004,6 +1141,29 @@
           ],
           "additionalProperties": {
             "$ref": "#/definitions/PropertyMergeRule"
+          }
+        }
+      }
+    },
+    "MergingPrerequisites": {
+      "type": "object",
+      "properties": {
+        "allRequiredConnectionIdsPresent": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "oneConnectionIdMustBePresent": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
           }
         }
       }
@@ -1025,6 +1185,665 @@
           "items": {
             "type": "string"
           }
+        },
+        "jobs": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "strategies": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/PropertyMergeRuleStrategy"
+          }
+        }
+      }
+    },
+    "PropertyMergeRuleStrategy": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/PropertyMergeStrategyKind"
+        },
+        "staticSettings": {
+          "$ref": "#/definitions/MergeStrategyStaticSettings"
+        },
+        "sortedSettings": {
+          "$ref": "#/definitions/MergeStrategySortedSettings"
+        },
+        "valueConditionSettings": {
+          "$ref": "#/definitions/MergeStrategyValueConditionSettings"
+        },
+        "recencySettings": {
+          "$ref": "#/definitions/MergeStrategyRecencySettings"
+        }
+      }
+    },
+    "PropertyMergeStrategyKind": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Static",
+        "Sorted",
+        "Recency",
+        "MostCommon",
+        "ValueCondition"
+      ],
+      "enum": [
+        "static",
+        "sorted",
+        "recency",
+        "mostCommon",
+        "valueCondition"
+      ]
+    },
+    "MergeStrategyStaticSettings": {
+      "type": "object",
+      "properties": {
+        "jobOrder": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MergeStrategySortedSettings": {
+      "type": "object",
+      "properties": {
+        "sortDescending": {
+          "type": "boolean"
+        },
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "MergeStrategyValueConditionSettings": {
+      "type": "object",
+      "properties": {
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "value": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "MergeStrategyRecencySettings": {
+      "type": "object",
+      "properties": {
+        "mostRecentFirst": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CompareRuleModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "properties": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/PropertyCompareRule"
+          }
+        }
+      }
+    },
+    "PropertyCompareRule": {
+      "type": "object",
+      "properties": {
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "connections": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ScheduleModel": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ScheduleType"
+        },
+        "cron": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "pointInTime": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "date-time"
+        },
+        "description": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "realTimeSettings": {
+          "$ref": "#/definitions/RealTimeSettings"
+        }
+      }
+    },
+    "ScheduleType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Never",
+        "Immediate",
+        "OnDemand",
+        "Once",
+        "Interval",
+        "Cron",
+        "RealTime",
+        "Always"
+      ],
+      "enum": [
+        "never",
+        "immediate",
+        "onDemand",
+        "once",
+        "interval",
+        "cron",
+        "realTime",
+        "always"
+      ]
+    },
+    "RealTimeSettings": {
+      "type": "object",
+      "properties": {
+        "stateCheckpointInterval": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "settings": {},
+        "schema": {},
+        "uiSchema": {}
+      }
+    },
+    "PropertyMappingModel": {
+      "type": "object",
+      "required": [
+        "fromPropertyId",
+        "toPropertyId"
+      ],
+      "properties": {
+        "fromPropertyId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "toPropertyId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fromPropertyMeaning": {
+          "$ref": "#/definitions/PropertyIdMeaning"
+        },
+        "toPropertyMeaning": {
+          "$ref": "#/definitions/PropertyIdMeaning"
+        },
+        "nullValueHandling": {
+          "$ref": "#/definitions/TransformModel"
+        },
+        "errorHandling": {
+          "$ref": "#/definitions/TransformModel"
+        },
+        "transform": {
+          "$ref": "#/definitions/TransformModel"
+        },
+        "transforms": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/TransformModel"
+          }
+        }
+      }
+    },
+    "PropertyIdMeaning": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "PrimaryDataPropertyId",
+        "SchemaDataPropertyId",
+        "EnrichedDataPropertyId"
+      ],
+      "enum": [
+        "primaryDataPropertyId",
+        "schemaDataPropertyId",
+        "enrichedDataPropertyId"
+      ]
+    },
+    "TransformModel": {
+      "type": "object",
+      "properties": {
+        "transformId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "format": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "JobType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Read",
+        "Write",
+        "Profiling",
+        "QualityCheck",
+        "Replication"
+      ],
+      "enum": [
+        "read",
+        "write",
+        "profiling",
+        "qualityCheck",
+        "replication"
+      ]
+    },
+    "WritebackModel": {
+      "type": "object",
+      "required": [
+        "writebackId"
+      ],
+      "properties": {
+        "writebackId": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "FilterModel": {
+      "type": "object",
+      "properties": {
+        "rules": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/FilterRule"
+          }
+        }
+      }
+    },
+    "FilterRule": {
+      "type": "object",
+      "properties": {
+        "effect": {
+          "$ref": "#/definitions/FilterRuleEffect"
+        },
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "operatorId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "parameter": {}
+      }
+    },
+    "FilterRuleEffect": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Include",
+        "Exclude"
+      ],
+      "enum": [
+        "include",
+        "exclude"
+      ]
+    },
+    "ReplicationModel": {
+      "type": "object",
+      "properties": {
+        "includeVersions": {
+          "type": "boolean"
+        },
+        "settings": {},
+        "schema": {},
+        "uiSchema": {}
+      }
+    },
+    "JobStatus": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceStatus"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "goBetween": {
+              "$ref": "#/definitions/JobStatusGoBetweenScope"
+            },
+            "realTime": {
+              "$ref": "#/definitions/RealTimeStateScope"
+            }
+          }
+        }
+      ]
+    },
+    "JobStatusGoBetweenScope": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceStatus"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "message": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "startCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "successCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "consecutiveFailureCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "state": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "nextRunAt": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "format": "date-time"
+            },
+            "previousRunAt": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "format": "date-time"
+            },
+            "scheduledOn": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "scheduledAt": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "format": "date-time"
+            }
+          }
+        }
+      ]
+    },
+    "StatusBase": {
+      "type": "object",
+      "properties": {
+        "resourceId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedBy": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "RealTimeStateScope": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceStatus"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "realTimeState": {
+              "type": [
+                "null",
+                "string"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "BatchModel": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        },
+        {
+          "type": "object",
+          "required": [
+            "jobId"
+          ],
+          "properties": {
+            "jobId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "$ref": "#/definitions/BatchStatus"
+            }
+          }
+        }
+      ]
+    },
+    "BatchStatus": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceStatus"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "goBetweenAgent": {
+              "$ref": "#/definitions/BatchStatusGoBetweenScope"
+            }
+          }
+        }
+      ]
+    },
+    "BatchStatusGoBetweenScope": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceStatus"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "startedOnAgent": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "startedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "expectedToEndBefore": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "format": "date-time"
+            },
+            "endedAt": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "format": "date-time"
+            },
+            "expectedCount": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "dataPointsPerMinute": {
+              "type": "number",
+              "format": "double"
+            },
+            "count": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "filteredCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "deflectedCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "badRecordCount": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "endedReason": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "endedMessage": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "badRecordSample": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {}
+            }
+          }
+        }
+      ]
+    },
+    "PropertyVersion": {
+      "title": "PropertyVersion",
+      "x-ms-client-name": "PropertyVersion",
+      "type": "object",
+      "description": "A value of a property from a version.",
+      "required": [
+        "jid",
+        "rid"
+      ],
+      "properties": {
+        "jid": {
+          "title": "JobID",
+          "x-ms-client-name": "JobID",
+          "type": "string"
+        },
+        "rid": {
+          "title": "RecordID",
+          "x-ms-client-name": "RecordID",
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "array",
+            "boolean",
+            "integer",
+            "null",
+            "number",
+            "object",
+            "string"
+          ]
         }
       }
     }
