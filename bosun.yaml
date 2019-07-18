@@ -5,3 +5,8 @@ apps:
   contractsOnly: true
   repo: naveego/dataflow-contracts
   version: 0.2.0
+  scripts:
+    - name: generate-swagger
+      description: Generates the swagger file containing all the contracts and places it at ./events/swagger-generated.json.
+      literal: |
+        dotnet script generate-swagger.csx

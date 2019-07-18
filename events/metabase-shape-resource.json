@@ -214,6 +214,120 @@
           "items": {
             "type": "string"
           }
+        },
+        "jobs": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "strategies": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/PropertyMergeRuleStrategy"
+          }
+        }
+      }
+    },
+    "PropertyMergeRuleStrategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/PropertyMergeStrategyKind"
+        },
+        "staticSettings": {
+          "$ref": "#/definitions/MergeStrategyStaticSettings"
+        },
+        "sortedSettings": {
+          "$ref": "#/definitions/MergeStrategySortedSettings"
+        },
+        "valueConditionSettings": {
+          "$ref": "#/definitions/MergeStrategyValueConditionSettings"
+        },
+        "recencySettings": {
+          "$ref": "#/definitions/MergeStrategyRecencySettings"
+        }
+      }
+    },
+    "PropertyMergeStrategyKind": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Static",
+        "Sorted",
+        "Recency",
+        "MostCommon",
+        "ValueCondition"
+      ],
+      "enum": [
+        "static",
+        "sorted",
+        "recency",
+        "mostCommon",
+        "valueCondition"
+      ]
+    },
+    "MergeStrategyStaticSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "jobOrder": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MergeStrategySortedSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sortDescending": {
+          "type": "boolean"
+        },
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "MergeStrategyValueConditionSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "value": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "MergeStrategyRecencySettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mostRecentFirst": {
+          "type": "boolean"
         }
       }
     },

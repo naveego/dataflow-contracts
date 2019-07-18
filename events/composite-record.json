@@ -4,7 +4,11 @@
   "title": "CompositeRecord",
   "type": "object",
   "description": "A representation of a composite record provided by some microservice.",
-  "allOf": [{ "$ref": "payload.json" }],
+  "allOf": [
+    {
+      "$ref": "payload.json"
+    }
+  ],
   "discriminator": "typ",
   "required": [
     "typ",
@@ -34,12 +38,18 @@
       "title": "TenantId"
     },
     "createdAt": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "format": "date-time",
       "title": "CreatedAt"
     },
     "modifiedAt": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "format": "date-time",
       "title": "ModifiedAt"
     },
@@ -51,7 +61,9 @@
     "owners": {
       "type": "object",
       "title": "Owners",
-      "additionalProperties": { "type": "string" }
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "versions": {
       "type": "array",
@@ -61,11 +73,57 @@
       }
     },
     "cpids": {
-      "type": ["array", "null"],
+      "type": [
+        "array",
+        "null"
+      ],
       "title": "ChangedPropertyIds",
       "items": {
         "type": "string"
       }
+    },
+    "values": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "title": "Values",
+      "description": "The values of the properties as determined by the merge rules.",
+      "items": {
+        "$ref": "#/definitions/PropertyVersion"
+      }
     }
+  },
+  "definitions": {
+    "PropertyVersion": {
+      "title": "PropertyVersion",
+      "type": "object",
+      "description": "A value of a property from a version.",
+      "required": [
+        "jid",
+        "rid"
+      ],
+      "properties": {
+        "jid": {
+          "title": "JobID",
+          "type": "string",
+        },
+        "rid": {
+          "title": "RecordID",
+          "type": "string",
+        },
+        "value": {
+          "type": [
+            "array",
+            "boolean",
+            "integer",
+            "number",
+            "object",
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
   }
 }
