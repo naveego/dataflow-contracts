@@ -2,7 +2,11 @@
   "title": "DataflowEventEmpty",
   "type": "object",
   "description": "The metadata for events on in the dataflow streams, with no payload.",
-  "required": ["id", "cid", "tid"],
+  "required": [
+    "id",
+    "cid",
+    "tid"
+  ],
   "properties": {
     "id": {
       "type": "string",
@@ -17,17 +21,26 @@
       "minLength": 1
     },
     "sid": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "title": "SourceID",
       "description": "The NRN of the source that generated this event."
     },
     "jid": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "title": "JobID",
       "description": "The NRN of the job that generated this event."
     },
     "bid": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "title": "BatchID",
       "description": "The NRN of the batch (run of a job) that generated this event."
     },
@@ -37,7 +50,10 @@
       "description": "A value that uniquely represents the record or resource most relevent to the event."
     },
     "rids": {
-      "type": ["array", "null"],
+      "type": [
+        "array",
+        "null"
+      ],
       "title": "RecordIDs",
       "description": "The RID value for each event bundled into this event.",
       "items": {
@@ -47,10 +63,18 @@
     "cid": {
       "type": "string",
       "title": "CorrelationID",
-      "description": "A value used to track the event's movement through the system and to assign causality."
+      "description": "A value used to track the event's movement through the system and to assign causality. If there is a one-to-one relationship between two dataflow events, they should have the same cid."
+    },
+    "czid": {
+      "type": "string",
+      "title": "CauseID",
+      "description": "A value used to assign causality. If this dataflow event was caused by another dataflow event, this czid should be the id of the causing event."
     },
     "m": {
-      "type": ["object", "null"],
+      "type": [
+        "object",
+        "null"
+      ],
       "title": "Metadata",
       "description": "Metadata to be transferred with the event.",
       "additionalProperties": {
@@ -59,7 +83,10 @@
     },
     "trc": {
       "title": "Traces",
-      "type": ["array", "null"],
+      "type": [
+        "array",
+        "null"
+      ],
       "items": {
         "$ref": "#/definitions/Trace"
       }
