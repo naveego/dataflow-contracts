@@ -10,15 +10,7 @@
     }
   ],
   "discriminator": "typ",
-  "required": [
-    "typ",
-    "recordId",
-    "shapeId",
-    "tenantId",
-    "data",
-    "owners",
-    "versions"
-  ],
+  "required": ["typ", "recordId", "shapeId", "tenantId", "data", "owners", "s"],
   "properties": {
     "typ": {
       "type": "string",
@@ -29,6 +21,11 @@
       "type": "string",
       "title": "RecordId"
     },
+    "v": {
+      "type": "number",
+      "title": "Version",
+      "description": "The  of this composite, incremented whenever a new  is emitted for any reason."
+    },
     "shapeId": {
       "type": "string",
       "title": "ShapeId"
@@ -38,18 +35,12 @@
       "title": "TenantId"
     },
     "createdAt": {
-      "type": [
-        "string",
-        "null"
-      ],
+      "type": ["string", "null"],
       "format": "date-time",
       "title": "CreatedAt"
     },
     "modifiedAt": {
-      "type": [
-        "string",
-        "null"
-      ],
+      "type": ["string", "null"],
       "format": "date-time",
       "title": "ModifiedAt"
     },
@@ -65,7 +56,7 @@
         "type": "string"
       }
     },
-    "versions": {
+    "s": {
       "type": "array",
       "title": "Versions",
       "items": {
@@ -73,44 +64,76 @@
       }
     },
     "cpids": {
-      "type": [
-        "array",
-        "null"
-      ],
+      "type": ["array", "null"],
       "title": "ChangedPropertyIds",
       "items": {
         "type": "string"
       }
     },
     "values": {
-      "type": [
-        "array",
-        "null"
-      ],
+      "type": ["array", "null"],
       "title": "Values",
       "description": "The values of the properties as determined by the merge rules.",
       "items": {
         "$ref": "#/definitions/PropertyVersion"
       }
+    },
+    "displayName": {
+      "type": ["string", "null"],
+      "title": "DisplayName",
+      "description": "The string used to label this record when it is displayed to a user."
+    },
+    "linked": {
+      "type": ["array", "null"],
+      "title": "Linked",
+      "description": "The composite records this record is linked to by relationships.",
+      "items": {
+        "$ref": "#/definitions/CompositeLink"
+      }
     }
   },
   "definitions": {
+    "CompositeLink": {
+      "title": "CompositeLink",
+      "type": "object",
+      "description": "Represents a link between the composite it is found on and another composite.",
+      "required": ["relId", "ruleId", "rid"],
+      "properties": {
+        "relId": {
+          "type": "string",
+          "title": "RelationshipId",
+          "description": "The ID of the Relationship in Metabase that defines the rules which created this link."
+        },
+        "ruleId": {
+          "type": "string",
+          "title": "RuleId",
+          "description": "The ID of the Rule within the Relationship in Metabase which created this link."
+        },
+        "rid": {
+          "type": "string",
+          "title": "RecordId",
+          "description": "The ID of the record at the other end of this link."
+        },
+        "n": {
+          "type": ["string", "null"],
+          "title": "DisplayName",
+          "description": "The display name of the record at the other end of this link."
+        }
+      }
+    },
     "PropertyVersion": {
       "title": "PropertyVersion",
       "type": "object",
-      "description": "A value of a property from a version.",
-      "required": [
-        "jid",
-        "rid"
-      ],
+      "description": "A value of a property from a .",
+      "required": ["jid", "rid"],
       "properties": {
         "jid": {
           "title": "JobID",
-          "type": "string",
+          "type": "string"
         },
         "rid": {
           "title": "RecordID",
-          "type": "string",
+          "type": "string"
         },
         "value": {
           "type": [
@@ -124,6 +147,6 @@
           ]
         }
       }
-    },
+    }
   }
 }

@@ -314,6 +314,9 @@
             "string"
           ]
         },
+        "operator": {
+          "$ref": "#/definitions/ValueConditionOperator"
+        },
         "value": {
           "type": [
             "null",
@@ -321,6 +324,22 @@
           ]
         }
       }
+    },
+    "ValueConditionOperator": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Equal",
+        "NotEqual",
+        "Null",
+        "NotNull"
+      ],
+      "enum": [
+        "equal",
+        "notEqual",
+        "null",
+        "notNull"
+      ]
     },
     "MergeStrategyRecencySettings": {
       "type": "object",

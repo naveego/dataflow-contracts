@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "MetabaseConnectionResource",
+  "definitions": {
+    "ConnectionRole": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Publisher",
+        "Subscriber"
+      ],
+      "enum": [
+        "publisher",
+        "subscriber"
+      ]
+    },
+    "PluginCapabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "canAcceptQueryBasedSchemas": {
+          "type": "boolean"
+        },
+        "canConfigure": {
+          "type": "boolean"
+        },
+        "canConfigureConnection": {
+          "type": "boolean"
+        },
+        "canConfigureQualityCheck": {
+          "type": "boolean"
+        },
+        "canConfigureQuery": {
+          "type": "boolean"
+        },
+        "canConfigureRealTime": {
+          "type": "boolean"
+        },
+        "canConfigureWrite": {
+          "type": "boolean"
+        },
+        "canDiscoverShapes": {
+          "type": "boolean"
+        },
+        "canProduceMultipleSchemas": {
+          "type": "boolean"
+        },
+        "canPublish": {
+          "type": "boolean"
+        },
+        "canUseOAuth": {
+          "type": "boolean"
+        },
+        "canWrite": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ConnectionDiscoveredSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "discoveredSchemaId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "isAdvertised": {
+          "type": "boolean"
+        },
+        "advertisedSchemaId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "resource.json"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "plugin"
+      ],
+      "properties": {
+        "roles": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ConnectionRole"
+          }
+        },
+        "labels": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "plugin": {
+          "type": "string",
+          "minLength": 1
+        },
+        "settings": {
+          "$ref": null
+        },
+        "preferredAgent": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "canRunInCloud": {
+          "type": "boolean"
+        },
+        "pluginCapabilities": {
+          "$ref": "#/definitions/PluginCapabilities"
+        },
+        "discoveredSchemas": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ConnectionDiscoveredSchema"
+          }
+        }
+      }
+    }
+  ]
+}

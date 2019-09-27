@@ -5,6 +5,12 @@
     },
     "MetabaseJobResource": {
       "$ref": "metabase-job-resource.json"
+    },
+    "MetabaseRelationshipResource": {
+      "$ref": "metabase-relationship-resource.json"
+    },
+    "MetabaseConnectionResource": {
+      "$ref": "metabase-connection-resource.json"
     }
   }
 }

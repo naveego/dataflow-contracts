@@ -4,9 +4,18 @@
   "title": "MatchGroup",
   "type": "object",
   "description": "A representation of a match group provided by some microservice.",
-  "allOf": [{ "$ref": "payload.json" }],
+  "allOf": [
+    {
+      "$ref": "payload.json"
+    }
+  ],
   "discriminator": "typ",
-  "required": ["typ", "id", "ruleId", "dataPoints"],
+  "required": [
+    "typ",
+    "id",
+    "ruleId",
+    "dataPoints"
+  ],
   "properties": {
     "typ": {
       "type": "string",
@@ -21,8 +30,15 @@
       "type": "string",
       "title": "RuleId"
     },
+    "v": {
+      "type": "integer",
+      "title": "Version",
+      "description": "The version of the group, incremented each time a new version of this group is produced for any reason."
+    },
     "dataPoints": {
-      "type": ["array"],
+      "type": [
+        "array"
+      ],
       "title": "DataPoints",
       "items": {
         "$ref": "dataflow-event-with-datapoint.json"

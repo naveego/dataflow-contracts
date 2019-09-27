@@ -5,7 +5,12 @@
   "type": "object",
   "description": "A representation of a resource provided by some microservice.",
   "discriminator": "typ",
-  "required": ["typ", "id", "version", "name"],
+  "required": [
+    "typ",
+    "id",
+    "version",
+    "name"
+  ],
   "properties": {
     "typ": {
       "type": "string",
@@ -17,7 +22,10 @@
       "title": "Id"
     },
     "nrn": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "title": "Nrn",
       "description": "The Naveego Resource Name of the resource. Format is \"nrn:{domain}:[tenant]:{microservice}:{type}:{id}[@version]\"."
     },
@@ -27,30 +35,48 @@
       "description": "The display name of the resource."
     },
     "version": {
-      "type": "number",
+      "type": "integer",
       "title": "Version",
       "description": "The version of the resource."
     },
     "createdAt": {
       "format": "date-time",
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "createdBy": {
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "updatedAt": {
       "format": "date-time",
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "updatedBy": {
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "deletedAt": {
       "format": "date-time",
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "deletedBy": {
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     }
   }
 }

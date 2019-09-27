@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "MetabaseRelationshipResource",
+  "definitions": {
+    "RelationshipRuleModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "description": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "matchRules": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/RelationshipMatchRuleModel"
+          }
+        }
+      }
+    },
+    "RelationshipMatchRuleModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "leftPropertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "rightPropertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "resource.json"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "leftShapeId",
+        "rightShapeId"
+      ],
+      "properties": {
+        "leftShapeId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rightShapeId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rules": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/RelationshipRuleModel"
+          }
+        }
+      }
+    }
+  ]
+}
