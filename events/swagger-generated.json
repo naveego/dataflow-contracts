@@ -829,24 +829,24 @@
             "$ref": "#/definitions/CompositeLink"
           }
         },
-        "canWriteback": {
-          "title": "CanWriteback",
-          "x-ms-client-name": "CanWriteback",
+        "doNotWriteback": {
+          "title": "DoNotWriteback",
+          "x-ms-client-name": "DoNotWriteback",
           "type": [
             "boolean",
             "null"
           ],
-          "description": "Is this composite record able to be written back?"
+          "description": "Should this composite record be written back?"
         },
-        "qualityRules": {
-          "title": "QualityRules",
-          "x-ms-client-name": "QualityRules",
+        "brokenQualityRules": {
+          "title": "BrokenQualityRules",
+          "x-ms-client-name": "BrokenQualityRules",
           "type": [
-            "array",
-            "null"
+            "null",
+            "object"
           ],
           "description": "The quality rule ids applied to this composite record",
-          "items": {
+          "additionalProperties": {
             "type": "string"
           }
         }

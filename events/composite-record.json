@@ -91,16 +91,16 @@
         "$ref": "#/definitions/CompositeLink"
       }
     },
-    "canWriteback": {
+    "doNotWriteback": {
       "type": ["boolean", "null"],
-      "title": "CanWriteback",
-      "description": "Is this composite record able to be written back?"
+      "title": "DoNotWriteback",
+      "description": "Should this composite record be written back?"
     },
-    "qualityRules": {
-      "type": ["array", "null"],
-      "title": "QualityRules",
+    "brokenQualityRules": {
+      "type": ["object", "null"],
+      "title": "BrokenQualityRules",
       "description": "The quality rule ids applied to this composite record",
-      "items": {
+      "additionalProperties": {
         "type": "string"
       }
     }
