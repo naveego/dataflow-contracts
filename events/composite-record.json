@@ -90,6 +90,19 @@
       "items": {
         "$ref": "#/definitions/CompositeLink"
       }
+    },
+    "canWriteback": {
+      "type": ["boolean", "null"],
+      "title": "CanWriteback",
+      "description": "Is this composite record able to be written back?"
+    },
+    "qualityRules": {
+      "type": ["array", "null"],
+      "title": "QualityRules",
+      "description": "The quality rule ids applied to this composite record",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "definitions": {
