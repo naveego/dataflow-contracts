@@ -71,10 +71,10 @@
       }
     },
     "values": {
-      "type": ["array", "null"],
       "title": "Values",
       "description": "The values of the properties as determined by the merge rules.",
-      "items": {
+      "type": ["object", "null"],
+      "additionalProperties": {
         "$ref": "#/definitions/PropertyVersion"
       }
     },

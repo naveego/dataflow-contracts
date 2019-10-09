@@ -800,11 +800,11 @@
           "title": "Values",
           "x-ms-client-name": "Values",
           "type": [
-            "array",
-            "null"
+            "null",
+            "object"
           ],
           "description": "The values of the properties as determined by the merge rules.",
-          "items": {
+          "additionalProperties": {
             "$ref": "#/definitions/PropertyVersion"
           }
         },
