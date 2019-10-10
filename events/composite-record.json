@@ -75,7 +75,7 @@
       "description": "The values of the properties as determined by the merge rules.",
       "type": ["object", "null"],
       "additionalProperties": {
-        "$ref": "#/definitions/PropertyVersion"
+        "$ref": "#/definitions/PropertyVersionArray"
       }
     },
     "displayName": {
@@ -132,6 +132,13 @@
           "title": "DisplayName",
           "description": "The display name of the record at the other end of this link."
         }
+      }
+    },
+    "PropertyVersionArray": {
+      "title": "PropertyVersionArray",
+      "type": ["array", "null"],
+      "items": {
+        "$ref": "#/definitions/PropertyVersion"
       }
     },
     "PropertyVersion": {
