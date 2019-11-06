@@ -56,7 +56,7 @@
         "type": "string"
       }
     },
-    "s": {
+    "versions": {
       "type": "array",
       "title": "Versions",
       "items": {
