@@ -35,6 +35,11 @@
       "title": "Version",
       "description": "The version of the group, incremented each time a new version of this group is produced for any reason."
     },
+    "matchData": {
+      "type": "string",
+      "title": "MatchData",
+      "description": "The match data used to construct this group."
+    },
     "dataPoints": {
       "type": [
         "array"
