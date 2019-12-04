@@ -71,11 +71,14 @@
       }
     },
     "values": {
-      "type": ["array", "null"],
+      "type": ["object", "null"],
       "title": "Values",
       "description": "The values of the properties as determined by the merge rules.",
-      "items": {
-        "$ref": "#/definitions/PropertyVersion"
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/PropertyVersion"
+        }
       }
     },
     "displayName": {
