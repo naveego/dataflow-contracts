@@ -1,0 +1,66 @@
+{
+    "$id": "https://naveego.com/notification.json",
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "title": "Notification",
+    "type": "object",
+    "description": "A representation of notification to be delivered to a user.",
+    "allOf": [
+      {
+        "$ref": "payload.json"
+      }
+    ],
+    "discriminator": "typ",
+    "required": [
+      "typ",
+      "id",
+      "tid",
+      "topic",
+      "message"
+    ],
+    "properties": {
+      "typ": {
+        "type": "string",
+        "title": "Type",
+        "description": "The type, used to discriminate between payloads."
+      },
+      "tid": {
+        "type": "string",
+        "title": "TenantId"
+      },
+      "id": {
+        "type": "string",
+        "title": "Id"
+      },
+      "createdOn": {
+        "type": "string",
+        "title": "createdOn"
+      },
+      "topic": {
+        "type": "string",
+        "title": "Topic",
+        "description": "The topic the notification is targeting."
+      },
+      "message": {
+        "type": "object",
+        "title": "Message",
+        "description": "The notification message to be delivered.",
+        "properties": {
+          "text": {
+            "type": ["string", "null"],
+            "title": "Text",
+            "description": "A plain text version of the message."
+          },
+          "short": {
+            "type": ["string", "null"],
+            "title": "Short",
+            "description": "A short plan text version of the message."
+          },
+          "html": {
+            "type": ["string", "null"],
+            "title": "Html",
+            "description": "An HTML formatted version of the message"
+          }
+        }
+      }
+    }
+  }

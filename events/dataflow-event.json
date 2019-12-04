@@ -64,6 +64,9 @@
     },
     "CSCJob": {
       "$ref": "csc-job.json"
+    },
+    "Notification": {
+      "$ref": "notification.json"
     }
   }
 }
