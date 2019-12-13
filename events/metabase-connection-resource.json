@@ -76,6 +76,46 @@
           ]
         }
       }
+    },
+    "ResourceStage": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unknown",
+        "Embedded",
+        "Deployed",
+        "Published"
+      ],
+      "enum": [
+        "unknown",
+        "embedded",
+        "deployed",
+        "published"
+      ]
+    },
+    "DraftInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "draftId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "draftInstanceId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "publishedInstanceId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
     }
   },
   "allOf": [

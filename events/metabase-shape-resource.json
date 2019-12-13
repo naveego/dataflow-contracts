@@ -395,6 +395,171 @@
           }
         }
       }
+    },
+    "DataQualityRulesModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "rules": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DataQualityRuleModel"
+          }
+        }
+      }
+    },
+    "DataQualityRuleModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "description": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "kind": {
+          "$ref": "#/definitions/DataQualityRuleKind"
+        },
+        "uniquePropertySettings": {
+          "$ref": "#/definitions/DataQualityUniquePropertySettings"
+        }
+      }
+    },
+    "DataQualityRuleKind": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unknown",
+        "UniqueProperty"
+      ],
+      "enum": [
+        "unknown",
+        "uniqueProperty"
+      ]
+    },
+    "DataQualityUniquePropertySettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "ShapeEnrichmentModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "steps": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ShapeEnrichmentStep"
+          }
+        }
+      }
+    },
+    "ShapeEnrichmentStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "description": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "provider": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "settings": {
+          "$ref": null
+        }
+      }
+    },
+    "ResourceStage": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unknown",
+        "Embedded",
+        "Deployed",
+        "Published"
+      ],
+      "enum": [
+        "unknown",
+        "embedded",
+        "deployed",
+        "published"
+      ]
+    },
+    "DraftInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "draftId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "draftInstanceId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "publishedInstanceId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
     }
   },
   "allOf": [
@@ -405,6 +570,10 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "dataVersion": {
+          "type": "integer",
+          "format": "int32"
+        },
         "properties": {
           "type": [
             "array",
@@ -435,11 +604,17 @@
         "compareRule": {
           "$ref": "#/definitions/CompareRuleModel"
         },
+        "dataQualityRules": {
+          "$ref": "#/definitions/DataQualityRulesModel"
+        },
         "copiedFromSchemaId": {
           "type": [
             "null",
             "string"
           ]
+        },
+        "enrichment": {
+          "$ref": "#/definitions/ShapeEnrichmentModel"
         }
       }
     }
