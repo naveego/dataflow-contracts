@@ -137,19 +137,56 @@
         }
       }
     },
+    "EnrichmentMetadata": {
+      "title": "EnrichmentMetadata",
+      "type": "object",
+      "description": "Contains information about the run of an enrichment step.",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "title": "Timestamp",
+          "description": "The UTC time the enrichment step last ran."
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "Messages",
+          "description": "Messages logged by the enrichment step."
+        },
+        "error": {
+          "type": ["string", "null"],
+          "title": "Error",
+          "description": "The error logged by the enrichment step, if any."
+        },
+        "events": {
+          "type": ["array", "null"],
+          "title": "Values",
+          "description": "Values set by the enrichment step, if any.",
+          "items": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        }
+      }
+    },
     "PropertyVersion": {
       "title": "PropertyVersion",
       "type": "object",
-      "description": "A value of a property from a .",
-      "required": ["jid", "rid"],
+      "description": "A value of a property in the composite, with details about where it came from.",
       "properties": {
         "jid": {
           "title": "JobID",
-          "type": "string"
+          "type": ["string", "null"]
         },
         "rid": {
           "title": "RecordID",
-          "type": "string"
+          "type": ["string", "null"]
+        },
+        "eid": {
+          "title": "EnrichmentStepID",
+          "type": ["string", "null"]
         },
         "value": {
           "type": [

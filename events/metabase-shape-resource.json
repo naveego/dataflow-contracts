@@ -150,6 +150,97 @@
         }
       }
     },
+    "MatchingModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "stages": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MatchingStage"
+          }
+        }
+      }
+    },
+    "MatchingStage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/MatchingStageType"
+        },
+        "exact": {
+          "$ref": "#/definitions/ExactMatchSettings"
+        },
+        "fuzzy": {
+          "$ref": "#/definitions/FuzzyMatchSettings"
+        }
+      }
+    },
+    "MatchingStageType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unsupported",
+        "Exact",
+        "Fuzzy"
+      ],
+      "enum": [
+        "unsupported",
+        "exact",
+        "fuzzy"
+      ]
+    },
+    "ExactMatchSettings": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MatchSettings"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false
+        }
+      ]
+    },
+    "MatchSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "properties": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "FuzzyMatchSettings": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MatchSettings"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "confidenceLevel": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        }
+      ]
+    },
     "MergeRuleModel": {
       "type": "object",
       "additionalProperties": false,
@@ -597,6 +688,9 @@
         },
         "matchRule": {
           "$ref": "#/definitions/MatchRuleModel"
+        },
+        "matching": {
+          "$ref": "#/definitions/MatchingModel"
         },
         "mergeRule": {
           "$ref": "#/definitions/MergeRuleModel"
