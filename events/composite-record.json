@@ -24,7 +24,7 @@
     "v": {
       "type": "number",
       "title": "Version",
-      "description": "The  of this composite, incremented whenever a new  is emitted for any reason."
+      "description": "The version of this composite, incremented whenever a new  is emitted for any reason."
     },
     "shapeId": {
       "type": "string",
@@ -106,6 +106,9 @@
       "additionalProperties": {
         "type": "string"
       }
+    },
+    "versionSet": {
+      "$ref": "version-set.json"
     }
   },
   "definitions": {

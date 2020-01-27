@@ -48,6 +48,9 @@
       "items": {
         "$ref": "dataflow-event-with-datapoint.json"
       }
+    },
+    "versionSet": {
+      "$ref": "version-set.json"
     }
   }
 }

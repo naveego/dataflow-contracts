@@ -12,27 +12,44 @@
     "a": {
       "title": "Action",
       "type": "string",
-      "enum": ["ins", "ups", "upd", "del"]
+      "enum": [
+        "ins",
+        "ups",
+        "upd",
+        "del"
+      ]
     },
     "s": {
       "title": "ShapeID",
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "description": "The ShapeID@Version of the shape to which this datapoint belongs."
     },
     "z": {
       "title": "SchemaID",
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "description": "The SchemaID@Version of the schema which produced the original record this datapoint was mapped from."
     },
     "c": {
       "title": "ConnectionID",
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "description": "The ConnectionID@Version of the connection used to produce this data point."
     },
     "d": {
       "title": "Data",
       "description": "The data for this data point.",
-      "type": ["object", "null"],
+      "type": [
+        "object",
+        "null"
+      ],
       "additionalProperties": {
         "type": "object"
       }
@@ -40,13 +57,19 @@
     "zd": {
       "title": "SchemaData",
       "description": "Data from the original record which has been captured in this datapoint to facilitate writebacks or lineage analysis.",
-      "type": ["object", "null"],
+      "type": [
+        "object",
+        "null"
+      ],
       "additionalProperties": {
         "type": "object"
       }
     },
     "enr": {
-      "type": ["null", "object"],
+      "type": [
+        "null",
+        "object"
+      ],
       "title": "EnrichedData",
       "description": "Enriched data for this data point.",
       "additionalProperties": {
@@ -57,6 +80,9 @@
       "type": "integer",
       "title": "DataVersion",
       "description": "A monotonically increasing number which is incremented when previous datapoints from the same job as this datapoint should be discarded rather than updated."
+    },
+    "versionSet": {
+      "$ref": "version-set.json"
     }
   }
 }

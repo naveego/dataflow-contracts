@@ -1,0 +1,22 @@
+{
+    "additionalProperties": false,
+    "type": "array",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "VersionSet",
+    "description": "A list of the versions of resources which were current when another resource or record was created. Each item is a string with the form tag:id@version.",
+    "items": {
+        "type": "string",
+        "description": "A serialized tagged versioned ID.",
+        "x-tag-prefixes": {
+            "shape": "Shape - the version of a shape",
+            "sd": "ShapeData - the data version for a shape",
+            "job": "Job - the version of a job",
+            "jd": "JobData - the data version of a job",
+            "merge": "MergeRule - the version of a merge rule",
+            "match": "MatchRule - the version of a match rule",
+            "dq": "DataQuality - the version of a data quality rule",
+            "enr": "Enrichment - the version of an enrichment",
+            "rel": "Relationship - the version of a relationship"
+        }
+    }
+}
