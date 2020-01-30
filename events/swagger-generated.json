@@ -23,6 +23,27 @@
         }
       ]
     },
+    "VersionSet": {
+      "title": "VersionSet",
+      "x-ms-client-name": "VersionSet",
+      "type": "array",
+      "description": "A list of the versions of resources which were current when another resource or record was created. Each item is a string with the form tag:id@version.",
+      "items": {
+        "type": "string",
+        "description": "A serialized tagged versioned ID.",
+        "x-tag-prefixes": {
+          "shape": "Shape - the version of a shape",
+          "sd": "ShapeData - the data version for a shape",
+          "job": "Job - the version of a job",
+          "jd": "JobData - the data version of a job",
+          "merge": "MergeRule - the version of a merge rule",
+          "match": "MatchRule - the version of a match rule",
+          "dq": "DataQuality - the version of a data quality rule",
+          "enr": "Enrichment - the version of an enrichment",
+          "rel": "Relationship - the version of a relationship"
+        }
+      }
+    },
     "Resource": {
       "title": "Resource",
       "x-ms-client-name": "Resource",
@@ -50,10 +71,7 @@
         "nrn": {
           "title": "Nrn",
           "x-ms-client-name": "Nrn",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "The Naveego Resource Name of the resource. Format is \"nrn:{domain}:[tenant]:{microservice}:{type}:{id}[@version]\"."
         },
         "name": {
@@ -69,43 +87,25 @@
           "description": "The version of the resource."
         },
         "createdAt": {
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "format": "date-time"
         },
         "createdBy": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "updatedAt": {
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "format": "date-time"
         },
         "updatedBy": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "deletedAt": {
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "format": "date-time"
         },
         "deletedBy": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         }
       }
     },
@@ -115,7 +115,9 @@
         "discriminator"
       ],
       "properties": {
-        "discriminator": "typ"
+        "discriminator": {
+          "type": "string"
+        }
       },
       "allOf": [
         {
@@ -154,28 +156,19 @@
         "sid": {
           "title": "SourceID",
           "x-ms-client-name": "SourceID",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "The NRN of the source that generated this event."
         },
         "jid": {
           "title": "JobID",
           "x-ms-client-name": "JobID",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "The NRN of the job that generated this event."
         },
         "bid": {
           "title": "BatchID",
           "x-ms-client-name": "BatchID",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "The NRN of the batch (run of a job) that generated this event."
         },
         "rid": {
@@ -187,10 +180,7 @@
         "rids": {
           "title": "RecordIDs",
           "x-ms-client-name": "RecordIDs",
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "description": "The RID value for each event bundled into this event.",
           "items": {
             "type": "string"
@@ -211,10 +201,7 @@
         "m": {
           "title": "Metadata",
           "x-ms-client-name": "Metadata",
-          "type": [
-            "null",
-            "object"
-          ],
+          "type": "object",
           "description": "Metadata to be transferred with the event.",
           "additionalProperties": {
             "type": "string"
@@ -223,10 +210,7 @@
         "trc": {
           "title": "Traces",
           "x-ms-client-name": "Traces",
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "$ref": "#/definitions/Trace"
           }
@@ -269,10 +253,7 @@
         "m": {
           "title": "Metadata",
           "x-ms-client-name": "Metadata",
-          "type": [
-            "null",
-            "object"
-          ],
+          "type": "object",
           "description": "Metadata defined as part of the payload, used when components need to add custom info to standard payloads.",
           "additionalProperties": {
             "type": "string"
@@ -287,29 +268,20 @@
         "n": {
           "title": "Step name",
           "x-ms-client-name": "Step name",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "The name of the step."
         },
         "ts": {
           "title": "Timestamp",
           "x-ms-client-name": "Timestamp",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "Timestamp indicating when the step started.",
           "format": "date-time"
         },
         "d": {
           "title": "Duration",
           "x-ms-client-name": "Duration",
-          "type": [
-            "integer",
-            "null"
-          ],
+          "type": "integer",
           "description": "The time it took to complete the step, in nanoseconds."
         }
       }
@@ -346,37 +318,25 @@
         "s": {
           "title": "ShapeID",
           "x-ms-client-name": "ShapeID",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "The ShapeID@Version of the shape to which this datapoint belongs."
         },
         "z": {
           "title": "SchemaID",
           "x-ms-client-name": "SchemaID",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "The SchemaID@Version of the schema which produced the original record this datapoint was mapped from."
         },
         "c": {
           "title": "ConnectionID",
           "x-ms-client-name": "ConnectionID",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "The ConnectionID@Version of the connection used to produce this data point."
         },
         "d": {
           "title": "Data",
           "x-ms-client-name": "Data",
-          "type": [
-            "null",
-            "object"
-          ],
+          "type": "object",
           "description": "The data for this data point.",
           "additionalProperties": {
             "type": "object"
@@ -385,10 +345,7 @@
         "zd": {
           "title": "SchemaData",
           "x-ms-client-name": "SchemaData",
-          "type": [
-            "null",
-            "object"
-          ],
+          "type": "object",
           "description": "Data from the original record which has been captured in this datapoint to facilitate writebacks or lineage analysis.",
           "additionalProperties": {
             "type": "object"
@@ -397,10 +354,7 @@
         "enr": {
           "title": "EnrichedData",
           "x-ms-client-name": "EnrichedData",
-          "type": [
-            "null",
-            "object"
-          ],
+          "type": "object",
           "description": "Enriched data for this data point.",
           "additionalProperties": {
             "type": "object"
@@ -411,6 +365,9 @@
           "x-ms-client-name": "DataVersion",
           "type": "integer",
           "description": "A monotonically increasing number which is incremented when previous datapoints from the same job as this datapoint should be discarded rather than updated."
+        },
+        "versionSet": {
+          "$ref": "#/definitions/VersionSet"
         }
       },
       "allOf": [
@@ -428,28 +385,19 @@
         "maxDurationSeconds": {
           "title": "MaxDurationSeconds",
           "x-ms-client-name": "MaxDurationSeconds",
-          "type": [
-            "integer",
-            "null"
-          ],
+          "type": "integer",
           "description": "The maximum time this batch should take to complete, in seconds."
         },
         "count": {
           "title": "Expected count",
           "x-ms-client-name": "Expected count",
-          "type": [
-            "integer",
-            "null"
-          ],
+          "type": "integer",
           "description": "Optional; the number of records expected in this job, if it can be predicted."
         },
         "rate": {
           "title": "Expected rate",
           "x-ms-client-name": "Expected rate",
-          "type": [
-            "integer",
-            "null"
-          ],
+          "type": "integer",
           "description": "Optional; the maximum number of milliseconds expected between data points or heartbeats. If the rate is provided the receiver will be able to detect timeouts more accurately."
         },
         "v": {
@@ -474,10 +422,7 @@
         "count": {
           "title": "Count",
           "x-ms-client-name": "Count",
-          "type": [
-            "integer",
-            "null"
-          ],
+          "type": "integer",
           "description": "The number of records the batch thinks it sent, so that receivers can detect data loss."
         },
         "reason": {
@@ -498,10 +443,7 @@
         "message": {
           "title": "Message",
           "x-ms-client-name": "Message",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "A message about why the job ended. Usually only relevent if the job failed."
         }
       },
@@ -522,23 +464,14 @@
           "$ref": "#/definitions/DataPoint"
         },
         "errorStep": {
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "Something that identifies the step where the problem happend."
         },
         "error": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "problems": {
-          "type": [
-            "null",
-            "object"
-          ],
+          "type": "object",
           "description": "Problems that individual properties in the record had.",
           "additionalProperties": {
             "type": "object"
@@ -635,10 +568,7 @@
         "id": {
           "title": "ID",
           "x-ms-client-name": "ID",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "The ID of the resource this status belongs to."
         },
         "status": {
@@ -687,6 +617,12 @@
           "type": "integer",
           "description": "The version of the group, incremented each time a new version of this group is produced for any reason."
         },
+        "matchData": {
+          "title": "MatchData",
+          "x-ms-client-name": "MatchData",
+          "type": "string",
+          "description": "The match data used to construct this group."
+        },
         "dataPoints": {
           "title": "DataPoints",
           "x-ms-client-name": "DataPoints",
@@ -694,6 +630,9 @@
           "items": {
             "$ref": "#/definitions/DataflowEventWithDatapoint"
           }
+        },
+        "versionSet": {
+          "$ref": "#/definitions/VersionSet"
         }
       },
       "allOf": [
@@ -733,7 +672,7 @@
           "title": "Version",
           "x-ms-client-name": "Version",
           "type": "number",
-          "description": "The  of this composite, incremented whenever a new  is emitted for any reason."
+          "description": "The version of this composite, incremented whenever a new  is emitted for any reason."
         },
         "shapeId": {
           "title": "ShapeId",
@@ -748,19 +687,13 @@
         "createdAt": {
           "title": "CreatedAt",
           "x-ms-client-name": "CreatedAt",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "format": "date-time"
         },
         "modifiedAt": {
           "title": "ModifiedAt",
           "x-ms-client-name": "ModifiedAt",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "format": "date-time"
         },
         "data": {
@@ -777,7 +710,7 @@
             "type": "string"
           }
         },
-        "s": {
+        "versions": {
           "title": "Versions",
           "x-ms-client-name": "Versions",
           "type": "array",
@@ -788,10 +721,7 @@
         "cpids": {
           "title": "ChangedPropertyIds",
           "x-ms-client-name": "ChangedPropertyIds",
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "type": "string"
           }
@@ -799,31 +729,25 @@
         "values": {
           "title": "Values",
           "x-ms-client-name": "Values",
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "object",
           "description": "The values of the properties as determined by the merge rules.",
-          "items": {
-            "$ref": "#/definitions/PropertyVersion"
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/PropertyVersion"
+            }
           }
         },
         "displayName": {
           "title": "DisplayName",
           "x-ms-client-name": "DisplayName",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "The string used to label this record when it is displayed to a user."
         },
         "linked": {
           "title": "Linked",
           "x-ms-client-name": "Linked",
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "description": "The composite records this record is linked to by relationships.",
           "items": {
             "$ref": "#/definitions/CompositeLink"
@@ -832,23 +756,20 @@
         "doNotWriteback": {
           "title": "DoNotWriteback",
           "x-ms-client-name": "DoNotWriteback",
-          "type": [
-            "boolean",
-            "null"
-          ],
+          "type": "boolean",
           "description": "Should this composite record be written back?"
         },
         "brokenQualityRules": {
           "title": "BrokenQualityRules",
           "x-ms-client-name": "BrokenQualityRules",
-          "type": [
-            "null",
-            "object"
-          ],
+          "type": "object",
           "description": "The quality rule ids applied to this composite record",
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "versionSet": {
+          "$ref": "#/definitions/VersionSet"
         }
       },
       "allOf": [
@@ -907,6 +828,80 @@
         }
       ]
     },
+    "Notification": {
+      "title": "Notification",
+      "x-ms-client-name": "Notification",
+      "type": "object",
+      "discriminator": "typ",
+      "description": "A representation of notification to be delivered to a user.",
+      "required": [
+        "typ",
+        "id",
+        "tid",
+        "topic",
+        "message"
+      ],
+      "properties": {
+        "typ": {
+          "title": "Type",
+          "x-ms-client-name": "Type",
+          "type": "string",
+          "description": "The type, used to discriminate between payloads."
+        },
+        "tid": {
+          "title": "TenantId",
+          "x-ms-client-name": "TenantId",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "x-ms-client-name": "Id",
+          "type": "string"
+        },
+        "createdOn": {
+          "title": "createdOn",
+          "x-ms-client-name": "createdOn",
+          "type": "string"
+        },
+        "topic": {
+          "title": "Topic",
+          "x-ms-client-name": "Topic",
+          "type": "string",
+          "description": "The topic the notification is targeting."
+        },
+        "message": {
+          "title": "Message",
+          "x-ms-client-name": "Message",
+          "type": "object",
+          "description": "The notification message to be delivered.",
+          "properties": {
+            "text": {
+              "title": "Text",
+              "x-ms-client-name": "Text",
+              "type": "string",
+              "description": "A plain text version of the message."
+            },
+            "short": {
+              "title": "Short",
+              "x-ms-client-name": "Short",
+              "type": "string",
+              "description": "A short plan text version of the message."
+            },
+            "html": {
+              "title": "Html",
+              "x-ms-client-name": "Html",
+              "type": "string",
+              "description": "An HTML formatted version of the message"
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payload"
+        }
+      ]
+    },
     "MetabaseShapeResource": {
       "title": "MetabaseShapeResource",
       "x-ms-client-name": "MetabaseShapeResource",
@@ -917,20 +912,18 @@
         {
           "type": "object",
           "properties": {
+            "dataVersion": {
+              "type": "integer",
+              "format": "int32"
+            },
             "properties": {
-              "type": [
-                "array",
-                "null"
-              ],
+              "type": "array",
               "items": {
                 "$ref": "#/definitions/ShapePropertyModel"
               }
             },
             "labels": {
-              "type": [
-                "null",
-                "object"
-              ],
+              "type": "object",
               "additionalProperties": {
                 "type": "string"
               }
@@ -941,17 +934,23 @@
             "matchRule": {
               "$ref": "#/definitions/MatchRuleModel"
             },
+            "matching": {
+              "$ref": "#/definitions/MatchingModel"
+            },
             "mergeRule": {
               "$ref": "#/definitions/MergeRuleModel"
             },
             "compareRule": {
               "$ref": "#/definitions/CompareRuleModel"
             },
+            "dataQualityRules": {
+              "$ref": "#/definitions/DataQualityRulesModel"
+            },
             "copiedFromSchemaId": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
+            },
+            "enrichment": {
+              "$ref": "#/definitions/ShapeEnrichmentModel"
             }
           }
         }
@@ -974,28 +973,16 @@
               "$ref": "#/definitions/ScheduleModel"
             },
             "connectionId": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "schemaId": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "shapeId": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "agentId": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "canRunInCloud": {
               "type": "boolean"
@@ -1005,10 +992,7 @@
               "format": "int32"
             },
             "propertyMappings": {
-              "type": [
-                "array",
-                "null"
-              ],
+              "type": "array",
               "items": {
                 "$ref": "#/definitions/PropertyMappingModel"
               }
@@ -1062,10 +1046,7 @@
               "minLength": 1
             },
             "rules": {
-              "type": [
-                "array",
-                "null"
-              ],
+              "type": "array",
               "items": {
                 "$ref": "#/definitions/RelationshipRuleModel"
               }
@@ -1088,19 +1069,13 @@
           ],
           "properties": {
             "roles": {
-              "type": [
-                "array",
-                "null"
-              ],
+              "type": "array",
               "items": {
                 "$ref": "#/definitions/ConnectionRole"
               }
             },
             "labels": {
-              "type": [
-                "null",
-                "object"
-              ],
+              "type": "object",
               "additionalProperties": {
                 "type": "string"
               }
@@ -1111,10 +1086,7 @@
             },
             "settings": {},
             "preferredAgent": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "canRunInCloud": {
               "type": "boolean"
@@ -1123,10 +1095,7 @@
               "$ref": "#/definitions/PluginCapabilities"
             },
             "discoveredSchemas": {
-              "type": [
-                "array",
-                "null"
-              ],
+              "type": "array",
               "items": {
                 "$ref": "#/definitions/ConnectionDiscoveredSchema"
               }
@@ -1139,22 +1108,13 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "name": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "description": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "type": {
           "$ref": "#/definitions/PropertyType"
@@ -1213,10 +1173,7 @@
           "$ref": "#/definitions/SecurityKeyStorage"
         },
         "key": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         }
       }
     },
@@ -1272,13 +1229,90 @@
           "minLength": 1
         },
         "settings": {
-          "type": [
-            "null",
-            "object"
-          ],
+          "type": "object",
           "additionalProperties": {}
         }
       }
+    },
+    "MatchingModel": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MatchingStage"
+          }
+        }
+      }
+    },
+    "MatchingStage": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/MatchingStageType"
+        },
+        "exact": {
+          "$ref": "#/definitions/ExactMatchSettings"
+        },
+        "fuzzy": {
+          "$ref": "#/definitions/FuzzyMatchSettings"
+        }
+      }
+    },
+    "MatchingStageType": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unsupported",
+        "Exact",
+        "Fuzzy"
+      ],
+      "enum": [
+        "unsupported",
+        "exact",
+        "fuzzy"
+      ]
+    },
+    "ExactMatchSettings": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MatchSettings"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "MatchSettings": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "FuzzyMatchSettings": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MatchSettings"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "confidenceLevel": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        }
+      ]
     },
     "MergeRuleModel": {
       "type": "object",
@@ -1291,10 +1325,7 @@
           "$ref": "#/definitions/MergingPrerequisites"
         },
         "properties": {
-          "type": [
-            "null",
-            "object"
-          ],
+          "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/PropertyMergeRule"
           }
@@ -1305,19 +1336,13 @@
       "type": "object",
       "properties": {
         "allRequiredConnectionIdsPresent": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "type": "string"
           }
         },
         "oneConnectionIdMustBePresent": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "type": "string"
           }
@@ -1328,34 +1353,22 @@
       "type": "object",
       "properties": {
         "propertyId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "connections": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "type": "string"
           }
         },
         "jobs": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "type": "string"
           }
         },
         "strategies": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "$ref": "#/definitions/PropertyMergeRuleStrategy"
           }
@@ -1404,10 +1417,7 @@
       "type": "object",
       "properties": {
         "jobOrder": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "type": "string"
           }
@@ -1421,10 +1431,7 @@
           "type": "boolean"
         },
         "propertyId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         }
       }
     },
@@ -1432,19 +1439,13 @@
       "type": "object",
       "properties": {
         "propertyId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "operator": {
           "$ref": "#/definitions/ValueConditionOperator"
         },
         "value": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         }
       }
     },
@@ -1476,20 +1477,14 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "version": {
           "type": "integer",
           "format": "int32"
         },
         "properties": {
-          "type": [
-            "null",
-            "object"
-          ],
+          "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/PropertyCompareRule"
           }
@@ -1500,19 +1495,131 @@
       "type": "object",
       "properties": {
         "propertyId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "connections": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "DataQualityRulesModel": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataQualityRuleModel"
+          }
+        }
+      }
+    },
+    "DataQualityRuleModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/DataQualityRuleKind"
+        },
+        "uniquePropertySettings": {
+          "$ref": "#/definitions/DataQualityUniquePropertySettings"
+        }
+      }
+    },
+    "DataQualityRuleKind": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unknown",
+        "UniqueProperty"
+      ],
+      "enum": [
+        "unknown",
+        "uniqueProperty"
+      ]
+    },
+    "DataQualityUniquePropertySettings": {
+      "type": "object",
+      "properties": {
+        "propertyId": {
+          "type": "string"
+        }
+      }
+    },
+    "ShapeEnrichmentModel": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShapeEnrichmentStep"
+          }
+        }
+      }
+    },
+    "ShapeEnrichmentStep": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "settings": {}
+      }
+    },
+    "ResourceStage": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unknown",
+        "Embedded",
+        "Deployed",
+        "Published"
+      ],
+      "enum": [
+        "unknown",
+        "embedded",
+        "deployed",
+        "published"
+      ]
+    },
+    "DraftInfo": {
+      "type": "object",
+      "properties": {
+        "draftId": {
+          "type": "string"
+        },
+        "draftInstanceId": {
+          "type": "string"
+        },
+        "publishedInstanceId": {
+          "type": "string"
         }
       }
     },
@@ -1523,23 +1630,14 @@
           "$ref": "#/definitions/ScheduleType"
         },
         "cron": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "pointInTime": {
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "format": "date-time"
         },
         "description": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "realTimeSettings": {
           "$ref": "#/definitions/RealTimeSettings"
@@ -1574,10 +1672,7 @@
       "type": "object",
       "properties": {
         "stateCheckpointInterval": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "settings": {},
         "schema": {},
@@ -1615,10 +1710,7 @@
           "$ref": "#/definitions/TransformModel"
         },
         "transforms": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "$ref": "#/definitions/TransformModel"
           }
@@ -1643,16 +1735,10 @@
       "type": "object",
       "properties": {
         "transformId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "format": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         }
       }
     },
@@ -1690,10 +1776,7 @@
       "type": "object",
       "properties": {
         "rules": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "$ref": "#/definitions/FilterRule"
           }
@@ -1707,16 +1790,10 @@
           "$ref": "#/definitions/FilterRuleEffect"
         },
         "propertyId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "operatorId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "parameter": {}
       }
@@ -1771,16 +1848,10 @@
           "type": "object",
           "properties": {
             "error": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "message": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "startCount": {
               "type": "integer",
@@ -1795,36 +1866,21 @@
               "format": "int32"
             },
             "state": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "nextRunAt": {
-              "type": [
-                "null",
-                "string"
-              ],
+              "type": "string",
               "format": "date-time"
             },
             "previousRunAt": {
-              "type": [
-                "null",
-                "string"
-              ],
+              "type": "string",
               "format": "date-time"
             },
             "scheduledOn": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "scheduledAt": {
-              "type": [
-                "null",
-                "string"
-              ],
+              "type": "string",
               "format": "date-time"
             }
           }
@@ -1835,20 +1891,14 @@
       "type": "object",
       "properties": {
         "resourceId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "updatedAt": {
           "type": "string",
           "format": "date-time"
         },
         "updatedBy": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         }
       }
     },
@@ -1861,10 +1911,7 @@
           "type": "object",
           "properties": {
             "realTimeState": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             }
           }
         }
@@ -1916,34 +1963,22 @@
           "type": "object",
           "properties": {
             "startedOnAgent": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "startedAt": {
               "type": "string",
               "format": "date-time"
             },
             "expectedToEndBefore": {
-              "type": [
-                "null",
-                "string"
-              ],
+              "type": "string",
               "format": "date-time"
             },
             "endedAt": {
-              "type": [
-                "null",
-                "string"
-              ],
+              "type": "string",
               "format": "date-time"
             },
             "expectedCount": {
-              "type": [
-                "integer",
-                "null"
-              ],
+              "type": "integer",
               "format": "int32"
             },
             "dataPointsPerMinute": {
@@ -1967,22 +2002,13 @@
               "format": "int32"
             },
             "endedReason": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "endedMessage": {
-              "type": [
-                "null",
-                "string"
-              ]
+              "type": "string"
             },
             "badRecordSample": {
-              "type": [
-                "array",
-                "null"
-              ],
+              "type": "array",
               "items": {}
             }
           }
@@ -1993,28 +2019,16 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "name": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "description": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "matchRules": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": "array",
           "items": {
             "$ref": "#/definitions/RelationshipMatchRuleModel"
           }
@@ -2025,16 +2039,10 @@
       "type": "object",
       "properties": {
         "leftPropertyId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "rightPropertyId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         }
       }
     },
@@ -2095,19 +2103,13 @@
       "type": "object",
       "properties": {
         "discoveredSchemaId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         },
         "isAdvertised": {
           "type": "boolean"
         },
         "advertisedSchemaId": {
-          "type": [
-            "null",
-            "string"
-          ]
+          "type": "string"
         }
       }
     },
@@ -2143,11 +2145,47 @@
         "n": {
           "title": "DisplayName",
           "x-ms-client-name": "DisplayName",
-          "type": [
-            "null",
-            "string"
-          ],
+          "type": "string",
           "description": "The display name of the record at the other end of this link."
+        }
+      }
+    },
+    "EnrichmentMetadata": {
+      "title": "EnrichmentMetadata",
+      "x-ms-client-name": "EnrichmentMetadata",
+      "type": "object",
+      "description": "Contains information about the run of an enrichment step.",
+      "properties": {
+        "timestamp": {
+          "title": "Timestamp",
+          "x-ms-client-name": "Timestamp",
+          "type": "string",
+          "description": "The UTC time the enrichment step last ran."
+        },
+        "messages": {
+          "title": "Messages",
+          "x-ms-client-name": "Messages",
+          "type": "array",
+          "description": "Messages logged by the enrichment step.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "error": {
+          "title": "Error",
+          "x-ms-client-name": "Error",
+          "type": "string",
+          "description": "The error logged by the enrichment step, if any."
+        },
+        "events": {
+          "title": "Values",
+          "x-ms-client-name": "Values",
+          "type": "array",
+          "description": "Values set by the enrichment step, if any.",
+          "items": {
+            "type": "object",
+            "additionalProperties": {}
+          }
         }
       }
     },
@@ -2155,11 +2193,7 @@
       "title": "PropertyVersion",
       "x-ms-client-name": "PropertyVersion",
       "type": "object",
-      "description": "A value of a property from a .",
-      "required": [
-        "jid",
-        "rid"
-      ],
+      "description": "A value of a property in the composite, with details about where it came from.",
       "properties": {
         "jid": {
           "title": "JobID",
@@ -2171,16 +2205,13 @@
           "x-ms-client-name": "RecordID",
           "type": "string"
         },
+        "eid": {
+          "title": "EnrichmentStepID",
+          "x-ms-client-name": "EnrichmentStepID",
+          "type": "string"
+        },
         "value": {
-          "type": [
-            "array",
-            "boolean",
-            "integer",
-            "null",
-            "number",
-            "object",
-            "string"
-          ]
+          "type": "string"
         }
       }
     }

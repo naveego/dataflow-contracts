@@ -49,7 +49,15 @@ var refs = refTokens
     })
 ;
 
+var propertyTypeTokens = jobject.SelectTokens("$..type").ToList();
+foreach(var propertyTypeToken in propertyTypeTokens) {
+    if(propertyTypeToken is JArray typeArray){
+        var realType = typeArray.FirstOrDefault(x => x.Value<string>() != "null") ?? "string";
+        Console.WriteLine($"Fixing type array, changing {typeArray} to {realType}");
 
+        propertyTypeToken.Replace(realType);
+    }
+}
 
 var definitions = (JObject)jobject.Property("definitions").Value;
 
@@ -75,9 +83,13 @@ foreach (var n in nestedDefinitions) {
 }
 
 foreach (var x in jobject.SelectTokens("$..discriminator").ToList()){
-    Console.WriteLine("replacing discriminator", x);
+
     
-    x.Replace(JToken.FromObject("typ"));
+    if(!x.Path.Contains("properties")) {
+        Console.WriteLine("replacing discriminator at {0}", x.Path);
+        x.Replace(JToken.FromObject("typ"));
+    }
+    
 }
 
 foreach (JValue x in jobject.SelectTokens("$..additionalProperties").OfType<JValue>().ToList()){
