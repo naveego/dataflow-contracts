@@ -132,13 +132,13 @@ message DataVersions {
   string job_id = 1;
   // The data version of the job related to this request. When this increments,
   // any cached data associated with the job should be discarded.
-  int job_data_version = 2;
+  uint32 job_data_version = 2;
   // The ID of the shape related to this request, if any. Can be used to
   // name caches related to a specific shape.
   string shape_id = 3;
   // The data version of the shape related to this request. When this
   // increments, any cached data associated with the shape should be discarded.
-  int shape_data_version = 4;
+  uint32 shape_data_version = 4;
 }
 
 message ConfigureRequest {
