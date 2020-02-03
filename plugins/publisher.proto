@@ -126,6 +126,21 @@ enum LogLevel {
   Trace = 4;
 }
 
+message DataVersions {
+  // The ID of the job related to this request, if any. Can be used to
+  // name caches related to a specific job.
+  string job_id = 1;
+  // The data version of the job related to this request. When this increments,
+  // any cached data associated with the job should be discarded.
+  string job_data_version = 2;
+  // The ID of the shape related to this request, if any. Can be used to
+  // name caches related to a specific shape.
+  string shape_id = 3;
+  // The data version of the shape related to this request. When this
+  // increments, any cached data associated with the shape should be discarded.
+  string shape_data_version = 4;
+}
+
 message ConfigureRequest {
   // The level of logging information the plugin should emit.
   LogLevel log_level = 1;
@@ -136,6 +151,10 @@ message ConfigureRequest {
   // Directory where the plugin can store temporary information which may be
   // deleted.
   string temporary_directory = 4;
+
+  // Data versions which will be in effect until the next configure request.
+  // This can be used to name log files or caches.
+  DataVersions data_versions = 5;
 }
 
 message ConfigureResponse {
@@ -154,6 +173,10 @@ message ConnectRequest {
   // The OAuth state returned from the last Connect, ConnectSession, or
   // CompleteOAuthFlow.
   string oauth_state_json = 4;
+
+  // Data versions which will be in effect until the next configure request.
+  // This can be used to name log files or caches.
+  DataVersions data_versions = 5;
 }
 
 // Connection result information.
@@ -198,7 +221,11 @@ message ReadRequest {
 
   // The data_version is a counter that will be incremented whenever
   // all data produced for a particular job_id should be discarded.
+  //
+  // Deprecated: Use the data_versions property instead.
   uint32 data_version = 9;
+
+  DataVersions data_versions = 10;
 }
 
 message PublishFilter {
@@ -383,11 +410,11 @@ message Record {
   // Only expected to be used within the WriteStream method
   string correlation_id = 5;
 
-  // RecordID for the source record. 
+  // RecordID for the source record.
   // Only set on a replication writeback.
   string record_id = 6;
 
-  // Versions of the record from other sources. 
+  // Versions of the record from other sources.
   // Only set on a replication writeback.
   repeated RecordVersion versions = 7;
 }
@@ -571,6 +598,8 @@ message PrepareWriteRequest {
   // prepare replication targets and expect incoming records to contain
   // replication data.
   ReplicationWriteRequest replication = 3;
+
+  DataVersions data_versions = 4;
 }
 
 message ReplicationWriteRequest {
