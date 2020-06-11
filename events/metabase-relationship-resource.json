@@ -32,6 +32,15 @@
           "items": {
             "$ref": "#/definitions/RelationshipMatchRuleModel"
           }
+        },
+        "materializeLookupActions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/MaterializeLookupAction"
+          }
         }
       }
     },
@@ -53,20 +62,44 @@
         }
       }
     },
+    "MaterializeLookupAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fromPropertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "toPropertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
     "ResourceStage": {
       "type": "string",
       "description": "",
       "x-enumNames": [
         "Unknown",
+        "Drafting",
         "Embedded",
+        "Previewing",
         "Deployed",
-        "Published"
+        "Published",
+        "Deleted"
       ],
       "enum": [
         "unknown",
-        "embedded",
-        "deployed",
-        "published"
+        "drafting",
+        "drafting",
+        "previewing",
+        "previewing",
+        "published",
+        "deleted"
       ]
     },
     "DraftInfo": {
@@ -90,6 +123,10 @@
             "null",
             "string"
           ]
+        },
+        "draftVersion": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     }
@@ -113,6 +150,12 @@
         "rightShapeId": {
           "type": "string",
           "minLength": 1
+        },
+        "isLookup": {
+          "type": [
+            "boolean",
+            "null"
+          ]
         },
         "rules": {
           "type": [
