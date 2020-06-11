@@ -82,15 +82,21 @@
       "description": "",
       "x-enumNames": [
         "Unknown",
+        "Drafting",
         "Embedded",
+        "Previewing",
         "Deployed",
-        "Published"
+        "Published",
+        "Deleted"
       ],
       "enum": [
         "unknown",
-        "embedded",
-        "deployed",
-        "published"
+        "drafting",
+        "drafting",
+        "previewing",
+        "previewing",
+        "published",
+        "deleted"
       ]
     },
     "DraftInfo": {
@@ -114,6 +120,10 @@
             "null",
             "string"
           ]
+        },
+        "draftVersion": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     }
@@ -136,15 +146,6 @@
           ],
           "items": {
             "$ref": "#/definitions/ConnectionRole"
-          }
-        },
-        "labels": {
-          "type": [
-            "null",
-            "object"
-          ],
-          "additionalProperties": {
-            "type": "string"
           }
         },
         "plugin": {

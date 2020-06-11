@@ -922,12 +922,6 @@
                 "$ref": "#/definitions/ShapePropertyModel"
               }
             },
-            "labels": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              }
-            },
             "isMdmShape": {
               "type": "boolean"
             },
@@ -951,6 +945,12 @@
             },
             "enrichment": {
               "$ref": "#/definitions/ShapeEnrichmentModel"
+            },
+            "displaySettings": {
+              "$ref": "#/definitions/ShapeDisplaySettings"
+            },
+            "domainId": {
+              "type": "string"
             }
           }
         }
@@ -1074,12 +1074,6 @@
                 "$ref": "#/definitions/ConnectionRole"
               }
             },
-            "labels": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              }
-            },
             "plugin": {
               "type": "string",
               "minLength": 1
@@ -1130,6 +1124,24 @@
         },
         "isHidden": {
           "type": "boolean"
+        },
+        "maxLength": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "precision": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "scale": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     },
@@ -1342,6 +1354,18 @@
           }
         },
         "oneConnectionIdMustBePresent": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sufficientJobIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "necessaryJobIds": {
           "type": "array",
           "items": {
             "type": "string"
@@ -1590,7 +1614,49 @@
         "provider": {
           "type": "string"
         },
+        "stage": {
+          "$ref": "#/definitions/ShapeEnrichmentStepStage"
+        },
         "settings": {}
+      }
+    },
+    "ShapeEnrichmentStepStage": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unknown",
+        "BeforeMatch",
+        "BeforeMerge",
+        "AfterMerge"
+      ],
+      "enum": [
+        "unknown",
+        "beforeMatch",
+        "beforeMerge",
+        "afterMerge"
+      ]
+    },
+    "ShapeDisplaySettings": {
+      "type": "object",
+      "properties": {
+        "displayNameProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "summaryProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "defaultHiddenProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
     "ResourceStage": {
@@ -1598,15 +1664,21 @@
       "description": "",
       "x-enumNames": [
         "Unknown",
+        "Drafting",
         "Embedded",
+        "Previewing",
         "Deployed",
-        "Published"
+        "Published",
+        "Deleted"
       ],
       "enum": [
         "unknown",
-        "embedded",
-        "deployed",
-        "published"
+        "drafting",
+        "drafting",
+        "previewing",
+        "previewing",
+        "published",
+        "deleted"
       ]
     },
     "DraftInfo": {
@@ -1620,6 +1692,10 @@
         },
         "publishedInstanceId": {
           "type": "string"
+        },
+        "draftVersion": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
@@ -2211,7 +2287,7 @@
           "type": "string"
         },
         "value": {
-          "type": "string"
+          "type": "array"
         }
       }
     }

@@ -78,6 +78,184 @@
         }
       }
     },
+    "ConnectionModel": {
+      "allOf": [
+        {
+          "$ref": "resource.json"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "plugin"
+          ],
+          "properties": {
+            "roles": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/definitions/ConnectionRole"
+              }
+            },
+            "plugin": {
+              "type": "string",
+              "minLength": 1
+            },
+            "settings": {
+              "$ref": null
+            },
+            "preferredAgent": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "canRunInCloud": {
+              "type": "boolean"
+            },
+            "pluginCapabilities": {
+              "$ref": "#/definitions/PluginCapabilities"
+            },
+            "discoveredSchemas": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/definitions/ConnectionDiscoveredSchema"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ConnectionRole": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Publisher",
+        "Subscriber"
+      ],
+      "enum": [
+        "publisher",
+        "subscriber"
+      ]
+    },
+    "PluginCapabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "canAcceptQueryBasedSchemas": {
+          "type": "boolean"
+        },
+        "canConfigure": {
+          "type": "boolean"
+        },
+        "canConfigureConnection": {
+          "type": "boolean"
+        },
+        "canConfigureQualityCheck": {
+          "type": "boolean"
+        },
+        "canConfigureQuery": {
+          "type": "boolean"
+        },
+        "canConfigureRealTime": {
+          "type": "boolean"
+        },
+        "canConfigureWrite": {
+          "type": "boolean"
+        },
+        "canDiscoverShapes": {
+          "type": "boolean"
+        },
+        "canProduceMultipleSchemas": {
+          "type": "boolean"
+        },
+        "canPublish": {
+          "type": "boolean"
+        },
+        "canUseOAuth": {
+          "type": "boolean"
+        },
+        "canWrite": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ConnectionDiscoveredSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "discoveredSchemaId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "isAdvertised": {
+          "type": "boolean"
+        },
+        "advertisedSchemaId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "ResourceStage": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unknown",
+        "Drafting",
+        "Embedded",
+        "Previewing",
+        "Deployed",
+        "Published",
+        "Deleted"
+      ],
+      "enum": [
+        "unknown",
+        "drafting",
+        "drafting",
+        "previewing",
+        "previewing",
+        "published",
+        "deleted"
+      ]
+    },
+    "DraftInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "draftId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "draftInstanceId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "publishedInstanceId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "draftVersion": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "PropertyMappingModel": {
       "type": "object",
       "additionalProperties": false,
@@ -542,46 +720,6 @@
           }
         }
       ]
-    },
-    "ResourceStage": {
-      "type": "string",
-      "description": "",
-      "x-enumNames": [
-        "Unknown",
-        "Embedded",
-        "Deployed",
-        "Published"
-      ],
-      "enum": [
-        "unknown",
-        "embedded",
-        "deployed",
-        "published"
-      ]
-    },
-    "DraftInfo": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "draftId": {
-          "type": [
-            "null",
-            "string"
-          ]
-        },
-        "draftInstanceId": {
-          "type": [
-            "null",
-            "string"
-          ]
-        },
-        "publishedInstanceId": {
-          "type": [
-            "null",
-            "string"
-          ]
-        }
-      }
     }
   },
   "allOf": [
@@ -603,6 +741,9 @@
             "null",
             "string"
           ]
+        },
+        "connection": {
+          "$ref": "#/definitions/ConnectionModel"
         },
         "schemaId": {
           "type": [
