@@ -68,6 +68,12 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "authorization": {
+          "$ref": "#/definitions/AuthorizationModel"
+        },
+        "valueStrategy": {
+          "$ref": "#/definitions/ShapePropertyValueStrategyModel"
         }
       }
     },
@@ -144,6 +150,102 @@
         "vault",
         "file"
       ]
+    },
+    "AuthorizationModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "allowedRoles": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ShapePropertyValueStrategyModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/ShapePropertyValueStrategyKind"
+        },
+        "deriveByMasking": {
+          "$ref": "#/definitions/DeriveByMaskingStrategy"
+        }
+      }
+    },
+    "ShapePropertyValueStrategyKind": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "MergeVersions",
+        "DeriveByMasking"
+      ],
+      "enum": [
+        "mergeVersions",
+        "deriveByMasking"
+      ]
+    },
+    "DeriveByMaskingStrategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "propertyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "description": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "tactics": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DeriveByMaskingTactic"
+          }
+        }
+      }
+    },
+    "DeriveByMaskingTactic": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "userInput": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "matchingRegex": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "replacementRegex": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
     },
     "MatchRuleModel": {
       "type": "object",
