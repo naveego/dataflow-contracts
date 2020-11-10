@@ -34,6 +34,11 @@
       ],
       "title": "Message",
       "description": "A message about why the job ended. Usually only relevent if the job failed."
+    },
+    "contentUrl": {
+      "title": "Content url",
+      "type": ["string", "null"],
+      "description": "Optional; The URL to obtain the content for the batch"
     }
   }
 }

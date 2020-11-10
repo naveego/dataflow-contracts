@@ -25,6 +25,12 @@
       "title": "Expected rate",
       "description": "Optional; the maximum number of milliseconds expected between data points or heartbeats. If the rate is provided the receiver will be able to detect timeouts more accurately."
     },
+    "transferMode":{
+      "title": "Transfer mode",
+      "type": ["string", "null"],
+      "description": "Identifies the transfer mode of the data contained in the batch, default: streaming",
+      "enum": ["streaming", "bulk"]
+    },
     "v": {
       "type": "integer",
       "title": "DataVersion",

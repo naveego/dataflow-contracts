@@ -400,6 +400,20 @@
           "type": "integer",
           "description": "Optional; the maximum number of milliseconds expected between data points or heartbeats. If the rate is provided the receiver will be able to detect timeouts more accurately."
         },
+        "transferMode": {
+          "title": "Transfer mode",
+          "x-ms-client-name": "Transfer mode",
+          "type": "string",
+          "description": "Identifies the transfer mode of the data contained in the batch, default: streaming",
+          "enum": [
+            "streaming",
+            "bulk"
+          ],
+          "x-ms-enum": {
+            "name": "BatchStartTransfer mode",
+            "modelAsString": true
+          }
+        },
         "v": {
           "title": "DataVersion",
           "x-ms-client-name": "DataVersion",
@@ -445,6 +459,12 @@
           "x-ms-client-name": "Message",
           "type": "string",
           "description": "A message about why the job ended. Usually only relevent if the job failed."
+        },
+        "contentUrl": {
+          "title": "Content url",
+          "x-ms-client-name": "Content url",
+          "type": "string",
+          "description": "Optional; The URL to obtain the content for the batch"
         }
       },
       "allOf": [
@@ -922,13 +942,10 @@
                 "$ref": "#/definitions/ShapePropertyModel"
               }
             },
-            "labels": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              }
-            },
             "isMdmShape": {
+              "type": "boolean"
+            },
+            "isLookupShape": {
               "type": "boolean"
             },
             "matchRule": {
@@ -951,6 +968,9 @@
             },
             "enrichment": {
               "$ref": "#/definitions/ShapeEnrichmentModel"
+            },
+            "displaySettings": {
+              "$ref": "#/definitions/ShapeDisplaySettings"
             }
           }
         }
@@ -974,6 +994,9 @@
             },
             "connectionId": {
               "type": "string"
+            },
+            "connection": {
+              "$ref": "#/definitions/ConnectionModel"
             },
             "schemaId": {
               "type": "string"
@@ -1045,6 +1068,9 @@
               "type": "string",
               "minLength": 1
             },
+            "isLookup": {
+              "type": "boolean"
+            },
             "rules": {
               "type": "array",
               "items": {
@@ -1072,12 +1098,6 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/ConnectionRole"
-              }
-            },
-            "labels": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
               }
             },
             "plugin": {
@@ -1130,6 +1150,30 @@
         },
         "isHidden": {
           "type": "boolean"
+        },
+        "maxLength": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "precision": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "scale": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "authorization": {
+          "$ref": "#/definitions/AuthorizationModel"
+        },
+        "valueStrategy": {
+          "$ref": "#/definitions/ShapePropertyValueStrategyModel"
         }
       }
     },
@@ -1203,6 +1247,74 @@
         "file"
       ]
     },
+    "AuthorizationModel": {
+      "type": "object",
+      "properties": {
+        "allowedRoles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ShapePropertyValueStrategyModel": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/ShapePropertyValueStrategyKind"
+        },
+        "deriveByMasking": {
+          "$ref": "#/definitions/DeriveByMaskingStrategy"
+        }
+      }
+    },
+    "ShapePropertyValueStrategyKind": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "MergeVersions",
+        "DeriveByMasking"
+      ],
+      "enum": [
+        "mergeVersions",
+        "deriveByMasking"
+      ]
+    },
+    "DeriveByMaskingStrategy": {
+      "type": "object",
+      "properties": {
+        "propertyId": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tactics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeriveByMaskingTactic"
+          }
+        }
+      }
+    },
+    "DeriveByMaskingTactic": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "userInput": {
+          "type": "string"
+        },
+        "matchingRegex": {
+          "type": "string"
+        },
+        "replacementRegex": {
+          "type": "string"
+        }
+      }
+    },
     "MatchRuleModel": {
       "type": "object",
       "required": [
@@ -1269,12 +1381,14 @@
       "x-enumNames": [
         "Unsupported",
         "Exact",
-        "Fuzzy"
+        "JaroWinkler",
+        "Levenshtein"
       ],
       "enum": [
         "unsupported",
         "exact",
-        "fuzzy"
+        "jaroWinkler",
+        "levenshtein"
       ]
     },
     "ExactMatchSettings": {
@@ -1342,6 +1456,18 @@
           }
         },
         "oneConnectionIdMustBePresent": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sufficientJobIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "necessaryJobIds": {
           "type": "array",
           "items": {
             "type": "string"
@@ -1590,7 +1716,49 @@
         "provider": {
           "type": "string"
         },
+        "stage": {
+          "$ref": "#/definitions/ShapeEnrichmentStepStage"
+        },
         "settings": {}
+      }
+    },
+    "ShapeEnrichmentStepStage": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Unknown",
+        "BeforeMatch",
+        "BeforeMerge",
+        "AfterMerge"
+      ],
+      "enum": [
+        "unknown",
+        "beforeMatch",
+        "beforeMerge",
+        "afterMerge"
+      ]
+    },
+    "ShapeDisplaySettings": {
+      "type": "object",
+      "properties": {
+        "displayNameProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "summaryProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "defaultHiddenProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
     "ResourceStage": {
@@ -1598,15 +1766,21 @@
       "description": "",
       "x-enumNames": [
         "Unknown",
+        "Drafting",
         "Embedded",
+        "Previewing",
         "Deployed",
-        "Published"
+        "Published",
+        "Deleted"
       ],
       "enum": [
         "unknown",
-        "embedded",
-        "deployed",
-        "published"
+        "drafting",
+        "drafting",
+        "previewing",
+        "previewing",
+        "published",
+        "deleted"
       ]
     },
     "DraftInfo": {
@@ -1620,6 +1794,10 @@
         },
         "publishedInstanceId": {
           "type": "string"
+        },
+        "draftVersion": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
@@ -1677,6 +1855,114 @@
         "settings": {},
         "schema": {},
         "uiSchema": {}
+      }
+    },
+    "ConnectionModel": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        },
+        {
+          "type": "object",
+          "required": [
+            "plugin"
+          ],
+          "properties": {
+            "roles": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ConnectionRole"
+              }
+            },
+            "plugin": {
+              "type": "string",
+              "minLength": 1
+            },
+            "settings": {},
+            "preferredAgent": {
+              "type": "string"
+            },
+            "canRunInCloud": {
+              "type": "boolean"
+            },
+            "pluginCapabilities": {
+              "$ref": "#/definitions/PluginCapabilities"
+            },
+            "discoveredSchemas": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ConnectionDiscoveredSchema"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ConnectionRole": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Publisher",
+        "Subscriber"
+      ],
+      "enum": [
+        "publisher",
+        "subscriber"
+      ]
+    },
+    "PluginCapabilities": {
+      "type": "object",
+      "properties": {
+        "canAcceptQueryBasedSchemas": {
+          "type": "boolean"
+        },
+        "canConfigure": {
+          "type": "boolean"
+        },
+        "canConfigureConnection": {
+          "type": "boolean"
+        },
+        "canConfigureQualityCheck": {
+          "type": "boolean"
+        },
+        "canConfigureQuery": {
+          "type": "boolean"
+        },
+        "canConfigureRealTime": {
+          "type": "boolean"
+        },
+        "canConfigureWrite": {
+          "type": "boolean"
+        },
+        "canDiscoverShapes": {
+          "type": "boolean"
+        },
+        "canProduceMultipleSchemas": {
+          "type": "boolean"
+        },
+        "canPublish": {
+          "type": "boolean"
+        },
+        "canUseOAuth": {
+          "type": "boolean"
+        },
+        "canWrite": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ConnectionDiscoveredSchema": {
+      "type": "object",
+      "properties": {
+        "discoveredSchemaId": {
+          "type": "string"
+        },
+        "isAdvertised": {
+          "type": "boolean"
+        },
+        "advertisedSchemaId": {
+          "type": "string"
+        }
       }
     },
     "PropertyMappingModel": {
@@ -2032,6 +2318,12 @@
           "items": {
             "$ref": "#/definitions/RelationshipMatchRuleModel"
           }
+        },
+        "materializeLookupActions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MaterializeLookupAction"
+          }
         }
       }
     },
@@ -2046,69 +2338,13 @@
         }
       }
     },
-    "ConnectionRole": {
-      "type": "string",
-      "description": "",
-      "x-enumNames": [
-        "Publisher",
-        "Subscriber"
-      ],
-      "enum": [
-        "publisher",
-        "subscriber"
-      ]
-    },
-    "PluginCapabilities": {
+    "MaterializeLookupAction": {
       "type": "object",
       "properties": {
-        "canAcceptQueryBasedSchemas": {
-          "type": "boolean"
-        },
-        "canConfigure": {
-          "type": "boolean"
-        },
-        "canConfigureConnection": {
-          "type": "boolean"
-        },
-        "canConfigureQualityCheck": {
-          "type": "boolean"
-        },
-        "canConfigureQuery": {
-          "type": "boolean"
-        },
-        "canConfigureRealTime": {
-          "type": "boolean"
-        },
-        "canConfigureWrite": {
-          "type": "boolean"
-        },
-        "canDiscoverShapes": {
-          "type": "boolean"
-        },
-        "canProduceMultipleSchemas": {
-          "type": "boolean"
-        },
-        "canPublish": {
-          "type": "boolean"
-        },
-        "canUseOAuth": {
-          "type": "boolean"
-        },
-        "canWrite": {
-          "type": "boolean"
-        }
-      }
-    },
-    "ConnectionDiscoveredSchema": {
-      "type": "object",
-      "properties": {
-        "discoveredSchemaId": {
+        "fromPropertyId": {
           "type": "string"
         },
-        "isAdvertised": {
-          "type": "boolean"
-        },
-        "advertisedSchemaId": {
+        "toPropertyId": {
           "type": "string"
         }
       }
@@ -2211,7 +2447,7 @@
           "type": "string"
         },
         "value": {
-          "type": "string"
+          "type": "array"
         }
       }
     }
