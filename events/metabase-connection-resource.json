@@ -92,8 +92,6 @@
       "enum": [
         "unknown",
         "drafting",
-        "drafting",
-        "previewing",
         "previewing",
         "published",
         "deleted"
