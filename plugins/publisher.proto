@@ -119,7 +119,7 @@ service Publisher {
   }
 
   // Requests a listing of all related entities.
-  rpc DiscoverRelatedEntites(DiscoverRelatedEntitiesRequest) returns (DiscoverRelatedEntitiesResponse) {
+  rpc DiscoverRelatedEntities(DiscoverRelatedEntitiesRequest) returns (DiscoverRelatedEntitiesResponse) {
   }
 }
 
@@ -649,7 +649,7 @@ message DiscoverRelatedEntitiesRequest {
 
 message DiscoverRelatedEntitiesResponse {
   // Related entities discovered by the publisher.
-  repeated RelatedEntity schemas = 1;
+  repeated RelatedEntity related_entities = 1;
 }
 
 message RelatedEntity {
