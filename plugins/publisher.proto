@@ -1,5 +1,6 @@
 syntax = "proto3";
 package pub;
+option go_package = "./pub";
 
 service Publisher {
   // Configures the plugin.
@@ -115,6 +116,10 @@ service Publisher {
   // acks for write backs This must be implemented if the manifest has
   // `canWrite` set to true.
   rpc WriteStream(stream Record) returns (stream RecordAck) {
+  }
+
+  // Requests a listing of all related entities.
+  rpc DiscoverRelatedEntites(DiscoverRelatedEntitiesRequest) returns (DiscoverRelatedEntitiesResponse) {
   }
 }
 
@@ -635,4 +640,34 @@ message RecordAck {
 
   // Contains information about any error in writing back the record
   string error = 2;
+}
+
+message DiscoverRelatedEntitiesRequest {
+  // The schemas to discover related entities for
+  repeated Schema to_relate = 1;
+}
+
+message DiscoverRelatedEntitiesResponse {
+  // Related entities discovered by the publisher.
+  repeated RelatedEntity schemas = 1;
+}
+
+message RelatedEntity {
+  // The source schema id that this applies to
+  string schema_id = 1;
+
+  // The name of the source resource
+  string source_resource = 2;
+
+  // The name of the source column on the source resource
+  string source_column = 3;
+
+  // The name of the foreign resource
+  string foreign_resource = 4;
+
+  // The name of the foreign column on the foreign resource
+  string foreign_column = 5;
+
+  // The name of the type of relationship defined
+  string relationship_name = 6;
 }
