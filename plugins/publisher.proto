@@ -1,6 +1,7 @@
 syntax = "proto3";
 package pub;
 option go_package = "./pub";
+option csharp_namespace = "Aunalytics.Sdk.Plugins";
 
 service Publisher {
   // Configures the plugin.
