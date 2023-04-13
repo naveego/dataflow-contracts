@@ -69,6 +69,10 @@
       "type": "boolean",
       "description": "Set to true if this plugin can write golden record replication data to a connection."
     },
+    "canDiscoverRelatedEntities": {
+      "type": "boolean",
+      "description": "Set to true if this plugin can discover related entities."
+    },
     "configSchema": {
       "type": "object",
       "properties": {
